@@ -8,7 +8,7 @@
     "build": "preact build",
     "serve": "preact build && preact serve",
     "dev": "preact watch",
-    "lint": "eslint src",
+    "lint": "eslint src --rule 'indent: [error, 2]'",
     "test": "jest ./tests",
     "precommit": "lint-staged"
   },
