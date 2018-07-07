@@ -9,7 +9,8 @@
     "serve": "preact build && preact serve",
     "dev": "preact watch",
     "lint": "eslint src",
-    "test": "jest ./tests"
+    "test": "jest ./tests",
+    "precommit": "lint-staged"
   },
   "eslintConfig": {
     "extends": "eslint-config-synacor"
@@ -27,9 +28,18 @@
     "preact-render-spy": "^1.2.1"
   },
   "dependencies": {
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.0",
     "preact": "^8.2.6",
     "preact-compat": "^3.17.0",
-    "preact-router": "^2.5.7"
+    "preact-router": "^2.5.7",
+    "prettier": "^1.13.7"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   },
   "jest": {
     "verbose": true,
