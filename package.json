@@ -8,12 +8,15 @@
     "build": "preact build",
     "serve": "preact build && preact serve",
     "dev": "preact watch",
-    "lint": "eslint src --rule 'indent: [error, 2]'",
+    "lint": "eslint src --rule",
     "test": "jest ./tests",
     "precommit": "lint-staged"
   },
   "eslintConfig": {
-    "extends": "eslint-config-synacor"
+    "extends": "eslint-config-synacor",
+    "rules": {
+      "indent": ["error", 2]
+    }
   },
   "eslintIgnore": [
     "build/*"
