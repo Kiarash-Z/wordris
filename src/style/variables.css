@@ -1,6 +1,10 @@
 :root {
   /* colors */
   --color-black: #000;
+  --color-gray-light: #f8f8f8;
 
   --color-white: #fff;
+
+  /* borders */
+  --border-tertiary: 2px solid rgb(237,237,237);
 }
