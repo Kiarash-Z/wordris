@@ -1,0 +1,13 @@
+.board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8rem;
+}
+
+.board__canvas {
+  width: 50rem;
+  height: 70vh;
+  border: var(--border-tertiary);
+  border-radius: 5px;
+}
