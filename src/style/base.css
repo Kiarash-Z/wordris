@@ -1,0 +1,35 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: IRANSans;
+	font-weight: 300;
+  direction: rtl;
+  height: 100vh;
+}
+
+#app {
+	height: 100%;
+}
+
+input, textarea {
+  font-family: IRANSans;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+}
+
+button {
+  border: none;
+  font-family: IRANSans;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus {
+  outline: none;
+}
