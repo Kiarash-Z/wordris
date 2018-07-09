@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 
-import { createBoard } from '../../api/board';
+import { createBoard } from '../../api/board/board.js';
 import styles from './Game.css';
 
 class Game extends Component {
