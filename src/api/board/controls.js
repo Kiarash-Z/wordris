@@ -3,7 +3,7 @@ import {
   COLUMNS_COUNT,
   PADDING
 } from '../../constants/boardConstants';
-import { board, getFallingLetter, columnWidth, check } from './board';
+import { board, getFallingLetter, columnRowWidth, check } from './board';
 import { animateLetterDown, getStopPosition } from './letters';
 
 const animateHorizontally = (letter, horizontalValue) => {
@@ -51,8 +51,8 @@ const addControls = () => {
     switch (code) {
       case 'ArrowRight': {
         // instead of letter.left we use this for in-row key presses and this handles simultaneous keydowns
-        const letterLeft = (letter.mGetColumn() - 1) * columnWidth + PADDING;
-        const horizontalValue = letterLeft + columnWidth;
+        const letterLeft = (letter.mGetColumn() - 1) * columnRowWidth + PADDING;
+        const horizontalValue = letterLeft + columnRowWidth;
         if (!isAbleToMove(letter, horizontalValue) || letter.mIsFastForwarding)
           return;
         letter.mIsFallingStopped = true;
@@ -61,8 +61,8 @@ const addControls = () => {
       }
       case 'ArrowLeft': {
         // instead of letter.left we use this for in-row key presses and this handles simultaneous keydowns
-        const letterLeft = (letter.mGetColumn() - 1) * columnWidth + PADDING;
-        const horizontalValue = letterLeft - columnWidth;
+        const letterLeft = (letter.mGetColumn() - 1) * columnRowWidth + PADDING;
+        const horizontalValue = letterLeft - columnRowWidth;
         if (!isAbleToMove(letter, horizontalValue) || letter.mIsFastForwarding)
           return;
         letter.mIsFallingStopped = true;

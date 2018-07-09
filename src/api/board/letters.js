@@ -5,7 +5,7 @@ import {
   board,
   letterWidth,
   getRootVar,
-  columnWidth,
+  columnRowWidth,
   check
 } from './board';
 import {
@@ -56,11 +56,12 @@ const createLetter = (letter, { left, top }) => {
   text.top = square.top + square.height / 2 - text.height / 2;
   const group = new fabric.Group([square, text]);
   group.mIsLetter = true;
+  group.mText = letter;
   group.mGetColumn = function() {
-    return Math.round((this.left - PADDING) / columnWidth + 1);
+    return Math.round((this.left - PADDING) / columnRowWidth + 1);
   };
   group.mGetRow = function() {
-    return Math.round((this.top - PADDING) / columnWidth + 1);
+    return Math.round((this.top - PADDING) / columnRowWidth + 1);
   };
   board.add(group);
   return group;
@@ -71,23 +72,31 @@ const mapRange = (num, inMin, inMax, outIn, outMax) => {
 };
 
 const dropLetter = () => {
+  createLetter('ب', {
+    left: 5 * columnRowWidth + PADDING,
+    top: board.getHeight() - letterWidth - PADDING
+  });
   createLetter('س', {
-    left: 4 * columnWidth + PADDING,
+    left: 4 * columnRowWidth + PADDING,
     top: board.getHeight() - letterWidth - PADDING
   });
   createLetter('ل', {
-    left: 3 * columnWidth + PADDING,
+    left: 3 * columnRowWidth + PADDING,
     top: board.getHeight() - letterWidth - PADDING
   });
-  createLetter('م', {
-    left: 1 * columnWidth + PADDING,
+  createLetter('ا', {
+    left: 2 * columnRowWidth + PADDING,
+    top: board.getHeight() - letterWidth - PADDING
+  });
+  createLetter('ن', {
+    left: 0 * columnRowWidth + PADDING,
     top: board.getHeight() - letterWidth - PADDING
   });
 
   // random left
   const randLeft =
-    Math.floor(Math.random() * COLUMNS_COUNT) * columnWidth + PADDING;
-  const group = createLetter('ک', { left: randLeft, top: 0 });
+    Math.floor(Math.random() * COLUMNS_COUNT) * columnRowWidth + PADDING;
+  const group = createLetter('م', { left: randLeft, top: 0 });
   group.mRemainingTime = FALLING_DURATION;
   group.mIsActive = true;
   animateLetterDown();

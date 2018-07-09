@@ -6,9 +6,8 @@
 }
 
 .board__canvasWrapper {
-  width: 50rem;
-  height: 70vh;
   position: relative;
+  margin-top: 8rem;
 }
 
 .board__canvas {
