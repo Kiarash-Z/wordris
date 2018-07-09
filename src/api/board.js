@@ -2,7 +2,7 @@ import { fabric } from 'fabric';
 import {
   COLUMNS_COUNT,
   FALLING_DURATION,
-  FAST_DURATION,
+  FAST_FORWARD_DURATION,
   PADDING
 } from '../constants/boardConstants';
 
@@ -70,7 +70,7 @@ const getFallingLetter = () => board.getObjects().find(o => o.mIsFalling);
 const addControls = () => {
   const animateHorizontally = (letter, horizontalValue) => {
     letter.animate('left', horizontalValue, {
-      duration: FAST_DURATION,
+      duration: FAST_FORWARD_DURATION,
       onChange: board.renderAll.bind(board),
       onComplete() {
         isFallingStopped = false;
@@ -114,7 +114,8 @@ const addControls = () => {
         // instead of letter.left we use this for in-row key presses and this handles simultaneous keydowns
         const letterLeft = (letter.mGetColumn() - 1) * columnWidth + PADDING;
         const horizontalValue = letterLeft + columnWidth;
-        if (!isAbleToMove(letter, horizontalValue)) return;
+        if (!isAbleToMove(letter, horizontalValue) || letter.mIsFastForwarding)
+          return;
         isFallingStopped = true;
         animateHorizontally(letter, horizontalValue);
         break;
@@ -123,7 +124,8 @@ const addControls = () => {
         // instead of letter.left we use this for in-row key presses and this handles simultaneous keydowns
         const letterLeft = (letter.mGetColumn() - 1) * columnWidth + PADDING;
         const horizontalValue = letterLeft - columnWidth;
-        if (!isAbleToMove(letter, horizontalValue)) return;
+        if (!isAbleToMove(letter, horizontalValue) || letter.mIsFastForwarding)
+          return;
         isFallingStopped = true;
         animateHorizontally(letter, horizontalValue);
         break;
@@ -131,8 +133,9 @@ const addControls = () => {
       case 'ArrowDown': {
         e.preventDefault();
         isFallingStopped = true;
+        letter.mIsFastForwarding = true;
         letter.animate('top', getStopPosition(), {
-          duration: FAST_DURATION,
+          duration: FAST_FORWARD_DURATION,
           onChange: board.renderAll.bind(board),
           onComplete() {
             isFallingStopped = false;
