@@ -11,7 +11,10 @@ class Game extends Component {
     return (
       <div>
         <div className={styles.board}>
-          <canvas id="gameBoard" className={styles.board__canvas} />
+          <div id="gameBoardWrapper" className={styles.board__canvasWrapper}>
+            <canvas id="gameBoard" className={styles.board__canvas} />
+            <div className={styles.board__canvasUpper} />
+          </div>
         </div>
       </div>
     );

@@ -1,5 +1,5 @@
 const COLUMNS_COUNT = 7;
+const FALLING_DURATION = 3000;
+const PADDING = 5;
 
-export {
-  COLUMNS_COUNT
-};
+export { COLUMNS_COUNT, FALLING_DURATION, PADDING };
