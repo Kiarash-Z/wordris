@@ -2,6 +2,7 @@ import { fabric } from 'fabric';
 import {
   COLUMNS_COUNT,
   FALLING_DURATION,
+  FAST_DURATION,
   PADDING
 } from '../constants/boardConstants';
 
@@ -9,7 +10,7 @@ let board = null;
 let letterWidth = 0;
 let columnWidth = 0;
 let remainingTime = FALLING_DURATION;
-let isColumnChanged = false;
+let isFallingStopped = false;
 
 const getRootVar = prop =>
   getComputedStyle(document.body).getPropertyValue(prop);
@@ -24,6 +25,7 @@ const createBoard = () => {
   letterWidth = board.getWidth() / COLUMNS_COUNT - PADDING * 2;
   columnWidth = board.getWidth() / COLUMNS_COUNT;
 
+  // board background
   const greyBg = getRootVar('--color-gray-light');
   const whiteBg = getRootVar('--color-white');
   for (let index = 0; index < COLUMNS_COUNT; index++) {
@@ -41,15 +43,37 @@ const createBoard = () => {
   dropLetter();
 };
 
-const fallingLetter = () => board.getObjects().find(o => o.mIsFalling);
+const getStopPosition = () => {
+  const letter = getFallingLetter();
+  let stopPosition = board
+    .getObjects()
+    .filter(
+      o =>
+        o.mIsLetter &&
+        Number(o.left.toFixed(4)) === Number(letter.left.toFixed(4)) &&
+        o.top - (letterWidth + PADDING) > letter.top &&
+        !o.mIsFalling
+    )
+    .map(o => o.top);
+  if (stopPosition.length)
+    stopPosition = stopPosition.reduce(
+      (prev, cur) => (prev < cur ? prev : cur)
+    );
+  else stopPosition = board.getHeight();
+  stopPosition -= letterWidth + PADDING;
+
+  return stopPosition;
+};
+
+const getFallingLetter = () => board.getObjects().find(o => o.mIsFalling);
 
 const addControls = () => {
   const animateHorizontally = (letter, horizontalValue) => {
     letter.animate('left', horizontalValue, {
-      duration: 200,
+      duration: FAST_DURATION,
       onChange: board.renderAll.bind(board),
       onComplete() {
-        isColumnChanged = false;
+        isFallingStopped = false;
         animateLetterDown();
       },
 
@@ -81,8 +105,9 @@ const addControls = () => {
     );
   };
 
-  window.addEventListener('keydown', ({ code }) => {
-    const letter = fallingLetter();
+  window.addEventListener('keydown', e => {
+    const { code } = e;
+    const letter = getFallingLetter();
     if (!letter) return;
     switch (code) {
       case 'ArrowRight': {
@@ -90,7 +115,7 @@ const addControls = () => {
         const letterLeft = (letter.mGetColumn() - 1) * columnWidth + PADDING;
         const horizontalValue = letterLeft + columnWidth;
         if (!isAbleToMove(letter, horizontalValue)) return;
-        isColumnChanged = true;
+        isFallingStopped = true;
         animateHorizontally(letter, horizontalValue);
         break;
       }
@@ -99,8 +124,22 @@ const addControls = () => {
         const letterLeft = (letter.mGetColumn() - 1) * columnWidth + PADDING;
         const horizontalValue = letterLeft - columnWidth;
         if (!isAbleToMove(letter, horizontalValue)) return;
-        isColumnChanged = true;
+        isFallingStopped = true;
         animateHorizontally(letter, horizontalValue);
+        break;
+      }
+      case 'ArrowDown': {
+        e.preventDefault();
+        isFallingStopped = true;
+        letter.animate('top', getStopPosition(), {
+          duration: FAST_DURATION,
+          onChange: board.renderAll.bind(board),
+          onComplete() {
+            isFallingStopped = false;
+            letter.mIsFalling = false;
+            check();
+          }
+        });
         break;
       }
     }
@@ -130,6 +169,9 @@ const createLetter = (letter, { left, top }) => {
   group.mGetColumn = function() {
     return Math.round((this.left - PADDING) / columnWidth + 1);
   };
+  group.mGetRow = function() {
+    return Math.round((this.top - PADDING) / columnWidth + 1);
+  };
   board.add(group);
   return group;
 };
@@ -139,23 +181,17 @@ const mapRange = (num, inMin, inMax, outIn, outMax) => {
 };
 
 const dropLetter = () => {
-  createLetter('م', {
-    left:
-      (Math.floor(Math.random() * (COLUMNS_COUNT - 1)) + 1) * columnWidth +
-      PADDING,
-    top: 400
+  createLetter('س', {
+    left: 4 * columnWidth + PADDING,
+    top: board.getHeight() - letterWidth - PADDING
   });
   createLetter('ل', {
-    left:
-      (Math.floor(Math.random() * (COLUMNS_COUNT - 1)) + 1) * columnWidth +
-      PADDING,
-    top: 400
+    left: 3 * columnWidth + PADDING,
+    top: board.getHeight() - letterWidth - PADDING
   });
-  createLetter('ط', {
-    left:
-      (Math.floor(Math.random() * (COLUMNS_COUNT - 1)) + 1) * columnWidth +
-      PADDING,
-    top: 500
+  createLetter('م', {
+    left: 1 * columnWidth + PADDING,
+    top: board.getHeight() - letterWidth - PADDING
   });
 
   // random left
@@ -167,24 +203,8 @@ const dropLetter = () => {
 };
 
 const animateLetterDown = () => {
-  const letter = fallingLetter();
-  let stopPosition = board
-    .getObjects()
-    .filter(
-      o =>
-        o.mIsLetter &&
-        Number(o.left.toFixed(4)) === Number(letter.left.toFixed(4)) &&
-        o.top - (letterWidth + PADDING) > letter.top &&
-        !o.mIsFalling
-    )
-    .map(o => o.top);
-  if (stopPosition.length)
-    stopPosition = stopPosition.reduce(
-      (prev, cur) => (prev < cur ? prev : cur)
-    );
-  else stopPosition = board.getHeight();
-  stopPosition -= letterWidth + PADDING;
-
+  const letter = getFallingLetter();
+  const stopPosition = getStopPosition();
   const initialTop = letter.top;
   const computedDuration = mapRange(
     stopPosition - initialTop,
@@ -207,13 +227,18 @@ const animateLetterDown = () => {
       board.renderAll();
     },
     onComplete(num) {
-      if (!num) letter.mIsFalling = false;
+      if (!num) {
+        letter.mIsFalling = false;
+        check();
+      }
     },
     abort() {
-      return isColumnChanged;
+      return isFallingStopped;
     },
     easing: (t, b, c, d) => (c * t) / d + b
   });
 };
+
+const check = () => {};
 
 export { createBoard };
