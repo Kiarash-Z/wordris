@@ -70,6 +70,10 @@ const addControls = () => {
         break;
       }
       case 'ArrowDown': {
+        const forwardingObject = board
+          .getObjects()
+          .find(o => o.mIsFastForwarding || o.mIsFallingStopped);
+        if (forwardingObject) return;
         e.preventDefault();
         letter.mIsFallingStopped = true;
         letter.mIsFastForwarding = true;
@@ -78,6 +82,7 @@ const addControls = () => {
           onChange: board.renderAll.bind(board),
           onComplete() {
             letter.mIsFallingStopped = false;
+            letter.mIsFastForwarding = false;
             letter.mIsActive = false;
             check();
           }

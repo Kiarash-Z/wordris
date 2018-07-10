@@ -8,11 +8,7 @@ import {
   columnRowWidth,
   check
 } from './board';
-import {
-  PADDING,
-  COLUMNS_COUNT,
-  FALLING_DURATION
-} from '../../constants/boardConstants';
+import { PADDING, FALLING_DURATION } from '../../constants/boardConstants';
 
 const getStopPosition = () => {
   const letter = getFallingLetter();
@@ -22,15 +18,16 @@ const getStopPosition = () => {
       o =>
         o.mIsLetter &&
         Number(o.left.toFixed(4)) === Number(letter.left.toFixed(4)) &&
-        o.top - (letterWidth + PADDING) > letter.top &&
+        (o.top - (letterWidth + PADDING) > letter.top ||
+          o.top - (letterWidth + PADDING) < 0) &&
         !o.mIsActive
     )
     .map(o => o.top);
-  if (stopPosition.length)
+  if (stopPosition.length) {
     stopPosition = stopPosition.reduce(
       (prev, cur) => (prev < cur ? prev : cur)
     );
-  else stopPosition = board.getHeight();
+  } else stopPosition = board.getHeight();
   stopPosition -= letterWidth + PADDING;
 
   return stopPosition;
@@ -71,37 +68,6 @@ const mapRange = (num, inMin, inMax, outIn, outMax) => {
   return ((num - inMin) * (outMax - outIn)) / (inMax - inMin) + outIn;
 };
 
-const dropLetter = () => {
-  createLetter('ب', {
-    left: 5 * columnRowWidth + PADDING,
-    top: board.getHeight() - letterWidth - PADDING
-  });
-  createLetter('س', {
-    left: 4 * columnRowWidth + PADDING,
-    top: board.getHeight() - letterWidth - PADDING
-  });
-  createLetter('ل', {
-    left: 3 * columnRowWidth + PADDING,
-    top: board.getHeight() - letterWidth - PADDING
-  });
-  createLetter('ا', {
-    left: 2 * columnRowWidth + PADDING,
-    top: board.getHeight() - letterWidth - PADDING
-  });
-  createLetter('ن', {
-    left: 0 * columnRowWidth + PADDING,
-    top: board.getHeight() - letterWidth - PADDING
-  });
-
-  // random left
-  const randLeft =
-    Math.floor(Math.random() * COLUMNS_COUNT) * columnRowWidth + PADDING;
-  const group = createLetter('م', { left: randLeft, top: 0 });
-  group.mRemainingTime = FALLING_DURATION;
-  group.mIsActive = true;
-  animateLetterDown();
-};
-
 const animateLetterDown = () => {
   const letter = getFallingLetter();
   const stopPosition = getStopPosition();
@@ -139,4 +105,4 @@ const animateLetterDown = () => {
   });
 };
 
-export { dropLetter, animateLetterDown, getStopPosition };
+export { animateLetterDown, getStopPosition, createLetter };

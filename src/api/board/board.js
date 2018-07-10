@@ -3,14 +3,16 @@ import {
   COLUMNS_COUNT,
   PADDING,
   ROWS_COUNT,
-  FAST_FORWARD_DURATION
+  FALLING_DURATION,
+  FARSI_ALPHABET
 } from '../../constants/boardConstants';
 import { addControls } from './controls';
-import { dropLetter } from './letters';
+import { createLetter, animateLetterDown } from './letters';
 
 let board = null;
 let letterWidth = 0;
 let columnRowWidth = 0;
+let desiredWords = [];
 
 const getFallingLetter = () => board.getObjects().find(o => o.mIsActive);
 
@@ -26,6 +28,7 @@ const createBoard = () => {
   board.setHeight(offsetHeight);
   letterWidth = board.getWidth() / COLUMNS_COUNT - PADDING * 2;
   columnRowWidth = board.getWidth() / COLUMNS_COUNT;
+  desiredWords = ['سلام', 'من']; // hard coded
 
   // board background
   const greyBg = getRootVar('--color-gray-light');
@@ -43,6 +46,18 @@ const createBoard = () => {
   }
   addControls();
   dropLetter();
+};
+
+const dropLetter = () => {
+  const randomLetter =
+    FARSI_ALPHABET[Math.floor(Math.random() * FARSI_ALPHABET.length)];
+  const group = createLetter(randomLetter, {
+    left: Math.floor(COLUMNS_COUNT / 2) * columnRowWidth + PADDING,
+    top: 0
+  });
+  group.mRemainingTime = FALLING_DURATION;
+  group.mIsActive = true;
+  animateLetterDown();
 };
 
 const getRows = () => {
@@ -96,7 +111,6 @@ const getColumns = () => {
 };
 
 const check = () => {
-  const testWords = ['سلام', 'من'];
   const rows = getRows();
   const columns = getColumns();
   const matchedLetters = [];
@@ -107,7 +121,7 @@ const check = () => {
       (prev, cur) => `${prev}${cur.mText}`,
       ''
     );
-    testWords.forEach(word => {
+    desiredWords.forEach(word => {
       const foundIndex = stickedLetters.search(word);
 
       // -1 is when nothing is founded
@@ -135,7 +149,7 @@ const check = () => {
       ''
     );
     const searchForWords = (toSearch, isReverse) => {
-      testWords.forEach(word => {
+      desiredWords.forEach(word => {
         const computedWord = isReverse
           ? word
               .split('')
@@ -169,6 +183,7 @@ const check = () => {
 
   // remove matched letters
   removeMatchedLetters(matchedLetters);
+  checkLoseWin();
 };
 
 const removeMatchedLetters = letters => {
@@ -187,6 +202,15 @@ const removeMatchedLetters = letters => {
     };
     animateRemove();
   });
+};
+
+const checkLoseWin = () => {
+  const outOfBoundObject = board.getObjects().find(o => o.top < 0);
+  if (outOfBoundObject) {
+    // lose
+  } else {
+    dropLetter();
+  }
 };
 
 export {
