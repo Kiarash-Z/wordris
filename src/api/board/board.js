@@ -49,6 +49,7 @@ const createBoard = () => {
 };
 
 const dropLetter = () => {
+  if (getLoseStatus()) return;
   const testColors = [
     '#ff9ff3',
     '#feca57',
@@ -228,7 +229,6 @@ const check = doneLetter => {
   });
   // remove matched letters
   removeMatchedLetters(matchedLetters);
-  checkLoseWin();
   if (!matchedLetters.length) dropLetter();
 };
 
@@ -236,7 +236,7 @@ const removeMatchedLetters = letters => {
   // move down letters which are above this removed letter
   const moveTopLettersDown = (sameColumnLetters, willDropLetter) => {
     sameColumnLetters.forEach((letter, index) => {
-      letter.animate('top', letter.top + (columnRowWidth - PADDING), {
+      letter.animate('top', letter.top + (columnRowWidth - PADDING * 2), {
         duration: FAST_FORWARD_DURATION,
         onChange: board.renderAll.bind(board),
         onComplete() {
@@ -283,11 +283,10 @@ const removeMatchedLetters = letters => {
   });
 };
 
-const checkLoseWin = () => {
-  const outOfBoundObject = board.getObjects().find(o => o.top < 0);
-  if (outOfBoundObject) {
-    // lose
-  }
+const getLoseStatus = () => {
+  // check if there is an object in the last row - gameover
+  const outOfBoundObject = board.getObjects().find(o => o.top === PADDING * 2);
+  return !!outOfBoundObject;
 };
 
 export {

@@ -2,7 +2,11 @@ import { h, Component } from 'preact';
 
 import { createBoard } from '../../api/board/board.js';
 import styles from './Game.css';
-import { ROWS_COUNT, COLUMNS_COUNT } from '../../constants/boardConstants.js';
+import {
+  ROWS_COUNT,
+  COLUMNS_COUNT,
+  PADDING
+} from '../../constants/boardConstants.js';
 
 class Game extends Component {
   componentDidMount() {
@@ -18,7 +22,8 @@ class Game extends Component {
             className={styles.board__canvasWrapper}
             style={{
               width: `${widthRem}rem`,
-              height: `${(ROWS_COUNT / COLUMNS_COUNT) * widthRem}rem`
+              height: `calc(${(ROWS_COUNT / COLUMNS_COUNT) *
+                widthRem}rem + ${PADDING * 2}px)`
             }}
           >
             <canvas id="gameBoard" className={styles.board__canvas} />
