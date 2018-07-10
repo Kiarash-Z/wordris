@@ -29,17 +29,16 @@ const getStopPosition = () => {
     );
   } else stopPosition = board.getHeight();
   stopPosition -= letterWidth + PADDING;
-
   return stopPosition;
 };
 
-const createLetter = (letter, { left, top }) => {
+const createLetter = (letter, { left, top, color }) => {
   const square = new fabric.Rect({
     left,
     top,
     width: letterWidth,
     height: letterWidth,
-    fill: '#65DAF7',
+    fill: color,
     rx: 10,
     ry: 10
   });
@@ -94,8 +93,7 @@ const animateLetterDown = () => {
     },
     onComplete(num) {
       if (!num) {
-        letter.mIsActive = false;
-        check();
+        check(letter);
       }
     },
     abort() {

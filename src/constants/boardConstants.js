@@ -1,5 +1,5 @@
-const COLUMNS_COUNT = 7;
-const ROWS_COUNT = 9;
+const COLUMNS_COUNT = 5;
+const ROWS_COUNT = 7;
 const FALLING_DURATION = 3000;
 const FAST_FORWARD_DURATION = 200;
 const PADDING = 5;

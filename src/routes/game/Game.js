@@ -9,6 +9,7 @@ class Game extends Component {
     createBoard();
   }
   render() {
+    const widthRem = 40;
     return (
       <div>
         <div className={styles.board}>
@@ -16,8 +17,8 @@ class Game extends Component {
             id="gameBoardWrapper"
             className={styles.board__canvasWrapper}
             style={{
-              width: '50rem',
-              height: `${(ROWS_COUNT / COLUMNS_COUNT) * 50}rem`
+              width: `${widthRem}rem`,
+              height: `${(ROWS_COUNT / COLUMNS_COUNT) * widthRem}rem`
             }}
           >
             <canvas id="gameBoard" className={styles.board__canvas} />

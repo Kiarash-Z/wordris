@@ -28,7 +28,7 @@ const createBoard = () => {
   board.setHeight(offsetHeight);
   letterWidth = board.getWidth() / COLUMNS_COUNT - PADDING * 2;
   columnRowWidth = board.getWidth() / COLUMNS_COUNT;
-  desiredWords = ['سلام', 'من']; // hard coded
+  desiredWords = ['راه', 'خوب', 'کیا']; // hard coded
 
   // board background
   const greyBg = getRootVar('--color-gray-light');
@@ -49,11 +49,53 @@ const createBoard = () => {
 };
 
 const dropLetter = () => {
-  const randomLetter =
-    FARSI_ALPHABET[Math.floor(Math.random() * FARSI_ALPHABET.length)];
-  const group = createLetter(randomLetter, {
+  const testColors = [
+    '#ff9ff3',
+    '#feca57',
+    '#ff6b6b',
+    '#48dbfb',
+    '#1dd1a1',
+    '#5f27cd'
+  ];
+
+  const toFallLetters = [];
+  const totalLetters = board
+    .getObjects()
+    .filter(o => o.mIsLetter)
+    .map(o => o.mText);
+  desiredWords.forEach(word => {
+    for (const letter of word) {
+      const thisLetterBlocks = board
+        .getObjects()
+        .filter(o => o.mIsLetter && o.mText === letter);
+      let amountValue = thisLetterBlocks.length / totalLetters.length;
+      if (!totalLetters.length) amountValue = 0;
+      toFallLetters.push({ text: letter, amountValue });
+    }
+  });
+
+  let desiredLetter = '';
+  const lowAbundanceLetters = toFallLetters.filter(
+    ({ amountValue }) => amountValue <= 0.2
+  );
+
+  // find the lowest value
+  const lowestValue = lowAbundanceLetters
+    .map(block => block.amountValue)
+    .reduce((prev, cur) => (prev < cur ? prev : cur));
+
+  // find all letters with the least abundance
+  const lows = lowAbundanceLetters.filter(
+    block => block.amountValue === lowestValue
+  );
+
+  // pick out one of them randomly
+  desiredLetter = lows[Math.floor(Math.random() * lows.length)].text;
+
+  const group = createLetter(desiredLetter, {
     left: Math.floor(COLUMNS_COUNT / 2) * columnRowWidth + PADDING,
-    top: 0
+    top: 0,
+    color: testColors[Math.floor(Math.random() * testColors.length)]
   });
   group.mRemainingTime = FALLING_DURATION;
   group.mIsActive = true;
@@ -110,7 +152,11 @@ const getColumns = () => {
   return columns;
 };
 
-const check = () => {
+const check = doneLetter => {
+  doneLetter.mIsFallingStopped = false;
+  doneLetter.mIsFastForwarding = false;
+  doneLetter.mIsActive = false;
+
   const rows = getRows();
   const columns = getColumns();
   const matchedLetters = [];

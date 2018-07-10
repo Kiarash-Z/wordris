@@ -53,7 +53,11 @@ const addControls = () => {
         // instead of letter.left we use this for in-row key presses and this handles simultaneous keydowns
         const letterLeft = (letter.mGetColumn() - 1) * columnRowWidth + PADDING;
         const horizontalValue = letterLeft + columnRowWidth;
-        if (!isAbleToMove(letter, horizontalValue) || letter.mIsFastForwarding)
+        if (
+          !isAbleToMove(letter, horizontalValue) ||
+          letter.mIsFastForwarding ||
+          letter.mIsFallingStopped
+        )
           return;
         letter.mIsFallingStopped = true;
         animateHorizontally(letter, horizontalValue);
@@ -63,7 +67,11 @@ const addControls = () => {
         // instead of letter.left we use this for in-row key presses and this handles simultaneous keydowns
         const letterLeft = (letter.mGetColumn() - 1) * columnRowWidth + PADDING;
         const horizontalValue = letterLeft - columnRowWidth;
-        if (!isAbleToMove(letter, horizontalValue) || letter.mIsFastForwarding)
+        if (
+          !isAbleToMove(letter, horizontalValue) ||
+          letter.mIsFastForwarding ||
+          letter.mIsFallingStopped
+        )
           return;
         letter.mIsFallingStopped = true;
         animateHorizontally(letter, horizontalValue);
@@ -81,10 +89,7 @@ const addControls = () => {
           duration: FAST_FORWARD_DURATION,
           onChange: board.renderAll.bind(board),
           onComplete() {
-            letter.mIsFallingStopped = false;
-            letter.mIsFastForwarding = false;
-            letter.mIsActive = false;
-            check();
+            check(letter);
           }
         });
         break;
