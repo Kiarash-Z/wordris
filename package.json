@@ -10,12 +10,13 @@
     "dev": "preact watch",
     "lint": "eslint src --rule",
     "test": "jest ./tests",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "pretty": "prettier --single-quote --trailing-comma --write 'src/api/board/board.js'"
   },
   "eslintConfig": {
     "extends": [
       "airbnb",
-      "plugin:prettier/recommended"
+      "prettier"
     ],
     "plugins": [
       "react",
