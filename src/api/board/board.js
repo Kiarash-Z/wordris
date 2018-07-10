@@ -4,7 +4,7 @@ import {
   PADDING,
   ROWS_COUNT,
   FALLING_DURATION,
-  FARSI_ALPHABET
+  FAST_FORWARD_DURATION
 } from '../../constants/boardConstants';
 import { addControls } from './controls';
 import { createLetter, animateLetterDown } from './letters';
@@ -226,14 +226,28 @@ const check = doneLetter => {
     searchForWords(stickedLetters, true);
     matchedLetters.push(...column.letters.filter(letter => letter.mIsMatched));
   });
-
   // remove matched letters
   removeMatchedLetters(matchedLetters);
   checkLoseWin();
+  if (!matchedLetters.length) dropLetter();
 };
 
 const removeMatchedLetters = letters => {
-  letters.forEach(letter => {
+  // move down letters which are above this removed letter
+  const moveTopLettersDown = (sameColumnLetters, willDropLetter) => {
+    sameColumnLetters.forEach((letter, index) => {
+      letter.animate('top', letter.top + (columnRowWidth - PADDING), {
+        duration: FAST_FORWARD_DURATION,
+        onChange: board.renderAll.bind(board),
+        onComplete() {
+          if (index === sameColumnLetters.length - 1 && willDropLetter) {
+            dropLetter();
+          }
+        }
+      });
+    });
+  };
+  letters.forEach((letter, index) => {
     const animateRemove = () => {
       letter.rotate(letter.angle + 3);
       letter.scaleX -= 0.05;
@@ -243,7 +257,26 @@ const removeMatchedLetters = letters => {
       const frames = fabric.util.requestAnimFrame(animateRemove);
       if (letter.opacity < 0.1) {
         cancelAnimationFrame(frames);
+        const column = letter.mGetColumn();
+        const top = letter.top;
         board.remove(letter);
+
+        // check for letters above
+        const sameColumnLetters = board
+          .getObjects()
+          .filter(
+            o =>
+              o.mIsLetter &&
+              column === o.mGetColumn() &&
+              o.top < top &&
+              !o.mIsActive
+          );
+        if (index === Math.floor(COLUMNS_COUNT / 2)) {
+          if (sameColumnLetters.length)
+            moveTopLettersDown(sameColumnLetters, true);
+          else dropLetter();
+        } else if (sameColumnLetters.length)
+          moveTopLettersDown(sameColumnLetters);
       }
     };
     animateRemove();
@@ -254,8 +287,6 @@ const checkLoseWin = () => {
   const outOfBoundObject = board.getObjects().find(o => o.top < 0);
   if (outOfBoundObject) {
     // lose
-  } else {
-    dropLetter();
   }
 };
 

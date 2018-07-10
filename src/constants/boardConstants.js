@@ -2,41 +2,8 @@ const COLUMNS_COUNT = 5;
 const ROWS_COUNT = 7;
 const FALLING_DURATION = 3000;
 const FAST_FORWARD_DURATION = 200;
+const LETTER_DROP_DELAY = FAST_FORWARD_DURATION + 50;
 const PADDING = 5;
-const FARSI_ALPHABET = [
-  'ا',
-  'ب',
-  'پ',
-  'ت',
-  'ث',
-  'ج',
-  'چ',
-  'ح',
-  'خ',
-  'د',
-  'ذ',
-  'ر',
-  'ز',
-  'ژ',
-  'س',
-  'ش',
-  'ص',
-  'ض',
-  'ط',
-  'ظ',
-  'ع',
-  'غ',
-  'ف',
-  'ق',
-  'ک',
-  'گ',
-  'ل',
-  'م',
-  'ن',
-  'و',
-  'ه',
-  'ی'
-];
 
 export {
   COLUMNS_COUNT,
@@ -44,5 +11,5 @@ export {
   PADDING,
   FAST_FORWARD_DURATION,
   ROWS_COUNT,
-  FARSI_ALPHABET
+  LETTER_DROP_DELAY
 };
