@@ -5,7 +5,8 @@ import {
   ROWS_COUNT,
   FALLING_DURATION,
   FAST_FORWARD_DURATION,
-  LETTER_DROP_DELAY
+  LETTER_DROP_DELAY,
+  EASY_DIFFICULTY_VALUE
 } from '../../constants/boardConstants';
 import { addControls } from './controls';
 import { createLetter, animateLetterDown } from './letters';
@@ -78,19 +79,24 @@ const dropLetter = () => {
     });
 
     let desiredLetter = '';
-    const lowAbundanceLetters = toFallLetters.filter(
-      ({ amountValue }) => amountValue <= 0.2
-    );
 
     // find the lowest value
-    const lowestValue = lowAbundanceLetters
+    const lowestValue = toFallLetters
       .map(block => block.amountValue)
       .reduce((prev, cur) => (prev < cur ? prev : cur));
 
     // find all letters with the least abundance
-    const lows = lowAbundanceLetters.filter(
-      block => block.amountValue === lowestValue
+    let lows = toFallLetters.filter(block => block.amountValue === lowestValue);
+
+    // add the luck and difficulty!
+    const remainingLetters = toFallLetters.filter(
+      toFallLetter => !lows.find(low => low.text === toFallLetter.text)
     );
+    for (let j = 0; j < EASY_DIFFICULTY_VALUE; j++) {
+      lows.push(
+        remainingLetters[Math.floor(Math.random() * remainingLetters.length)]
+      );
+    }
 
     // pick out one of them randomly
     desiredLetter = lows[Math.floor(Math.random() * lows.length)].text;
