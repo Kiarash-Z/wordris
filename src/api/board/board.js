@@ -4,7 +4,8 @@ import {
   PADDING,
   ROWS_COUNT,
   FALLING_DURATION,
-  FAST_FORWARD_DURATION
+  FAST_FORWARD_DURATION,
+  LETTER_DROP_DELAY
 } from '../../constants/boardConstants';
 import { addControls } from './controls';
 import { createLetter, animateLetterDown } from './letters';
@@ -50,57 +51,60 @@ const createBoard = () => {
 
 const dropLetter = () => {
   if (getLoseStatus()) return;
-  const testColors = [
-    '#ff9ff3',
-    '#feca57',
-    '#ff6b6b',
-    '#48dbfb',
-    '#1dd1a1',
-    '#5f27cd'
-  ];
+  const startDrop = () => {
+    const testColors = [
+      '#ff9ff3',
+      '#feca57',
+      '#ff6b6b',
+      '#48dbfb',
+      '#1dd1a1',
+      '#5f27cd'
+    ];
 
-  const toFallLetters = [];
-  const totalLetters = board
-    .getObjects()
-    .filter(o => o.mIsLetter)
-    .map(o => o.mText);
-  desiredWords.forEach(word => {
-    for (const letter of word) {
-      const thisLetterBlocks = board
-        .getObjects()
-        .filter(o => o.mIsLetter && o.mText === letter);
-      let amountValue = thisLetterBlocks.length / totalLetters.length;
-      if (!totalLetters.length) amountValue = 0;
-      toFallLetters.push({ text: letter, amountValue });
-    }
-  });
+    const toFallLetters = [];
+    const totalLetters = board
+      .getObjects()
+      .filter(o => o.mIsLetter)
+      .map(o => o.mText);
+    desiredWords.forEach(word => {
+      for (const letter of word) {
+        const thisLetterBlocks = board
+          .getObjects()
+          .filter(o => o.mIsLetter && o.mText === letter);
+        let amountValue = thisLetterBlocks.length / totalLetters.length;
+        if (!totalLetters.length) amountValue = 0;
+        toFallLetters.push({ text: letter, amountValue });
+      }
+    });
 
-  let desiredLetter = '';
-  const lowAbundanceLetters = toFallLetters.filter(
-    ({ amountValue }) => amountValue <= 0.2
-  );
+    let desiredLetter = '';
+    const lowAbundanceLetters = toFallLetters.filter(
+      ({ amountValue }) => amountValue <= 0.2
+    );
 
-  // find the lowest value
-  const lowestValue = lowAbundanceLetters
-    .map(block => block.amountValue)
-    .reduce((prev, cur) => (prev < cur ? prev : cur));
+    // find the lowest value
+    const lowestValue = lowAbundanceLetters
+      .map(block => block.amountValue)
+      .reduce((prev, cur) => (prev < cur ? prev : cur));
 
-  // find all letters with the least abundance
-  const lows = lowAbundanceLetters.filter(
-    block => block.amountValue === lowestValue
-  );
+    // find all letters with the least abundance
+    const lows = lowAbundanceLetters.filter(
+      block => block.amountValue === lowestValue
+    );
 
-  // pick out one of them randomly
-  desiredLetter = lows[Math.floor(Math.random() * lows.length)].text;
+    // pick out one of them randomly
+    desiredLetter = lows[Math.floor(Math.random() * lows.length)].text;
 
-  const group = createLetter(desiredLetter, {
-    left: Math.floor(COLUMNS_COUNT / 2) * columnRowWidth + PADDING,
-    top: 0,
-    color: testColors[Math.floor(Math.random() * testColors.length)]
-  });
-  group.mRemainingTime = FALLING_DURATION;
-  group.mIsActive = true;
-  animateLetterDown();
+    const group = createLetter(desiredLetter, {
+      left: Math.floor(COLUMNS_COUNT / 2) * columnRowWidth + PADDING,
+      top: 0,
+      color: testColors[Math.floor(Math.random() * testColors.length)]
+    });
+    group.mRemainingTime = FALLING_DURATION;
+    group.mIsActive = true;
+    animateLetterDown();
+  };
+  setTimeout(startDrop, LETTER_DROP_DELAY);
 };
 
 const getRows = () => {
@@ -236,7 +240,7 @@ const removeMatchedLetters = letters => {
   // move down letters which are above this removed letter
   const moveTopLettersDown = (sameColumnLetters, willDropLetter) => {
     sameColumnLetters.forEach((letter, index) => {
-      letter.animate('top', letter.top + (columnRowWidth - PADDING * 2), {
+      letter.animate('top', letter.top + columnRowWidth, {
         duration: FAST_FORWARD_DURATION,
         onChange: board.renderAll.bind(board),
         onComplete() {
