@@ -10,20 +10,31 @@
     "dev": "preact watch",
     "lint": "eslint src --rule",
     "test": "jest ./tests",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "pretty": "prettier --single-quote --trailing-comma --write 'src/api/board/board.js'"
   },
   "eslintConfig": {
-    "extends": "eslint-config-synacor",
-    "rules": {
-      "indent": ["error", 2]
-    }
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
+    "plugins": [
+      "react",
+      "jsx-a11y",
+      "import"
+    ]
   },
   "eslintIgnore": [
     "build/*"
   ],
   "devDependencies": {
     "eslint": "^4.9.0",
-    "eslint-config-synacor": "^2.0.2",
+    "eslint-config-airbnb": "^17.0.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "eslint-plugin-react": "^7.10.0",
     "identity-obj-proxy": "^3.0.0",
     "if-env": "^1.0.0",
     "jest": "^21.2.1",
@@ -31,6 +42,7 @@
     "preact-render-spy": "^1.2.1"
   },
   "dependencies": {
+    "fabric": "^2.3.3",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
     "preact": "^8.2.6",

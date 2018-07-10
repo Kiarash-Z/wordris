@@ -1,0 +1,25 @@
+.board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.board__canvasWrapper {
+  position: relative;
+  margin-top: 8rem;
+}
+
+.board__canvas {
+  border: var(--border-tertiary);
+  border-radius: 5px;
+  position: relative;
+}
+
+.board__canvasUpper {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
