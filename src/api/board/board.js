@@ -34,14 +34,18 @@ const getRootVar = prop =>
 
 const specifyLettersColors = () => {
   // shallow clone of colors
-  let derivedColors = [...testColors];
+  let derivedColors = testColors.slice(0);
   desiredWords.forEach(word => {
-    const wordRandomColor = getRandomItem(derivedColors);
-
     // remove selected color from the list
-    derivedColors = derivedColors.filter(
-      derivedColor => derivedColor !== wordRandomColor
-    );
+    const filterDerivedColors = color => {
+      derivedColors = derivedColors.filter(
+        derivedColor => derivedColor !== color
+      );
+    };
+
+    const wordRandomColor = getRandomItem(derivedColors);
+    filterDerivedColors(wordRandomColor);
+
     word.split('').forEach(letter => {
       const containedWords = desiredWords.filter(w => w.includes(letter));
 
@@ -52,11 +56,14 @@ const specifyLettersColors = () => {
         const isLetterExisting = coloredLetters.find(
           coloredLetter => coloredLetter.text === letter
         );
-        if (!isLetterExisting)
+        const randomColor = getRandomItem(derivedColors);
+        if (!isLetterExisting) {
           coloredLetters.push({
             text: letter,
-            color: getRandomItem(derivedColors)
+            color: randomColor
           });
+        }
+        filterDerivedColors(randomColor);
       }
     });
   });
