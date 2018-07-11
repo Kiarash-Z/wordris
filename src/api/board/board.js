@@ -357,5 +357,6 @@ export {
   getFallingLetter,
   getRootVar,
   check,
-  getLetterColor
+  getLetterColor,
+  dropLetter
 };

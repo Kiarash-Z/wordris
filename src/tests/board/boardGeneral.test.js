@@ -2,17 +2,25 @@ import {
   createBoard,
   getRootVar,
   board,
-  coloredLetters,
-  getLetterColor
+  getLetterColor,
+  getFallingLetter
 } from '../../api/board/board';
-import { COLUMNS_COUNT } from '../../constants/boardConstants';
+import {
+  COLUMNS_COUNT,
+  LETTER_DROP_DELAY,
+  ROWS_COUNT,
+  PADDING
+} from '../../constants/boardConstants';
+
+jest.useFakeTimers();
 
 describe('Board General', () => {
   beforeAll(() => {
     document.body.innerHTML = `
       <div>
-        <div id="gameBoardWrapper"></div>
-        <div id="gameboard"></div>
+        <div id="gameBoardWrapper">
+          <canvas id="gameboard"></canvas>
+        </div>
       </div>
     `;
     createBoard(['تست', 'راه', 'کوه']);
@@ -45,5 +53,16 @@ describe('Board General', () => {
       // acording to the desired words
       expect(getLetterColor('ه')).not.toBe(getLetterColor('ا'));
     });
+  });
+
+  test('should return falling letter', () => {
+    const afterDrop = jest.fn();
+
+    setTimeout(afterDrop, LETTER_DROP_DELAY);
+    jest.runOnlyPendingTimers();
+
+    const letter = getFallingLetter();
+    expect(letter).toBeDefined();
+    expect(letter.mIsActive).toBe(true);
   });
 });
