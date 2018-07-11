@@ -74,6 +74,7 @@ const moveLeft = () => {
 
 const moveDown = (e, isDefaultActionPrevented) => {
   const letter = getFallingLetter();
+  if (!letter) return;
   const forwardingObject = board
     .getObjects()
     .find(o => o.mIsFastForwarding || o.mIsFallingStopped);
