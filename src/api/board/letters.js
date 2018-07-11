@@ -28,7 +28,7 @@ const getStopPosition = () => {
       (prev, cur) => (prev < cur ? prev : cur)
     );
   } else stopPosition = board.getHeight();
-  stopPosition -= letterWidth + PADDING;
+  stopPosition -= letterWidth + PADDING * 2;
   return stopPosition;
 };
 
@@ -57,7 +57,7 @@ const createLetter = (letter, { left, top, color }) => {
     return Math.round((this.left - PADDING) / columnRowWidth + 1);
   };
   group.mGetRow = function() {
-    return Math.round((this.top - PADDING) / columnRowWidth + 1);
+    return Math.round((this.top - PADDING * 2) / columnRowWidth + 1);
   };
   board.add(group);
   return group;
