@@ -12,7 +12,8 @@ import { moveLeft, moveRight, moveDown } from '../../api/board/controls.js';
 
 class Game extends Component {
   componentDidMount() {
-    createBoard();
+    const words = ['راه', 'خوب', 'کیا'];
+    createBoard(words);
     this.addHammerListeners();
   }
 
