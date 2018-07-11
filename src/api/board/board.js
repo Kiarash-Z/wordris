@@ -49,13 +49,14 @@ const specifyLettersColors = () => {
     word.split('').forEach(letter => {
       const containedWords = desiredWords.filter(w => w.includes(letter));
 
-      if (containedWords.length === 1)
+      const isLetterExisting = coloredLetters.find(
+        coloredLetter => coloredLetter.text === letter
+      );
+
+      if (containedWords.length === 1 && !isLetterExisting)
         coloredLetters.push({ text: letter, color: wordRandomColor });
       // if that letter is included in more than one word we give it a different color
       else if (containedWords.length > 1) {
-        const isLetterExisting = coloredLetters.find(
-          coloredLetter => coloredLetter.text === letter
-        );
         const randomColor = getRandomItem(derivedColors);
         if (!isLetterExisting) {
           coloredLetters.push({
@@ -69,6 +70,23 @@ const specifyLettersColors = () => {
   });
 };
 
+const generateBoardBackground = () => {
+  const greyBg = getRootVar('--color-gray-light');
+  const whiteBg = getRootVar('--color-white');
+  for (let index = 0; index < COLUMNS_COUNT; index++) {
+    const rectangle = new fabric.Rect({
+      left: index * columnRowWidth,
+      top: 0,
+      width: columnRowWidth,
+      height: board.getHeight(),
+      fill: index % 2 ? greyBg : whiteBg,
+      selectable: false,
+      mIsBackground: true // properties starting with "m" are the custom ones
+    });
+    board.add(rectangle);
+  }
+};
+
 const createBoard = words => {
   const { offsetWidth, offsetHeight } = document.getElementById(
     'gameBoardWrapper'
@@ -79,22 +97,8 @@ const createBoard = words => {
   letterWidth = board.getWidth() / COLUMNS_COUNT - PADDING * 2;
   columnRowWidth = board.getWidth() / COLUMNS_COUNT;
   desiredWords = words;
+  generateBoardBackground();
   specifyLettersColors();
-
-  // board background
-  const greyBg = getRootVar('--color-gray-light');
-  const whiteBg = getRootVar('--color-white');
-  for (let index = 0; index < COLUMNS_COUNT; index++) {
-    const rectangle = new fabric.Rect({
-      left: index * columnRowWidth,
-      top: 0,
-      width: columnRowWidth,
-      height: board.getHeight(),
-      fill: index % 2 ? greyBg : whiteBg,
-      selectable: false
-    });
-    board.add(rectangle);
-  }
   addControls();
   dropLetter();
 };
@@ -352,5 +356,6 @@ export {
   columnRowWidth,
   getFallingLetter,
   getRootVar,
-  check
+  check,
+  getLetterColor
 };
