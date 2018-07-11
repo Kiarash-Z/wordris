@@ -1,14 +1,15 @@
 import {
   FAST_FORWARD_DURATION,
   COLUMNS_COUNT,
-  PADDING
+  PADDING,
+  COLUMN_CHANGE_DURATION
 } from '../../constants/boardConstants';
 import { board, getFallingLetter, columnRowWidth, check } from './board';
 import { animateLetterDown, getStopPosition } from './letters';
 
 const animateHorizontally = (letter, horizontalValue) => {
   letter.animate('left', horizontalValue, {
-    duration: FAST_FORWARD_DURATION,
+    duration: COLUMN_CHANGE_DURATION,
     onChange: board.renderAll.bind(board),
     onComplete() {
       letter.mIsFallingStopped = false;
@@ -43,6 +44,52 @@ const isAbleToMove = (letter, horizontalValue) => {
   );
 };
 
+const moveRight = () => {
+  const letter = getFallingLetter();
+  const letterLeft = (letter.mGetColumn() - 1) * columnRowWidth + PADDING;
+  const horizontalValue = letterLeft + columnRowWidth;
+  if (
+    !isAbleToMove(letter, horizontalValue) ||
+    letter.mIsFastForwarding ||
+    letter.mIsFallingStopped
+  )
+    return;
+  letter.mIsFallingStopped = true;
+  animateHorizontally(letter, horizontalValue);
+};
+
+const moveLeft = () => {
+  const letter = getFallingLetter();
+  const letterLeft = (letter.mGetColumn() - 1) * columnRowWidth + PADDING;
+  const horizontalValue = letterLeft - columnRowWidth;
+  if (
+    !isAbleToMove(letter, horizontalValue) ||
+    letter.mIsFastForwarding ||
+    letter.mIsFallingStopped
+  )
+    return;
+  letter.mIsFallingStopped = true;
+  animateHorizontally(letter, horizontalValue);
+};
+
+const moveDown = (e, isDefaultActionPrevented) => {
+  const letter = getFallingLetter();
+  const forwardingObject = board
+    .getObjects()
+    .find(o => o.mIsFastForwarding || o.mIsFallingStopped);
+  if (forwardingObject) return;
+  if (isDefaultActionPrevented) e.preventDefault();
+  letter.mIsFallingStopped = true;
+  letter.mIsFastForwarding = true;
+  letter.animate('top', getStopPosition(), {
+    duration: FAST_FORWARD_DURATION,
+    onChange: board.renderAll.bind(board),
+    onComplete() {
+      check(letter);
+    }
+  });
+};
+
 const addControls = () => {
   window.addEventListener('keydown', e => {
     const { code } = e;
@@ -50,52 +97,19 @@ const addControls = () => {
     if (!letter) return;
     switch (code) {
       case 'ArrowRight': {
-        // instead of letter.left we use this for in-row key presses and this handles simultaneous keydowns
-        const letterLeft = (letter.mGetColumn() - 1) * columnRowWidth + PADDING;
-        const horizontalValue = letterLeft + columnRowWidth;
-        if (
-          !isAbleToMove(letter, horizontalValue) ||
-          letter.mIsFastForwarding ||
-          letter.mIsFallingStopped
-        )
-          return;
-        letter.mIsFallingStopped = true;
-        animateHorizontally(letter, horizontalValue);
+        moveRight();
         break;
       }
       case 'ArrowLeft': {
-        // instead of letter.left we use this for in-row key presses and this handles simultaneous keydowns
-        const letterLeft = (letter.mGetColumn() - 1) * columnRowWidth + PADDING;
-        const horizontalValue = letterLeft - columnRowWidth;
-        if (
-          !isAbleToMove(letter, horizontalValue) ||
-          letter.mIsFastForwarding ||
-          letter.mIsFallingStopped
-        )
-          return;
-        letter.mIsFallingStopped = true;
-        animateHorizontally(letter, horizontalValue);
+        moveLeft();
         break;
       }
       case 'ArrowDown': {
-        const forwardingObject = board
-          .getObjects()
-          .find(o => o.mIsFastForwarding || o.mIsFallingStopped);
-        if (forwardingObject) return;
-        e.preventDefault();
-        letter.mIsFallingStopped = true;
-        letter.mIsFastForwarding = true;
-        letter.animate('top', getStopPosition(), {
-          duration: FAST_FORWARD_DURATION,
-          onChange: board.renderAll.bind(board),
-          onComplete() {
-            check(letter);
-          }
-        });
+        moveDown(e, true);
         break;
       }
     }
   });
 };
 
-export { addControls };
+export { addControls, moveLeft, moveRight, moveDown };

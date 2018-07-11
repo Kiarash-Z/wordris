@@ -86,16 +86,20 @@ const dropLetter = () => {
       .reduce((prev, cur) => (prev < cur ? prev : cur));
 
     // find all letters with the least abundance
-    let lows = toFallLetters.filter(block => block.amountValue === lowestValue);
+    const lows = toFallLetters.filter(
+      block => block.amountValue === lowestValue
+    );
 
     // add the luck and difficulty!
     const remainingLetters = toFallLetters.filter(
       toFallLetter => !lows.find(low => low.text === toFallLetter.text)
     );
-    for (let j = 0; j < EASY_DIFFICULTY_VALUE; j++) {
-      lows.push(
-        remainingLetters[Math.floor(Math.random() * remainingLetters.length)]
-      );
+    if (remainingLetters.length) {
+      for (let j = 0; j < EASY_DIFFICULTY_VALUE; j++) {
+        lows.push(
+          remainingLetters[Math.floor(Math.random() * remainingLetters.length)]
+        );
+      }
     }
 
     // pick out one of them randomly
