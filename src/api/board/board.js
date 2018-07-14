@@ -108,7 +108,7 @@ const getLetterColor = letter =>
   coloredLetters.find(coloredLetter => coloredLetter.text === letter).color;
 
 const dropLetter = () => {
-  if (getLoseStatus()) return;
+  if (getIsUserLost()) return;
   const startDrop = () => {
     const toFallLetters = [];
     const totalLetters = board
@@ -160,6 +160,8 @@ const dropLetter = () => {
     group.mIsActive = true;
     animateLetterDown();
   };
+
+  // a short delay in order to drop letter
   setTimeout(startDrop, LETTER_DROP_DELAY);
 };
 
@@ -174,7 +176,10 @@ const getRows = () => {
         const foundLetter = indexedRows.find(
           letter => letter.mGetColumn() === j
         );
+
+        // create a formatted string of all letters in a row in rtl format
         if (foundLetter) filledEmpties.push(foundLetter);
+        // if it's empty we use a - character instead
         else
           filledEmpties.push({
             mIsEmpty: true,
@@ -202,7 +207,10 @@ const getColumns = () => {
         const foundLetter = indexedColumns.find(
           letter => letter.mGetRow() === j
         );
+
+        // create a formatted string of all letters in a column
         if (foundLetter) filledEmpties.push(foundLetter);
+        // if it's empty we use a - character instead
         else
           filledEmpties.push({ mIsEmpty: true, mText: '-', mGetRow: () => j });
       }
@@ -287,6 +295,7 @@ const check = doneLetter => {
     searchForWords(stickedLetters, true);
     matchedLetters.push(...column.letters.filter(letter => letter.mIsMatched));
   });
+
   // remove matched letters
   removeMatchedLetters(matchedLetters);
   if (!matchedLetters.length) dropLetter();
@@ -350,7 +359,7 @@ const removeMatchedLetters = letters => {
   });
 };
 
-const getLoseStatus = () => {
+const getIsUserLost = () => {
   // check if there is an object in the last row - gameover
   const outOfBoundObject = board.getObjects().find(o => o.top === PADDING * 2);
   return !!outOfBoundObject;

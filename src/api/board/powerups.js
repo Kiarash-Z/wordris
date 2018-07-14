@@ -51,13 +51,20 @@ const earthquakeAnimation = (letter, isLast, initialLeft) => {
 };
 
 const earthquake = () => {
-  // removes the first row of the letters
   const letters = board.getObjects().filter(o => o.mIsLetter);
+
+  // if there is a letter currently shaking we don't apply the powerup
+  const currentlyQuaking = letters.find(letter => letter.mIsGonnaRemove);
+  if (currentlyQuaking) return;
+  // removes the first row of the letters
   const lowestRow = letters
     .map(letter => letter.mGetRow())
     .reduce((prev, cur) => (prev > cur ? prev : cur));
-  const firstRow = letters.filter(letter => letter.mGetRow() === lowestRow);
+  const firstRow = letters.filter(
+    letter => letter.mGetRow() === lowestRow && !letter.mIsActive
+  );
   firstRow.forEach((letter, index) => {
+    letter.mIsGonnaRemove = true;
     const initialLeft = letter.left;
     earthquakeAnimation(letter, index === firstRow.length - 1, initialLeft);
   });

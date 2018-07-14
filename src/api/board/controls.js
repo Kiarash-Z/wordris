@@ -1,3 +1,5 @@
+import Hammer from 'hammerjs';
+
 import {
   FAST_FORWARD_DURATION,
   COLUMNS_COUNT,
@@ -92,7 +94,36 @@ const moveDown = (e, isDefaultActionPrevented) => {
   });
 };
 
-const addControls = () => {
+const addTouchControls = () => {
+  const gameBoardWrapper = document.getElementById('gameBoardTouchHandler');
+  const hammerBoard = new Hammer(gameBoardWrapper);
+
+  let lastPan = 0;
+
+  const handlePanHorizontal = ({ deltaX, type }) => {
+    // check for the distance by comparing last 2 points
+    const diff = Math.abs(deltaX - lastPan);
+    const letterWidth =
+      gameBoardWrapper.offsetWidth / COLUMNS_COUNT - PADDING * 2;
+    const moveSize = Math.floor(diff / letterWidth);
+    if (moveSize === 1) {
+      if (diff >= letterWidth) {
+        if (type === 'panleft') moveLeft();
+        else moveRight();
+        lastPan = deltaX;
+      }
+    }
+  };
+
+  hammerBoard.on('tap', moveDown);
+  hammerBoard.on('panleft panright', handlePanHorizontal);
+  hammerBoard.on('panend', () => {
+    // reset lastPan
+    lastPan = 0;
+  });
+};
+
+const addKeyboardControls = () => {
   window.addEventListener('keydown', e => {
     const { code } = e;
     const letter = getFallingLetter();
@@ -120,4 +151,9 @@ const addControls = () => {
   });
 };
 
-export { addControls, moveLeft, moveRight, moveDown };
+const addControls = () => {
+  addKeyboardControls();
+  addTouchControls();
+};
+
+export { addControls };
