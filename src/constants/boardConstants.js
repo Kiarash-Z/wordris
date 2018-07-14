@@ -1,6 +1,6 @@
 // board size
-const COLUMNS_COUNT = 5;
-const ROWS_COUNT = 7;
+const COLUMNS_COUNT = 7;
+const ROWS_COUNT = 9;
 
 const LETTER_DROP_DELAY = 300;
 const PADDING = 5;

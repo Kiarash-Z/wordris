@@ -292,22 +292,27 @@ const check = doneLetter => {
   if (!matchedLetters.length) dropLetter();
 };
 
-const removeMatchedLetters = letters => {
-  // move down letters which are above this removed letter
-  const moveTopLettersDown = (sameColumnLetters, willDropLetter) => {
+// move down letters which are above this removed letter
+const moveTopLettersDown = (sameColumnLetters, willDropLetter) => {
+  return new Promise(resolve => {
     sameColumnLetters.forEach((letter, index) => {
       letter.animate('top', letter.top + columnRowWidth, {
         duration: FAST_FORWARD_DURATION,
         onChange: board.renderAll.bind(board),
         onComplete() {
-          if (index === sameColumnLetters.length - 1 && willDropLetter) {
-            dropLetter();
+          if (index === sameColumnLetters.length - 1) {
+            resolve();
+            if (willDropLetter) dropLetter();
           }
         }
       });
     });
-  };
+  });
+};
+
+const removeMatchedLetters = letters => {
   letters.forEach((letter, index) => {
+    letter.mIsGonnaRemove = true;
     const animateRemove = () => {
       letter.rotate(letter.angle + 3);
       letter.scaleX -= 0.05;
@@ -329,14 +334,16 @@ const removeMatchedLetters = letters => {
               o.mIsLetter &&
               column === o.mGetColumn() &&
               o.top < top &&
-              !o.mIsActive
+              !o.mIsActive &&
+              !o.mIsGonnaRemove
           );
-        if (index === Math.floor(COLUMNS_COUNT / 2)) {
+        if (index === letters.length - 1) {
           if (sameColumnLetters.length)
             moveTopLettersDown(sameColumnLetters, true);
           else dropLetter();
-        } else if (sameColumnLetters.length)
+        } else if (sameColumnLetters.length) {
           moveTopLettersDown(sameColumnLetters);
+        }
       }
     };
     animateRemove();
@@ -358,5 +365,6 @@ export {
   getRootVar,
   check,
   getLetterColor,
-  dropLetter
+  dropLetter,
+  moveTopLettersDown
 };

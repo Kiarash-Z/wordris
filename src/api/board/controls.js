@@ -6,6 +6,7 @@ import {
 } from '../../constants/boardConstants';
 import { board, getFallingLetter, columnRowWidth, check } from './board';
 import { animateLetterDown, getStopPosition } from './letters';
+import { earthquake } from './powerups';
 
 const animateHorizontally = (letter, horizontalValue) => {
   letter.animate('left', horizontalValue, {
@@ -97,6 +98,7 @@ const addControls = () => {
     const letter = getFallingLetter();
     if (!letter) return;
     switch (code) {
+      // main letter movement
       case 'ArrowRight': {
         moveRight();
         break;
@@ -108,6 +110,11 @@ const addControls = () => {
       case 'ArrowDown': {
         moveDown(e, true);
         break;
+      }
+
+      // powerups
+      case 'KeyE': {
+        earthquake();
       }
     }
   });
