@@ -1,0 +1,46 @@
+@font-face {
+  font-family: 'icomoon';
+  src: url('../assets/fonts/icomoon/icomoon.eot?q6zp2p');
+  src: url('../assets/fonts/icomoon/icomoon.eot?q6zp2p#iefix')
+      format('embedded-opentype'),
+    url('../assets/fonts/icomoon/icomoon.ttf?q6zp2p') format('truetype'),
+    url('../assets/fonts/icomoon/icomoon.woff?q6zp2p') format('woff'),
+    url('../assets/fonts/icomoon/icomoon.svg?q6zp2p#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^='icon-'],
+[class*=' icon-'] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-cancel-music:before {
+  content: '\e900';
+}
+.icon-music-player-play:before {
+  content: '\e901';
+}
+.icon-share:before {
+  content: '\e902';
+}
+.icon-speaker:before {
+  content: '\e903';
+}
+.icon-star:before {
+  content: '\e904';
+}
+.icon-statistical-chart:before {
+  content: '\e905';
+}

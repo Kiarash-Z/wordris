@@ -1,0 +1,29 @@
+.button__big {
+  padding: 12px 55px;
+  border-radius: 40px;
+  background: radial-gradient(var(--color-orange-light), var(--color-orange));
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  border: solid 7px rgba(255, 255, 255, 0.8);
+}
+.button__big > span {
+  color: var(--color-white);
+  font-weight: 500;
+  font-size: 1.7rem;
+}
+.button__circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--color-purple-light);
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+}
+.button__circle i {
+  color: var(--color-purple);
+  font-size: 1.1em;
+}

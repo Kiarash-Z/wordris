@@ -9,21 +9,19 @@ class Game extends Component {
     createBoard();
   }
   render() {
-    const widthRem = 40;
+    const widthRem = 90;
     return (
-      <div>
-        <div className={styles.board}>
-          <div
-            id="gameBoardWrapper"
-            className={styles.board__canvasWrapper}
-            style={{
-              width: `${widthRem}rem`,
-              height: `${(ROWS_COUNT / COLUMNS_COUNT) * widthRem}rem`
-            }}
-          >
-            <canvas id="gameBoard" className={styles.board__canvas} />
-            <div className={styles.board__canvasUpper} />
-          </div>
+      <div className={styles.gamePage}>
+        <div
+          id="gameBoardWrapper"
+          className={styles.gamePage__canvasWrapper}
+          style={{
+            width: `${widthRem}%`,
+            height: `${widthRem}%`
+          }}
+        >
+          <canvas id="gameBoard" className={styles.board__canvas} />
+          <div className={styles.board__canvasUpper} />
         </div>
       </div>
     );

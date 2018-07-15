@@ -1,20 +1,19 @@
-.board {
+.gamePage {
   display: flex;
-  justify-content: center;
+  flex: 1;
+  flex-direction: column;
+  position: relative;
+  justify-content: space-between;
   align-items: center;
 }
-
-.board__canvasWrapper {
+.gamePage__canvasWrapper {
   position: relative;
-  margin-top: 8rem;
 }
-
 .board__canvas {
   border: var(--border-tertiary);
   border-radius: 5px;
   position: relative;
 }
-
 .board__canvasUpper {
   position: absolute;
   z-index: 1;

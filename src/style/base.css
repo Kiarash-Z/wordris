@@ -1,25 +1,16 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-html {
-  font-size: 62.5%;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-body {
-  font-family: IRANSans;
-	font-weight: 300;
-  direction: rtl;
-  height: 100vh;
-}
-
-#app {
-	height: 100%;
-}
-
-input, textarea {
+input,
+textarea {
   font-family: IRANSans;
 }
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
   outline: none;
 }
 
@@ -32,4 +23,19 @@ button {
 
 button:focus {
   outline: none;
+}
+
+body {
+  font-family: IRANSans;
+  font-weight: 400;
+  direction: rtl;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  display: flex;
+}
+
+#app {
+  display: flex;
+  flex: 1;
 }
