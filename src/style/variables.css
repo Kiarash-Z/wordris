@@ -1,10 +1,13 @@
 :root {
   /* colors */
   --color-black: #000;
-  --color-gray-light: #f8f8f8;
-
+  --color-gray-light: #eef2ff;
   --color-white: #fff;
+  --color-orange: #ffa226;
+  --color-orange-light: #ffbd40;
+  --color-purple: #7328d9;
+  --color-purple-light: rgba(101, 45, 212, 0.3);
 
   /* borders */
-  --border-tertiary: 2px solid rgb(237,237,237);
+  --border-tertiary: 2px solid rgb(237, 237, 237);
 }

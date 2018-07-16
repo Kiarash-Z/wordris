@@ -1,0 +1,31 @@
+.mainPage {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+}
+.mainPage__topSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.mainPage__topSection_title {
+  color: var(--color-first);
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 13px;
+}
+.mainPage__topSection_title span {
+  color: var(--color-orange);
+  margin: 0px 2px;
+}
+.mainPage__botomNav {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 50px;
+  margin-bottom: 30px;
+  width: 190px;
+  justify-content: space-between;
+}

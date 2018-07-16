@@ -1,0 +1,29 @@
+.animatedBg__wrapper {
+  flex: 1;
+  display: flex;
+  position: relative;
+}
+.animatedBg__content {
+  flex: 1;
+  display: flex;
+  position: relative;
+  z-index: 10;
+}
+.animatedBg__animateArea {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+.animatedBg__animateArea_lineOne {
+  width: 100%;
+  position: absolute;
+  top: 20%;
+}
+.animatedBg__animateArea_lineTwo {
+  width: 100%;
+  position: absolute;
+  top: 70%;
+}

@@ -1,7 +1,9 @@
 import { h, Component } from 'preact';
 import { Router } from 'preact-router';
 
-import Game from '../routes/game';
+import { AnimatedBackground } from './components';
+import Game from './routes/game';
+import Main from './routes/main';
 // import Home from 'async!../routes/home';
 // import Profile from 'async!../routes/profile';
 
@@ -17,9 +19,12 @@ class App extends Component {
   render() {
     return (
       <div id="app">
-        <Router onChange={this.handleRoute}>
-          <Game path="/game" />
-        </Router>
+        <AnimatedBackground>
+          <Router onChange={this.handleRoute}>
+            <Game path="/game" />
+            <Main path="/" />
+          </Router>
+        </AnimatedBackground>
       </div>
     );
   }
