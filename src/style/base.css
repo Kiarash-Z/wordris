@@ -25,12 +25,17 @@ button:focus {
   outline: none;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 body {
   font-family: IRANSans;
   font-weight: 400;
   direction: rtl;
   min-height: 100vh;
   width: 100%;
+  height: 100vh;
   overflow-x: hidden;
   display: flex;
 }
