@@ -4,7 +4,9 @@ import {
   PADDING,
   ROWS_COUNT,
   FALLING_DURATION,
-  FARSI_ALPHABET
+  FAST_FORWARD_DURATION,
+  LETTER_DROP_DELAY,
+  EASY_DIFFICULTY_VALUE
 } from '../../constants/boardConstants';
 import { addControls } from './controls';
 import { createLetter, animateLetterDown } from './letters';
@@ -13,24 +15,62 @@ let board = null;
 let letterWidth = 0;
 let columnRowWidth = 0;
 let desiredWords = [];
+let coloredLetters = [];
+
+const testColors = [
+  '#ff9ff3',
+  '#feca57',
+  '#ff6b6b',
+  '#48dbfb',
+  '#1dd1a1',
+  '#5f27cd'
+];
 
 const getFallingLetter = () => board.getObjects().find(o => o.mIsActive);
 
+const getRandomItem = arr => arr[Math.floor(Math.random() * arr.length)];
 const getRootVar = prop =>
   getComputedStyle(document.body).getPropertyValue(prop);
 
-const createBoard = () => {
-  const { offsetWidth, offsetHeight } = document.getElementById(
-    'gameBoardWrapper'
-  );
-  board = new fabric.Canvas('gameBoard');
-  board.setWidth(offsetWidth);
-  board.setHeight(offsetHeight);
-  letterWidth = board.getWidth() / COLUMNS_COUNT - PADDING * 2;
-  columnRowWidth = board.getWidth() / COLUMNS_COUNT;
-  desiredWords = ['راه', 'خوب', 'کیا']; // hard coded
+const specifyLettersColors = () => {
+  // shallow clone of colors
+  let derivedColors = testColors.slice(0);
+  desiredWords.forEach(word => {
+    // remove selected color from the list
+    const filterDerivedColors = color => {
+      derivedColors = derivedColors.filter(
+        derivedColor => derivedColor !== color
+      );
+    };
 
-  // board background
+    const wordRandomColor = getRandomItem(derivedColors);
+    filterDerivedColors(wordRandomColor);
+
+    word.split('').forEach(letter => {
+      const containedWords = desiredWords.filter(w => w.includes(letter));
+
+      const isLetterExisting = coloredLetters.find(
+        coloredLetter => coloredLetter.text === letter
+      );
+
+      if (containedWords.length === 1 && !isLetterExisting)
+        coloredLetters.push({ text: letter, color: wordRandomColor });
+      // if that letter is included in more than one word we give it a different color
+      else if (containedWords.length > 1) {
+        const randomColor = getRandomItem(derivedColors);
+        if (!isLetterExisting) {
+          coloredLetters.push({
+            text: letter,
+            color: randomColor
+          });
+        }
+        filterDerivedColors(randomColor);
+      }
+    });
+  });
+};
+
+const generateBoardBackground = () => {
   const greyBg = getRootVar('--color-gray-light');
   const whiteBg = getRootVar('--color-white');
   for (let index = 0; index < COLUMNS_COUNT; index++) {
@@ -40,66 +80,87 @@ const createBoard = () => {
       width: columnRowWidth,
       height: board.getHeight(),
       fill: index % 2 ? greyBg : whiteBg,
-      selectable: false
+      selectable: false,
+      mIsBackground: true // properties starting with "m" are the custom ones
     });
     board.add(rectangle);
   }
+};
+
+const createBoard = words => {
+  const { offsetWidth, offsetHeight } = document.getElementById(
+    'gameBoardWrapper'
+  );
+  board = new fabric.Canvas('gameBoard');
+  board.setWidth(offsetWidth);
+  board.setHeight(offsetHeight);
+  letterWidth = board.getWidth() / COLUMNS_COUNT - PADDING * 2;
+  columnRowWidth = board.getWidth() / COLUMNS_COUNT;
+  desiredWords = words;
+  generateBoardBackground();
+  specifyLettersColors();
   addControls();
   dropLetter();
 };
 
+// returns the color for wanted letter
+const getLetterColor = letter =>
+  coloredLetters.find(coloredLetter => coloredLetter.text === letter).color;
+
 const dropLetter = () => {
-  const testColors = [
-    '#ff9ff3',
-    '#feca57',
-    '#ff6b6b',
-    '#48dbfb',
-    '#1dd1a1',
-    '#5f27cd'
-  ];
+  if (getLoseStatus()) return;
+  const startDrop = () => {
+    const toFallLetters = [];
+    const totalLetters = board
+      .getObjects()
+      .filter(o => o.mIsLetter)
+      .map(o => o.mText);
+    desiredWords.forEach(word => {
+      word.split('').forEach(letter => {
+        const thisLetterBlocks = board
+          .getObjects()
+          .filter(o => o.mIsLetter && o.mText === letter);
+        let amountValue = thisLetterBlocks.length / totalLetters.length;
+        if (!totalLetters.length) amountValue = 0;
+        toFallLetters.push({ text: letter, amountValue });
+      });
+    });
 
-  const toFallLetters = [];
-  const totalLetters = board
-    .getObjects()
-    .filter(o => o.mIsLetter)
-    .map(o => o.mText);
-  desiredWords.forEach(word => {
-    for (const letter of word) {
-      const thisLetterBlocks = board
-        .getObjects()
-        .filter(o => o.mIsLetter && o.mText === letter);
-      let amountValue = thisLetterBlocks.length / totalLetters.length;
-      if (!totalLetters.length) amountValue = 0;
-      toFallLetters.push({ text: letter, amountValue });
+    let desiredLetter = '';
+
+    // find the lowest value
+    const lowestValue = toFallLetters
+      .map(block => block.amountValue)
+      .reduce((prev, cur) => (prev < cur ? prev : cur));
+
+    // find all letters with the least abundance
+    const lows = toFallLetters.filter(
+      block => block.amountValue === lowestValue
+    );
+
+    // add the luck and difficulty!
+    const remainingLetters = toFallLetters.filter(
+      toFallLetter => !lows.find(low => low.text === toFallLetter.text)
+    );
+    if (remainingLetters.length) {
+      for (let j = 0; j < EASY_DIFFICULTY_VALUE; j++) {
+        lows.push(getRandomItem(remainingLetters));
+      }
     }
-  });
 
-  let desiredLetter = '';
-  const lowAbundanceLetters = toFallLetters.filter(
-    ({ amountValue }) => amountValue <= 0.2
-  );
+    // pick out one of them randomly
+    desiredLetter = getRandomItem(lows).text;
 
-  // find the lowest value
-  const lowestValue = lowAbundanceLetters
-    .map(block => block.amountValue)
-    .reduce((prev, cur) => (prev < cur ? prev : cur));
-
-  // find all letters with the least abundance
-  const lows = lowAbundanceLetters.filter(
-    block => block.amountValue === lowestValue
-  );
-
-  // pick out one of them randomly
-  desiredLetter = lows[Math.floor(Math.random() * lows.length)].text;
-
-  const group = createLetter(desiredLetter, {
-    left: Math.floor(COLUMNS_COUNT / 2) * columnRowWidth + PADDING,
-    top: 0,
-    color: testColors[Math.floor(Math.random() * testColors.length)]
-  });
-  group.mRemainingTime = FALLING_DURATION;
-  group.mIsActive = true;
-  animateLetterDown();
+    const group = createLetter(desiredLetter, {
+      left: Math.floor(COLUMNS_COUNT / 2) * columnRowWidth + PADDING,
+      top: 0,
+      color: getLetterColor(desiredLetter)
+    });
+    group.mRemainingTime = FALLING_DURATION;
+    group.mIsActive = true;
+    animateLetterDown();
+  };
+  setTimeout(startDrop, LETTER_DROP_DELAY);
 };
 
 const getRows = () => {
@@ -226,14 +287,27 @@ const check = doneLetter => {
     searchForWords(stickedLetters, true);
     matchedLetters.push(...column.letters.filter(letter => letter.mIsMatched));
   });
-
   // remove matched letters
   removeMatchedLetters(matchedLetters);
-  checkLoseWin();
+  if (!matchedLetters.length) dropLetter();
 };
 
 const removeMatchedLetters = letters => {
-  letters.forEach(letter => {
+  // move down letters which are above this removed letter
+  const moveTopLettersDown = (sameColumnLetters, willDropLetter) => {
+    sameColumnLetters.forEach((letter, index) => {
+      letter.animate('top', letter.top + columnRowWidth, {
+        duration: FAST_FORWARD_DURATION,
+        onChange: board.renderAll.bind(board),
+        onComplete() {
+          if (index === sameColumnLetters.length - 1 && willDropLetter) {
+            dropLetter();
+          }
+        }
+      });
+    });
+  };
+  letters.forEach((letter, index) => {
     const animateRemove = () => {
       letter.rotate(letter.angle + 3);
       letter.scaleX -= 0.05;
@@ -243,20 +317,36 @@ const removeMatchedLetters = letters => {
       const frames = fabric.util.requestAnimFrame(animateRemove);
       if (letter.opacity < 0.1) {
         cancelAnimationFrame(frames);
+        const column = letter.mGetColumn();
+        const top = letter.top;
         board.remove(letter);
+
+        // check for letters above
+        const sameColumnLetters = board
+          .getObjects()
+          .filter(
+            o =>
+              o.mIsLetter &&
+              column === o.mGetColumn() &&
+              o.top < top &&
+              !o.mIsActive
+          );
+        if (index === Math.floor(COLUMNS_COUNT / 2)) {
+          if (sameColumnLetters.length)
+            moveTopLettersDown(sameColumnLetters, true);
+          else dropLetter();
+        } else if (sameColumnLetters.length)
+          moveTopLettersDown(sameColumnLetters);
       }
     };
     animateRemove();
   });
 };
 
-const checkLoseWin = () => {
-  const outOfBoundObject = board.getObjects().find(o => o.top < 0);
-  if (outOfBoundObject) {
-    // lose
-  } else {
-    dropLetter();
-  }
+const getLoseStatus = () => {
+  // check if there is an object in the last row - gameover
+  const outOfBoundObject = board.getObjects().find(o => o.top === PADDING * 2);
+  return !!outOfBoundObject;
 };
 
 export {
@@ -266,5 +356,7 @@ export {
   columnRowWidth,
   getFallingLetter,
   getRootVar,
-  check
+  check,
+  getLetterColor,
+  dropLetter
 };

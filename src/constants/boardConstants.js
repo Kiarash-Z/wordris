@@ -1,42 +1,15 @@
+// board size
 const COLUMNS_COUNT = 5;
 const ROWS_COUNT = 7;
-const FALLING_DURATION = 3000;
-const FAST_FORWARD_DURATION = 200;
+
+const LETTER_DROP_DELAY = 300;
 const PADDING = 5;
-const FARSI_ALPHABET = [
-  'ا',
-  'ب',
-  'پ',
-  'ت',
-  'ث',
-  'ج',
-  'چ',
-  'ح',
-  'خ',
-  'د',
-  'ذ',
-  'ر',
-  'ز',
-  'ژ',
-  'س',
-  'ش',
-  'ص',
-  'ض',
-  'ط',
-  'ظ',
-  'ع',
-  'غ',
-  'ف',
-  'ق',
-  'ک',
-  'گ',
-  'ل',
-  'م',
-  'ن',
-  'و',
-  'ه',
-  'ی'
-];
+const EASY_DIFFICULTY_VALUE = 1;
+
+// animation durations
+const FALLING_DURATION = 6000;
+const FAST_FORWARD_DURATION = 200;
+const COLUMN_CHANGE_DURATION = 30;
 
 export {
   COLUMNS_COUNT,
@@ -44,5 +17,7 @@ export {
   PADDING,
   FAST_FORWARD_DURATION,
   ROWS_COUNT,
-  FARSI_ALPHABET
+  LETTER_DROP_DELAY,
+  EASY_DIFFICULTY_VALUE,
+  COLUMN_CHANGE_DURATION
 };

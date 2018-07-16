@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import Hammer from 'hammerjs';
 
 import { createBoard } from '../../api/board/board.js';
 import styles from './Game.css';
