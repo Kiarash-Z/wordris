@@ -16,6 +16,7 @@ let letterWidth = 0;
 let columnRowWidth = 0;
 let desiredWords = [];
 let coloredLetters = [];
+let nextLetter = '';
 
 const testColors = [
   '#ff9ff3',
@@ -87,78 +88,76 @@ const generateBoardBackground = () => {
   }
 };
 
-const createBoard = words => {
-  const { offsetWidth, offsetHeight } = document.getElementById(
-    'gameBoardWrapper'
-  );
-  board = new fabric.Canvas('gameBoard');
-  board.setWidth(offsetWidth);
-  board.setHeight(offsetHeight);
-  letterWidth = board.getWidth() / COLUMNS_COUNT - PADDING * 2;
-  columnRowWidth = board.getWidth() / COLUMNS_COUNT;
-  desiredWords = words;
-  generateBoardBackground();
-  specifyLettersColors();
-  addControls();
-  dropLetter();
-};
-
 // returns the color for wanted letter
 const getLetterColor = letter =>
   coloredLetters.find(coloredLetter => coloredLetter.text === letter).color;
 
+// returns the next letter to fall
+const getNextLetter = () => {
+  const toFallLetters = [];
+  const totalLetters = board
+    .getObjects()
+    .filter(o => o.mIsLetter)
+    .map(o => o.mText);
+  desiredWords.forEach(word => {
+    word.split('').forEach(letter => {
+      const thisLetterBlocks = board
+        .getObjects()
+        .filter(o => o.mIsLetter && o.mText === letter);
+      let amountValue = thisLetterBlocks.length / totalLetters.length;
+      if (!totalLetters.length) amountValue = 0;
+      toFallLetters.push({ text: letter, amountValue });
+    });
+  });
+
+  let desiredLetter = '';
+
+  // find the lowest value
+  const lowestValue = toFallLetters
+    .map(block => block.amountValue)
+    .reduce((prev, cur) => (prev < cur ? prev : cur));
+
+  // find all letters with the least abundance
+  const lows = toFallLetters.filter(block => block.amountValue === lowestValue);
+
+  // add the luck and difficulty!
+  const remainingLetters = toFallLetters.filter(
+    toFallLetter => !lows.find(low => low.text === toFallLetter.text)
+  );
+  if (remainingLetters.length) {
+    for (let j = 0; j < EASY_DIFFICULTY_VALUE; j++) {
+      lows.push(getRandomItem(remainingLetters));
+    }
+  }
+
+  // pick out one of them randomly
+  desiredLetter = getRandomItem(lows).text;
+
+  return desiredLetter;
+};
+
+const getIsUserLost = () => {
+  // check if there is an object in the last row - gameover
+  const outOfBoundObject = board.getObjects().find(o => o.top === PADDING * 2);
+  return !!outOfBoundObject;
+};
+
 const dropLetter = () => {
   if (getIsUserLost()) return;
+
   const startDrop = () => {
-    const toFallLetters = [];
-    const totalLetters = board
-      .getObjects()
-      .filter(o => o.mIsLetter)
-      .map(o => o.mText);
-    desiredWords.forEach(word => {
-      word.split('').forEach(letter => {
-        const thisLetterBlocks = board
-          .getObjects()
-          .filter(o => o.mIsLetter && o.mText === letter);
-        let amountValue = thisLetterBlocks.length / totalLetters.length;
-        if (!totalLetters.length) amountValue = 0;
-        toFallLetters.push({ text: letter, amountValue });
-      });
-    });
-
-    let desiredLetter = '';
-
-    // find the lowest value
-    const lowestValue = toFallLetters
-      .map(block => block.amountValue)
-      .reduce((prev, cur) => (prev < cur ? prev : cur));
-
-    // find all letters with the least abundance
-    const lows = toFallLetters.filter(
-      block => block.amountValue === lowestValue
-    );
-
-    // add the luck and difficulty!
-    const remainingLetters = toFallLetters.filter(
-      toFallLetter => !lows.find(low => low.text === toFallLetter.text)
-    );
-    if (remainingLetters.length) {
-      for (let j = 0; j < EASY_DIFFICULTY_VALUE; j++) {
-        lows.push(getRandomItem(remainingLetters));
-      }
-    }
-
-    // pick out one of them randomly
-    desiredLetter = getRandomItem(lows).text;
-
-    const group = createLetter(desiredLetter, {
+    const color = getLetterColor(nextLetter);
+    const group = createLetter(nextLetter, {
+      color,
       left: Math.floor(COLUMNS_COUNT / 2) * columnRowWidth + PADDING,
-      top: 0,
-      color: getLetterColor(desiredLetter)
+      top: 0
     });
     group.mRemainingTime = FALLING_DURATION;
     group.mIsActive = true;
     animateLetterDown();
+
+    // update nextLetter
+    nextLetter = getNextLetter();
   };
 
   // a short delay in order to drop letter
@@ -359,10 +358,21 @@ const removeMatchedLetters = letters => {
   });
 };
 
-const getIsUserLost = () => {
-  // check if there is an object in the last row - gameover
-  const outOfBoundObject = board.getObjects().find(o => o.top === PADDING * 2);
-  return !!outOfBoundObject;
+const createBoard = words => {
+  const { offsetWidth, offsetHeight } = document.getElementById(
+    'gameBoardWrapper'
+  );
+  board = new fabric.Canvas('gameBoard');
+  board.setWidth(offsetWidth);
+  board.setHeight(offsetHeight);
+  letterWidth = board.getWidth() / COLUMNS_COUNT - PADDING * 2;
+  columnRowWidth = board.getWidth() / COLUMNS_COUNT;
+  desiredWords = words;
+  nextLetter = getNextLetter();
+  generateBoardBackground();
+  specifyLettersColors();
+  addControls();
+  dropLetter();
 };
 
 export {

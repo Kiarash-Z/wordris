@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import { inject, observer } from 'mobx-preact';
 
 import { createBoard } from '../../api/board/board.js';
 import styles from './Game.css';
@@ -15,24 +16,22 @@ class Game extends Component {
   }
 
   render() {
+    const { gameStore } = this.props;
     const widthRem = 55;
     return (
-      <div className={styles.gamePage}>
-        <div className={styles.board}>
+      <div class={styles.gamePage}>
+        <div class={styles.board}>
           <div
             id="gameBoardWrapper"
-            className={styles.board__canvasWrapper}
+            class={styles.board__canvasWrapper}
             style={{
               width: `${widthRem}rem`,
               height: `calc(${(ROWS_COUNT / COLUMNS_COUNT) *
                 widthRem}rem + ${PADDING * 2}px)`
             }}
           >
-            <canvas id="gameBoard" className={styles.board__canvas} />
-            <div
-              id="gameBoardTouchHandler"
-              className={styles.board__canvasUpper}
-            />
+            <canvas id="gameBoard" class={styles.board__canvas} />
+            <div id="gameBoardTouchHandler" class={styles.board__canvasUpper} />
           </div>
         </div>
       </div>
@@ -40,4 +39,4 @@ class Game extends Component {
   }
 }
 
-export default Game;
+export default inject('gameStore')(observer(Game));
