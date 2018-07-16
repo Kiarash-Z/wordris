@@ -229,86 +229,6 @@ const getColumns = () => {
   return columns;
 };
 
-const check = doneLetter => {
-  doneLetter.mIsFallingStopped = false;
-  doneLetter.mIsFastForwarding = false;
-  doneLetter.mIsActive = false;
-
-  const rows = getRows();
-  const columns = getColumns();
-  const matchedLetters = [];
-
-  // check rows for a match
-  rows.forEach(row => {
-    const stickedLetters = row.letters.reduce(
-      (prev, cur) => `${prev}${cur.mText}`,
-      ''
-    );
-    desiredWords.forEach(word => {
-      const foundIndex = stickedLetters.search(word);
-
-      // -1 is when nothing is founded
-      if (foundIndex !== -1) {
-        for (
-          let index = foundIndex;
-          index < word.length + foundIndex;
-          index++
-        ) {
-          // (COLUMNS_COUNT + 1) - ... for rtl columns
-          const foundLetter = row.letters.find(
-            letter => COLUMNS_COUNT + 1 - letter.mGetColumn() === index + 1
-          );
-          foundLetter.mIsMatched = true;
-        }
-      }
-    });
-    matchedLetters.push(...row.letters.filter(letter => letter.mIsMatched));
-  });
-
-  // check columns for a match
-  columns.forEach(column => {
-    const stickedLetters = column.letters.reduce(
-      (prev, cur) => `${prev}${cur.mText}`,
-      ''
-    );
-    const searchForWords = (toSearch, isReverse) => {
-      desiredWords.forEach(word => {
-        const computedWord = isReverse
-          ? word
-              .split('')
-              .reverse()
-              .join('')
-          : word;
-        const foundIndex = toSearch.search(computedWord);
-
-        // -1 is when nothing is founded
-        if (foundIndex !== -1) {
-          for (
-            let index = foundIndex;
-            index < computedWord.length + foundIndex;
-            index++
-          ) {
-            // (COLUMNS_COUNT + 1) - ... for rtl columns
-            const foundLetter = column.letters.find(
-              letter => ROWS_COUNT + 1 - letter.mGetRow() === index + 1
-            );
-            foundLetter.mIsMatched = true;
-          }
-        }
-      });
-    };
-
-    // for both top to bottom and bottom to top checking
-    searchForWords(stickedLetters);
-    searchForWords(stickedLetters, true);
-    matchedLetters.push(...column.letters.filter(letter => letter.mIsMatched));
-  });
-
-  // remove matched letters
-  removeMatchedLetters(matchedLetters);
-  if (!matchedLetters.length) dropLetter();
-};
-
 // move down letters which are above this removed letter
 const moveTopLettersDown = (sameColumnLetters, willDropLetter) => {
   return new Promise(resolve => {
@@ -365,6 +285,86 @@ const removeMatchedLetters = letters => {
     };
     animateRemove();
   });
+};
+
+const check = doneLetter => {
+  doneLetter.mIsFallingStopped = false;
+  doneLetter.mIsFastForwarding = false;
+  doneLetter.mIsActive = false;
+
+  const rows = getRows();
+  const columns = getColumns();
+  const matchedWords = [];
+  const matchedLetters = [];
+
+  // check rows for a match
+  rows.forEach(row => {
+    const stickedLetters = row.letters.reduce(
+      (prev, cur) => `${prev}${cur.mText}`,
+      ''
+    );
+    desiredWords.forEach(word => {
+      const foundIndex = stickedLetters.search(word);
+      if (foundIndex !== -1) {
+        matchedWords.push(word);
+        for (
+          let index = foundIndex;
+          index < word.length + foundIndex;
+          index++
+        ) {
+          // (COLUMNS_COUNT + 1) - ... for rtl columns
+          const foundLetter = row.letters.find(
+            letter => COLUMNS_COUNT + 1 - letter.mGetColumn() === index + 1
+          );
+          foundLetter.mIsMatched = true;
+        }
+      }
+    });
+    matchedLetters.push(...row.letters.filter(letter => letter.mIsMatched));
+  });
+
+  // check columns for a match
+  columns.forEach(column => {
+    const stickedLetters = column.letters.reduce(
+      (prev, cur) => `${prev}${cur.mText}`,
+      ''
+    );
+    const searchForWords = (toSearch, isReverse) => {
+      desiredWords.forEach(word => {
+        const computedWord = isReverse
+          ? word
+              .split('')
+              .reverse()
+              .join('')
+          : word;
+        const foundIndex = toSearch.search(computedWord);
+        if (foundIndex !== -1) {
+          matchedWords.push(word);
+          for (
+            let index = foundIndex;
+            index < computedWord.length + foundIndex;
+            index++
+          ) {
+            // (COLUMNS_COUNT + 1) - ... for rtl columns
+            const foundLetter = column.letters.find(
+              letter => ROWS_COUNT + 1 - letter.mGetRow() === index + 1
+            );
+            foundLetter.mIsMatched = true;
+          }
+        }
+      });
+    };
+
+    // for both top to bottom and bottom to top checking
+    searchForWords(stickedLetters);
+    searchForWords(stickedLetters, true);
+    matchedLetters.push(...column.letters.filter(letter => letter.mIsMatched));
+  });
+
+  // remove matched letters
+  removeMatchedLetters(matchedLetters);
+  if (matchedWords.length) gameStore.handleWordsMatch(matchedWords);
+  if (!matchedLetters.length) dropLetter();
 };
 
 const createBoard = words => {

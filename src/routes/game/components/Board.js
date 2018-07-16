@@ -12,13 +12,13 @@ import styles from '../Game.css';
 
 class Board extends Component {
   componentDidMount() {
-    const words = ['راه', 'خوب', 'سلام'];
+    const words = this.props.gameStore.words.map(w => w.text);
     createBoard(words);
   }
 
   render() {
     const { gameStore } = this.props;
-    const widthRem = 50;
+    const widthRem = 45;
     return (
       <div class={styles.board}>
         <div

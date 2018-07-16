@@ -5,10 +5,13 @@
   flex-direction: column;
 }
 
+/*
+   Board
+*/
+
 .board {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   align-self: center;
   height: 100%;
@@ -49,4 +52,27 @@
   height: 100%;
   top: 0;
   left: 0;
+}
+
+/*
+   Score
+*/
+
+.score {
+  align-self: center;
+  margin-bottom: 4rem;
+  margin-top: 6rem;
+  color: var(--color-orange);
+}
+
+.score__text {
+  font-weight: bold;
+  font-size: 4.8rem;
+  margin-left: 1rem;
+  text-shadow: 0 2px 5px var(--color-orange-light);
+}
+
+.score__icon {
+  font-size: 3.8rem;
+  text-shadow: 0 2px 5px var(--color-orange-light);
 }
