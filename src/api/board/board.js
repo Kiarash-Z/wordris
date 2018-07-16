@@ -11,6 +11,9 @@ import {
 import { addControls } from './controls';
 import { createLetter, animateLetterDown } from './letters';
 
+// store
+import { gameStore } from '../../stores/gameStore';
+
 let board = null;
 let letterWidth = 0;
 let columnRowWidth = 0;
@@ -138,7 +141,10 @@ const getNextLetter = () => {
 
 const getIsUserLost = () => {
   // check if there is an object in the last row - gameover
-  const outOfBoundObject = board.getObjects().find(o => o.top === PADDING * 2);
+  const outOfBoundObject = board
+    .getObjects()
+    .filter(o => o.mIsLetter)
+    .find(o => Math.round(o.top) === PADDING);
   return !!outOfBoundObject;
 };
 
@@ -146,11 +152,10 @@ const dropLetter = () => {
   if (getIsUserLost()) return;
 
   const startDrop = () => {
-    const color = getLetterColor(nextLetter);
     const group = createLetter(nextLetter, {
-      color,
       left: Math.floor(COLUMNS_COUNT / 2) * columnRowWidth + PADDING,
-      top: 0
+      top: 0,
+      color: getLetterColor(nextLetter)
     });
     group.mRemainingTime = FALLING_DURATION;
     group.mIsActive = true;
@@ -158,6 +163,10 @@ const dropLetter = () => {
 
     // update nextLetter
     nextLetter = getNextLetter();
+    gameStore.updateNextLetter({
+      text: nextLetter,
+      color: getLetterColor(nextLetter)
+    });
   };
 
   // a short delay in order to drop letter
@@ -359,12 +368,12 @@ const removeMatchedLetters = letters => {
 };
 
 const createBoard = words => {
-  const { offsetWidth, offsetHeight } = document.getElementById(
-    'gameBoardWrapper'
-  );
+  const { width, height } = document
+    .getElementById('gameBoardWrapper')
+    .getBoundingClientRect();
   board = new fabric.Canvas('gameBoard');
-  board.setWidth(offsetWidth);
-  board.setHeight(offsetHeight);
+  board.setWidth(width);
+  board.setHeight(height);
   letterWidth = board.getWidth() / COLUMNS_COUNT - PADDING * 2;
   columnRowWidth = board.getWidth() / COLUMNS_COUNT;
   desiredWords = words;
