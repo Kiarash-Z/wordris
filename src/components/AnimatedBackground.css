@@ -9,7 +9,6 @@
   display: flex;
   position: relative;
   z-index: 10;
-  height: 100%;
 }
 .animatedBg__animateArea {
   position: absolute;

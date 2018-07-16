@@ -7,7 +7,7 @@
 }
 
 .gameMainWrapper {
-  width: calc(100vw - 12rem);
+  width: calc(100vw - 10rem);
   align-self: center;
   display: flex;
   height: 100%;

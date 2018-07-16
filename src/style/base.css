@@ -27,13 +27,14 @@ button:focus {
 
 html {
   font-size: 43.75%; /* 7px */
+  height: 100%;
 }
 
 body {
   font-family: IRANSans;
   font-weight: 400;
   direction: rtl;
-  height: 100vh;
+  height: 100%;
   color: var(--color-black);
   overflow-x: hidden;
 }
