@@ -10,6 +10,7 @@ import {
 } from './board';
 import { PADDING, FALLING_DURATION } from '../../constants/boardConstants';
 
+// Indicates where the falling letter should stop
 const getStopPosition = () => {
   const letter = getFallingLetter();
   let stopPosition = board
@@ -28,6 +29,8 @@ const getStopPosition = () => {
       (prev, cur) => (prev < cur ? prev : cur)
     );
   } else stopPosition = board.getHeight();
+
+  // calculate padding
   stopPosition -= letterWidth + PADDING * 2;
   return stopPosition;
 };
@@ -67,6 +70,7 @@ const mapRange = (num, inMin, inMax, outIn, outMax) => {
   return ((num - inMin) * (outMax - outIn)) / (inMax - inMin) + outIn;
 };
 
+// animates the falling letter to the appropriate position
 const animateLetterDown = () => {
   const letter = getFallingLetter();
   const stopPosition = getStopPosition();
