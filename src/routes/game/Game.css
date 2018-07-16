@@ -113,7 +113,7 @@
 }
 
 .word.--main {
-  margin-top: -4rem;
+  margin-top: -2.5rem;
 }
 
 .word__text {
@@ -181,4 +181,22 @@
 }
 .gameNav__pause {
   font-size: 2.5rem;
+}
+
+/*
+    Powerups
+*/
+
+.powerups {
+  display: flex;
+  justify-content: center;
+}
+
+.powerup {
+  display: flex;
+  font-size: 2rem;
+}
+
+.powerup__item:not(:last-child) {
+  margin-left: 1.5rem;
 }

@@ -5,6 +5,7 @@ import styles from './Game.css';
 import Board from './components/Board';
 import Words from './components/Words';
 import GameNav from './components/GameNav';
+import Powerups from './components/Powerups';
 
 class Game extends Component {
   componentDidMount() {
@@ -20,6 +21,7 @@ class Game extends Component {
             <i class={`a-star ${styles.score__icon}`} />
             <span class={styles.score__text}>{gameStore.score}</span>
           </div>
+          <Powerups />
           <Board />
           <Words />
         </div>

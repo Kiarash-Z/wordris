@@ -12,7 +12,7 @@ import { addControls } from './controls';
 import { createLetter, animateLetterDown } from './letters';
 
 // store
-import { gameStore } from '../../stores/gameStore';
+import { gameStore } from '../../stores';
 
 let board = null;
 let letterWidth = 0;

@@ -2,6 +2,7 @@ import { fabric } from 'fabric';
 import { board, moveTopLettersDown, getFallingLetter } from './board';
 import { FAST_FORWARD_DURATION, PADDING } from '../../constants/boardConstants';
 import { animateLetterDown } from './letters';
+import { gameStore } from '../../stores';
 
 const earthquakeAnimation = (letter, isLast, initialLeft) => {
   const fallingLetter = getFallingLetter();
@@ -53,9 +54,16 @@ const earthquakeAnimation = (letter, isLast, initialLeft) => {
 const earthquake = () => {
   const letters = board.getObjects().filter(o => o.mIsLetter);
 
-  // if there is a letter currently shaking we don't apply the powerup
+  // if there is a letter currently shaking or we have none left we don't apply the powerup
   const currentlyQuaking = letters.find(letter => letter.mIsGonnaRemove);
-  if (currentlyQuaking) return;
+  if (
+    currentlyQuaking ||
+    !gameStore.earthquakesLeft ||
+    !letters.filter(l => !l.mIsActive).length
+  )
+    return;
+  gameStore.decreaseEarthquake();
+
   // removes the first row of the letters
   const lowestRow = letters
     .map(letter => letter.mGetRow())

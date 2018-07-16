@@ -1,7 +1,11 @@
 import { decorate, observable, action, computed } from 'mobx';
 
 import { createBoard } from '../api/board/board';
-import { MAIN_POINT, SUB_POINT } from '../constants/boardConstants';
+import {
+  MAIN_POINT,
+  SUB_POINT,
+  EARTHQUAKES_COUNT
+} from '../constants/boardConstants';
 
 class Word {
   text = '';
@@ -20,6 +24,7 @@ class GameStore {
   score = 0;
   timer = null;
   time = 0;
+  earthquakesLeft = EARTHQUAKES_COUNT;
   words = [
     new Word({ text: 'راه', count: 0 }),
     new Word({ text: 'خوب', count: 0 }),
@@ -33,7 +38,7 @@ class GameStore {
   }
 
   increaseTime() {
-    this.time += 1;
+    this.time++;
   }
 
   updateNextLetter(letter) {
@@ -57,6 +62,10 @@ class GameStore {
     clearInterval(this.timer);
   }
 
+  decreaseEarthquake() {
+    this.earthquakesLeft--;
+  }
+
   get formattedTime() {
     let minutes = Math.floor(this.time / 60);
     let seconds = Math.floor(this.time - minutes * 60);
@@ -71,6 +80,7 @@ decorate(GameStore, {
   nextLetter: observable,
   score: observable,
   time: observable,
+  earthquakesLeft: observable,
 
   initialize: action.bound,
   updateNextLetter: action.bound,
@@ -78,6 +88,7 @@ decorate(GameStore, {
   addToScore: action.bound,
   increaseTime: action.bound,
   handleGameover: action.bound,
+  decreaseEarthquake: action.bound,
 
   formattedTime: computed
 });
