@@ -65,19 +65,19 @@
 .score {
   align-self: center;
   margin-bottom: 4rem;
-  color: var(--color-orange);
+  color: var(--color-primary);
 }
 
 .score__text {
   font-weight: bold;
   font-size: 4.8rem;
   margin-left: 1rem;
-  text-shadow: 0 2px 5px var(--color-orange-light);
+  text-shadow: 0 2px 5px var(--color-primary-light);
 }
 
 .score__icon {
   font-size: 3.8rem;
-  text-shadow: 0 2px 5px var(--color-orange-light);
+  text-shadow: 0 2px 5px var(--color-primary-light);
 }
 
 /*
@@ -97,7 +97,7 @@
 }
 
 .word__count {
-  color: var(--color-orange);
+  color: var(--color-primary);
   font-size: 2rem;
   position: absolute;
   top: -0.5rem;
@@ -109,5 +109,5 @@
 }
 
 .word__text {
-  font-size: 3.5rem;
+  font-size: 4rem;
 }

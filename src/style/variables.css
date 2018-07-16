@@ -4,10 +4,10 @@
   --color-gray-light: #eef2ff;
   --color-white: #fff;
 
-  --color-orange: #ffa226;
-  --color-orange-light: #ffbd40;
-  --color-purple: #7328d9;
-  --color-purple-light: rgba(101, 45, 212, 0.3);
+  --color-primary: #ffa226;
+  --color-primary-light: #ffbd40;
+  --color-secondary: #7328d9;
+  --color-secondary-light: rgba(101, 45, 212, 0.3);
 
   /* borders */
   --border-tertiary: 2px solid rgb(237, 237, 237);
