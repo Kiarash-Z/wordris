@@ -117,7 +117,13 @@
 }
 
 .word__text {
-  font-size: 3.5rem;
+  font-size: 2.8rem;
+  color: var(--color-black-light);
+}
+
+.word.--main .word__text {
+  font-size: 3.8rem;
+  color: var(--color-black);
 }
 
 /*
