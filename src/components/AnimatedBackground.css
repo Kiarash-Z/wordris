@@ -2,12 +2,14 @@
   flex: 1;
   display: flex;
   position: relative;
+  height: 100%;
 }
 .animatedBg__content {
   flex: 1;
   display: flex;
   position: relative;
   z-index: 10;
+  height: 100%;
 }
 .animatedBg__animateArea {
   position: absolute;

@@ -145,7 +145,9 @@ const getIsUserLost = () => {
     .getObjects()
     .filter(o => o.mIsLetter)
     .filter(o => o.mGetColumn() === Math.floor(COLUMNS_COUNT / 2) + 1);
-  return middleColumnLetters.length === ROWS_COUNT;
+  const isLost = middleColumnLetters.length === ROWS_COUNT;
+  if (isLost) gameStore.handleGameover();
+  return isLost;
 };
 
 const dropLetter = () => {

@@ -3,11 +3,18 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .gameMainWrapper {
-  width: calc(100vw - 6rem);
+  width: calc(100vw - 12rem);
   align-self: center;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-around;
+  padding-bottom: 0.5rem;
+  margin-top: -10rem;
 }
 
 /*
@@ -19,6 +26,7 @@
   flex-direction: column;
   align-items: center;
   align-self: center;
+  width: 100%;
 }
 
 .board__nextLetter {
@@ -30,7 +38,7 @@
   border-radius: 10px;
   color: var(--color-white);
   font-size: 20px;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .board__canvasWrapper {
@@ -64,7 +72,6 @@
 
 .score {
   align-self: center;
-  margin-bottom: 4rem;
   color: var(--color-primary);
 }
 
@@ -84,11 +91,12 @@
     Words
 */
 .words {
-  margin-top: 6rem;
   align-self: center;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
 }
 
 .word {
@@ -105,9 +113,66 @@
 }
 
 .word.--main {
-  margin-top: -5rem;
+  margin-top: -4rem;
 }
 
 .word__text {
-  font-size: 4rem;
+  font-size: 3.5rem;
+}
+
+/*
+    Nav
+*/
+
+.gameNav {
+  display: flex;
+  justify-content: space-between;
+  overflow-x: hidden;
+  padding-bottom: 2rem;
+}
+
+.gameNav__corner {
+  width: 12rem;
+  height: 12rem;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  background: var(--color-secondary);
+  border-radius: 50%;
+  margin-top: -5rem;
+  color: var(--color-white);
+  padding: 0 3rem 3rem 2.2rem;
+}
+
+.gameNav__corner.--right {
+  justify-content: flex-end;
+  margin-right: -5rem;
+}
+.gameNav__corner.--left {
+  margin-left: -5rem;
+}
+
+.gameNav__corner::before {
+  content: '';
+  position: absolute;
+  width: calc(100% + 0.8rem);
+  height: calc(100% + 0.8rem);
+  border-radius: 50%;
+  background: var(--color-secondary-light);
+  bottom: -0.7rem;
+  z-index: -1;
+}
+
+.gameNav__corner.--left::before {
+  right: -0.7rem;
+}
+.gameNav__corner.--right::before {
+  left: -0.7rem;
+}
+
+.gameNav__timer {
+  font-size: 2rem;
+}
+.gameNav__pause {
+  font-size: 2.5rem;
 }

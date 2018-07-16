@@ -17,7 +17,7 @@ class Button extends Component {
       case 'circle':
         button = (
           <a className={styles.button__circle}>
-            <i className={`icons icon-${icon}`} />
+            <i className={icon} />
           </a>
         );
         break;

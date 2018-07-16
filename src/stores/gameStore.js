@@ -1,4 +1,6 @@
-import { decorate, observable, action } from 'mobx';
+import { decorate, observable, action, computed } from 'mobx';
+
+import { createBoard } from '../api/board/board';
 import { MAIN_POINT, SUB_POINT } from '../constants/boardConstants';
 
 class Word {
@@ -15,12 +17,24 @@ decorate(Word, { text: observable, count: observable, isMain: observable });
 
 class GameStore {
   nextLetter = {};
+  score = 0;
+  timer = null;
+  time = 0;
   words = [
     new Word({ text: 'راه', count: 0 }),
     new Word({ text: 'خوب', count: 0 }),
     new Word({ text: 'کیا', isMain: true, count: 0 })
   ];
-  score = 0;
+
+  initialize() {
+    const words = this.words.map(w => w.text);
+    createBoard(words);
+    this.timer = setInterval(this.increaseTime, 1000);
+  }
+
+  increaseTime() {
+    this.time += 1;
+  }
 
   updateNextLetter(letter) {
     this.nextLetter = letter;
@@ -38,15 +52,34 @@ class GameStore {
       this.addToScore(point);
     });
   }
+
+  handleGameover() {
+    clearInterval(this.timer);
+  }
+
+  get formattedTime() {
+    let minutes = Math.floor(this.time / 60);
+    let seconds = Math.floor(this.time - minutes * 60);
+
+    if (minutes < 10) minutes = `0${minutes}`;
+    if (seconds < 10) seconds = `0${seconds}`;
+    return `${minutes}:${seconds}`;
+  }
 }
 
 decorate(GameStore, {
   nextLetter: observable,
   score: observable,
+  time: observable,
 
+  initialize: action.bound,
   updateNextLetter: action.bound,
   handleWordsMatch: action.bound,
-  addToScore: action.bound
+  addToScore: action.bound,
+  increaseTime: action.bound,
+  handleGameover: action.bound,
+
+  formattedTime: computed
 });
 
 const gameStore = new GameStore();

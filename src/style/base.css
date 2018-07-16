@@ -26,7 +26,7 @@ button:focus {
 }
 
 html {
-  font-size: 50%; /* 8px */
+  font-size: 43.75%; /* 7px */
 }
 
 body {
@@ -35,10 +35,18 @@ body {
   direction: rtl;
   height: 100vh;
   color: var(--color-black);
+  overflow-x: hidden;
 }
 
 #app {
-  display: flex;
-  flex: 1;
   height: 100%;
+}
+
+/* Responsive */
+
+/* width > 400 */
+@media only screen and (min-width: 400px) {
+  html {
+    font-size: 50%; /* 8px */
+  }
 }

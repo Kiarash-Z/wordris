@@ -14,9 +14,9 @@ class Main extends Component {
           <Button type="big" text={'بزن بریم'} />
         </section>
         <nav className={styles.mainPage__botomNav}>
-          <Button type="circle" icon={'speaker'} />
-          <Button type="circle" icon={'statistical-chart'} />
-          <Button type="circle" icon={'share'} />
+          <Button type="circle" icon="a-sound" />
+          <Button type="circle" icon="a-stats" />
+          <Button type="circle" icon="a-share" />
         </nav>
       </div>
     );
