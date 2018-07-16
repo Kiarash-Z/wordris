@@ -1,8 +1,9 @@
 :root {
   /* colors */
-  --color-black: #000;
+  --color-black: #1b1b1b;
   --color-gray-light: #eef2ff;
   --color-white: #fff;
+
   --color-orange: #ffa226;
   --color-orange-light: #ffbd40;
   --color-purple: #7328d9;

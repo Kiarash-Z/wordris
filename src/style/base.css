@@ -26,7 +26,7 @@ button:focus {
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 50%; /* 8px */
 }
 
 body {
@@ -34,6 +34,7 @@ body {
   font-weight: 400;
   direction: rtl;
   height: 100vh;
+  color: var(--color-black);
 }
 
 #app {

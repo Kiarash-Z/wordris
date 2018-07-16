@@ -5,6 +5,11 @@
   flex-direction: column;
 }
 
+.gameMainWrapper {
+  width: calc(100vw - 6rem);
+  align-self: center;
+}
+
 /*
    Board
 */
@@ -14,7 +19,6 @@
   flex-direction: column;
   align-items: center;
   align-self: center;
-  height: 100%;
 }
 
 .board__nextLetter {
@@ -31,12 +35,12 @@
 
 .board__canvasWrapper {
   position: relative;
+  width: 100%;
 }
 
 .board__canvas {
   border: var(--border-tertiary);
   border-radius: 5px;
-  position: relative;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -61,7 +65,6 @@
 .score {
   align-self: center;
   margin-bottom: 4rem;
-  margin-top: 6rem;
   color: var(--color-orange);
 }
 
@@ -75,4 +78,36 @@
 .score__icon {
   font-size: 3.8rem;
   text-shadow: 0 2px 5px var(--color-orange-light);
+}
+
+/*
+    Words
+*/
+.words {
+  margin-top: 6rem;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.word {
+  font-weight: 500;
+  position: relative;
+}
+
+.word__count {
+  color: var(--color-orange);
+  font-size: 2rem;
+  position: absolute;
+  top: -0.5rem;
+  right: -1.5rem;
+}
+
+.word.--main {
+  margin-top: -5rem;
+}
+
+.word__text {
+  font-size: 3.5rem;
 }

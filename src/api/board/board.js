@@ -140,12 +140,12 @@ const getNextLetter = () => {
 };
 
 const getIsUserLost = () => {
-  // check if there is an object in the last row - gameover
-  const outOfBoundObject = board
+  // check if the middle column is filled
+  const middleColumnLetters = board
     .getObjects()
     .filter(o => o.mIsLetter)
-    .find(o => Math.round(o.top) === PADDING);
-  return !!outOfBoundObject;
+    .filter(o => o.mGetColumn() === Math.floor(COLUMNS_COUNT / 2) + 1);
+  return middleColumnLetters.length === ROWS_COUNT;
 };
 
 const dropLetter = () => {
@@ -368,9 +368,10 @@ const check = doneLetter => {
 };
 
 const createBoard = words => {
-  const { width, height } = document
-    .getElementById('gameBoardWrapper')
-    .getBoundingClientRect();
+  const gameBoardWrapper = document.getElementById('gameBoardWrapper');
+  const { width } = gameBoardWrapper.getBoundingClientRect();
+  const height = (ROWS_COUNT / COLUMNS_COUNT) * width + PADDING;
+  gameBoardWrapper.style.height = height;
   board = new fabric.Canvas('gameBoard');
   board.setWidth(width);
   board.setHeight(height);

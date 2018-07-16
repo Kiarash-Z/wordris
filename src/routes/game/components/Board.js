@@ -2,11 +2,6 @@ import { h, Component } from 'preact';
 import { inject, observer } from 'mobx-preact';
 
 import { createBoard } from '../../../api/board/board';
-import {
-  ROWS_COUNT,
-  COLUMNS_COUNT,
-  PADDING
-} from '../../../constants/boardConstants.js';
 
 import styles from '../Game.css';
 
@@ -27,15 +22,7 @@ class Board extends Component {
         >
           {gameStore.nextLetter.text}
         </div>
-        <div
-          id="gameBoardWrapper"
-          class={styles.board__canvasWrapper}
-          style={{
-            width: `${widthRem}rem`,
-            height: `calc(${(ROWS_COUNT / COLUMNS_COUNT) *
-              widthRem}rem + ${PADDING}px)`
-          }}
-        >
+        <div id="gameBoardWrapper" class={styles.board__canvasWrapper}>
           <div>
             <canvas id="gameBoard" class={styles.board__canvas} />
           </div>
