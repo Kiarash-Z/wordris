@@ -5,9 +5,12 @@ import { Button } from '../../../../components';
 
 import styles from './GameNav.css';
 import PauseMenu from '../pauseMenu';
+import { getToRemoveLetter } from '../../board/board';
 
 class GameNav extends Component {
   handlePauseClick = () => {
+    if (getToRemoveLetter()) return;
+    this.props.gameStore.pauseGame();
     PauseMenu.open();
   };
   render() {
@@ -24,7 +27,7 @@ class GameNav extends Component {
             id="gameNavLeftCornerBackground"
           />
           <Button
-            type="circle"
+            type="icony"
             icon="a-pause"
             class={styles.gameNav__pause}
             onClick={this.handlePauseClick}

@@ -1,5 +1,11 @@
 import { fabric } from 'fabric';
-import { board, moveTopLettersDown, getFallingLetter } from './board';
+import {
+  board,
+  moveTopLettersDown,
+  toggleGamePause,
+  getFallingLetter,
+  getToRemoveLetter
+} from './board';
 import {
   FAST_FORWARD_DURATION,
   PADDING
@@ -9,8 +15,7 @@ import { gameStore } from '../../../stores';
 
 const earthquakeAnimation = (letter, isLast, initialLeft) => {
   const fallingLetter = getFallingLetter();
-  fallingLetter.mIsFallingStopped = true;
-
+  toggleGamePause(true);
   const animateHorizontally = leftRight => {
     const finalValue =
       leftRight === 'left' ? initialLeft + PADDING : initialLeft - PADDING;
@@ -58,7 +63,7 @@ const earthquake = () => {
   const letters = board.getObjects().filter(o => o.mIsLetter);
 
   // if there is a letter currently shaking or we have none left we don't apply the powerup
-  const currentlyQuaking = letters.find(letter => letter.mIsGonnaRemove);
+  const currentlyQuaking = getToRemoveLetter();
   if (
     currentlyQuaking ||
     !gameStore.earthquakesLeft ||

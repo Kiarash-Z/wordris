@@ -68,18 +68,21 @@ i {
 .a-pause:before {
   content: '\e90a';
 }
-.a-share:before {
+.a-play:before {
   content: '\e90b';
 }
-.a-sound:before {
+.a-retry:before {
   content: '\e90c';
 }
-.a-star:before {
+.a-share:before {
   content: '\e90d';
 }
-.a-stats:before {
+.a-sound:before {
   content: '\e90e';
 }
-.a-retry:before {
+.a-star:before {
   content: '\e90f';
+}
+.a-stats:before {
+  content: '\e910';
 }

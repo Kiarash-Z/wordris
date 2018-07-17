@@ -1,10 +1,35 @@
 .pauseMenu {
+  display: none;
+  background: var(--color-white);
+  height: 0;
+  z-index: -1;
+}
+
+.pauseMenu.visible {
+  z-index: 100;
+  display: block;
+}
+
+.pauseMenu__menu {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6rem;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.pauseMenu__background {
   position: fixed;
   top: -5rem;
   left: -5rem;
   width: 12rem;
   height: 12rem;
-  z-index: -1;
   border-radius: 50%;
 }
 
@@ -21,7 +46,57 @@
   }
 }
 
-.pauseMenu.fullScreen {
-  z-index: 100;
+.pauseMenu__background.fullScreen {
   animation: animate-FullScreen ease-in-out 0.7s forwards;
+}
+
+.pauseMenu__background.fullScreen + .pauseMenu__menu {
+  visibility: visible;
+}
+
+.pauseMenu__contentContainer {
+  opacity: 0;
+  transform: translateY(4rem) scale(0.8);
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pauseMenu__contentContainer.fadeIn {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Resume Button */
+
+.pauseMenu__resume {
+  margin-top: 5rem;
+  border-radius: 50%;
+  width: 18rem;
+  height: 18rem;
+  font-size: 7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+/* Time */
+
+.pauseMenu__time {
+  margin: 4rem 0;
+  color: var(--color-gray);
+  font-size: 4rem;
+  transition: 0.3s;
+}
+
+/* Sub Actions */
+
+.pauseMenu__subActions {
+  display: flex;
+}
+
+.pauseMenu__subActions > *:not(:last-child) {
+  margin-left: 3rem;
 }

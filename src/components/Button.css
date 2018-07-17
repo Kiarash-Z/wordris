@@ -1,4 +1,4 @@
-.button__big {
+.button__linear {
   padding: 1.5rem 6rem;
   border-radius: 4.5rem;
   display: flex;
@@ -11,22 +11,22 @@
   font-size: 1.7rem;
 }
 
-.button__big.--primary {
+.button__linear.--primary {
   background: radial-gradient(var(--color-primary-light), var(--color-primary));
 }
 
-.button__big.--secondary {
+.button__linear.--secondary {
   background: radial-gradient(
     var(--color-secondary-light),
     var(--color-secondary)
   );
 }
 
-.button__big.--gray {
+.button__linear.--gray {
   background: radial-gradient(var(--color-gray-light), var(--color-gray));
 }
 
-.button__circle {
+.button__icony {
   width: 5.5rem;
   height: 5.5rem;
   border-radius: 50%;
@@ -37,7 +37,7 @@
   align-items: center;
 }
 
-.button__circle i {
+.button__icony i {
   color: var(--color-secondary);
-  font-size: 1.1em;
+  font-size: 1.4em;
 }

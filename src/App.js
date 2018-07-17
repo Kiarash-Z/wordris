@@ -9,14 +9,18 @@ import Game from './routes/game';
 import Main from './routes/main';
 
 import GameoverMenu from './routes/game/components/gameoverMenu/GameoverMenu';
+import PauseMenu from './routes/game/components/pauseMenu/PauseMenu';
 
 // stores
 import * as stores from './stores';
 
 class App extends Component {
   handleRoute = e => {
-    // Preact bug - reset DOM in GameoverMenu
-    if (e.previous === '/game') GameoverMenu.close();
+    // Preact bug - reset DOM in Menus
+    if (e.previous === '/game') {
+      GameoverMenu.close();
+      PauseMenu.close();
+    }
     this.currentUrl = e.url;
   };
 

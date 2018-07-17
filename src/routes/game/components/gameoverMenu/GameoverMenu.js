@@ -10,6 +10,7 @@ class GameoverMenu extends Component {
   static open() {
     const gameoverMenu = document.querySelector(`.${styles.gameoverMenu}`);
     gameoverMenu.classList.add(styles.visible);
+
     const background = gameoverMenu.querySelector(
       `.${styles.gameoverMenu__background}`
     );
@@ -65,7 +66,7 @@ class GameoverMenu extends Component {
   };
 
   render() {
-    const { gameStore, scoresStore } = this.props;
+    const { gameStore } = this.props;
     return (
       <div class={styles.gameoverMenu}>
         <div class={styles.gameoverMenu__background} />
@@ -82,7 +83,7 @@ class GameoverMenu extends Component {
           </span>
 
           <Button
-            type="big"
+            type="linear"
             color="primary"
             additionalClass={styles.gameoverMenu__button}
             onClick={gameStore.retry}
@@ -92,7 +93,7 @@ class GameoverMenu extends Component {
           </Button>
 
           <Button
-            type="big"
+            type="linear"
             color="gray"
             additionalClass={styles.gameoverMenu__button}
             onClick={this.goBackHome}
@@ -106,4 +107,4 @@ class GameoverMenu extends Component {
   }
 }
 
-export default inject('gameStore', 'scoresStore')(observer(GameoverMenu));
+export default inject('gameStore')(observer(GameoverMenu));

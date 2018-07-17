@@ -31,6 +31,8 @@ const testColors = [
 ];
 
 const getFallingLetter = () => board.getObjects().find(o => o.mIsActive);
+const getToRemoveLetter = () =>
+  board.getObjects().find(letter => letter.mIsGonnaRemove);
 
 const getRandomItem = arr => arr[Math.floor(Math.random() * arr.length)];
 const getRootVar = prop =>
@@ -396,6 +398,12 @@ const clearBoard = () => {
   });
 };
 
+const toggleGamePause = value => {
+  const fallingLetter = getFallingLetter();
+  fallingLetter.mIsFallingStopped = value;
+  if (!value) animateLetterDown();
+};
+
 export {
   createBoard,
   board,
@@ -407,5 +415,7 @@ export {
   getLetterColor,
   dropLetter,
   moveTopLettersDown,
-  clearBoard
+  clearBoard,
+  toggleGamePause,
+  getToRemoveLetter
 };

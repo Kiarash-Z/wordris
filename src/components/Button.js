@@ -12,10 +12,10 @@ const Button = ({
   let button = null;
 
   switch (type) {
-    case 'big':
+    case 'linear':
       button = (
         <button
-          class={`${styles.button__big} ${
+          class={`${styles.button__linear} ${
             styles[`--${color}`]
           } ${additionalClass}`}
           {...restProps}
@@ -24,10 +24,10 @@ const Button = ({
         </button>
       );
       break;
-    case 'circle':
+    case 'icony':
       button = (
         <button
-          class={`${styles.button__circle} ${additionalClass}`}
+          class={`${styles.button__icony} ${additionalClass}`}
           {...restProps}
         >
           <i class={icon} />

@@ -1,6 +1,10 @@
 import { decorate, observable, action, computed } from 'mobx';
 
-import { createBoard, clearBoard } from '../routes/game/board/board';
+import {
+  createBoard,
+  clearBoard,
+  toggleGamePause
+} from '../routes/game/board/board';
 import {
   MAIN_POINT,
   SUB_POINT,
@@ -52,12 +56,6 @@ class GameStore {
     this.timer = setInterval(this.increaseTime, 1000);
   }
 
-  retry() {
-    clearBoard();
-    GameoverMenu.close();
-    this.initialize();
-  }
-
   increaseTime() {
     this.time++;
   }
@@ -79,11 +77,29 @@ class GameStore {
     });
   }
 
+  pauseGame() {
+    clearInterval(this.timer);
+    toggleGamePause(true);
+  }
+
+  resumeGame() {
+    this.timer = setInterval(this.increaseTime, 1000);
+    toggleGamePause(false);
+  }
+
+  // Gameover functions
+  retry() {
+    clearBoard();
+    GameoverMenu.close();
+    this.initialize();
+  }
+
   handleGameover() {
     clearInterval(this.timer);
     GameoverMenu.open();
   }
 
+  // Powerups
   decreaseEarthquake() {
     this.earthquakesLeft--;
   }
@@ -113,6 +129,8 @@ decorate(GameStore, {
   decreaseEarthquake: action.bound,
   resetValues: action.bound,
   retry: action.bound,
+  pauseGame: action.bound,
+  resumeGame: action.bound,
 
   formattedTime: computed
 });

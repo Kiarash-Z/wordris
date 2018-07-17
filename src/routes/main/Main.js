@@ -18,7 +18,7 @@ class Main extends Component {
             ورد<span>ر</span>یس
           </h1>
           <Button
-            type="big"
+            type="linear"
             color="primary"
             onClick={() => {
               this.changeRoute('/game');
@@ -28,9 +28,9 @@ class Main extends Component {
           </Button>
         </section>
         <nav class={styles.mainPage__botomNav}>
-          <Button type="circle" icon="a-sound" />
-          <Button type="circle" icon="a-stats" />
-          <Button type="circle" icon="a-share" />
+          <Button type="icony" icon="a-sound" />
+          <Button type="icony" icon="a-stats" />
+          <Button type="icony" icon="a-share" />
         </nav>
       </div>
     );
