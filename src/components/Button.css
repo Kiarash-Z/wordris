@@ -1,7 +1,6 @@
 .button__big {
   padding: 1.5rem 6rem;
   border-radius: 4.5rem;
-  background: radial-gradient(var(--color-primary-light), var(--color-primary));
   display: flex;
   position: relative;
   justify-content: center;
@@ -11,6 +10,22 @@
   font-weight: 500;
   font-size: 1.7rem;
 }
+
+.button__big.--primary {
+  background: radial-gradient(var(--color-primary-light), var(--color-primary));
+}
+
+.button__big.--secondary {
+  background: radial-gradient(
+    var(--color-secondary-light),
+    var(--color-secondary)
+  );
+}
+
+.button__big.--gray {
+  background: radial-gradient(var(--color-gray-light), var(--color-gray));
+}
+
 .button__circle {
   width: 5.5rem;
   height: 5.5rem;
@@ -21,6 +36,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .button__circle i {
   color: var(--color-secondary);
   font-size: 1.1em;

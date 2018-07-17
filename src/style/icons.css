@@ -22,55 +22,64 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.a-earthquake .path1:before {
+.a-crown:before {
   content: '\e900';
+}
+.a-earthquake .path1:before {
+  content: '\e901';
   color: rgb(117, 94, 81);
 }
 .a-earthquake .path2:before {
-  content: '\e901';
+  content: '\e902';
   margin-left: -1em;
   color: rgb(117, 94, 81);
 }
 .a-earthquake .path3:before {
-  content: '\e902';
+  content: '\e903';
   margin-left: -1em;
   color: rgb(145, 116, 100);
 }
 .a-earthquake .path4:before {
-  content: '\e903';
+  content: '\e904';
   margin-left: -1em;
   color: rgb(191, 153, 132);
 }
 .a-earthquake .path5:before {
-  content: '\e904';
+  content: '\e905';
   margin-left: -1em;
   color: rgb(145, 116, 100);
 }
 .a-earthquake .path6:before {
-  content: '\e905';
-  margin-left: -1em;
-  color: rgb(0, 0, 0);
-}
-.a-earthquake .path7:before {
   content: '\e906';
   margin-left: -1em;
   color: rgb(0, 0, 0);
 }
-.a-mute:before {
+.a-earthquake .path7:before {
   content: '\e907';
+  margin-left: -1em;
+  color: rgb(0, 0, 0);
 }
-.a-pause:before {
+.a-home:before {
   content: '\e908';
 }
-.a-share:before {
+.a-mute:before {
   content: '\e909';
 }
-.a-sound:before {
+.a-pause:before {
   content: '\e90a';
 }
-.a-star:before {
+.a-share:before {
   content: '\e90b';
 }
-.a-stats:before {
+.a-sound:before {
   content: '\e90c';
+}
+.a-star:before {
+  content: '\e90d';
+}
+.a-stats:before {
+  content: '\e90e';
+}
+.a-retry:before {
+  content: '\e90f';
 }

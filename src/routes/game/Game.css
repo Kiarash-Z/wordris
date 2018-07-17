@@ -28,13 +28,13 @@
 
 .score__text {
   font-weight: bold;
-  font-size: 4.8rem;
+  font-size: 5.8rem;
   margin-left: 1rem;
   text-shadow: 0 2px 5px var(--color-primary-light);
 }
 
 .score__icon {
-  font-size: 3.8rem;
+  font-size: 4.8rem;
   text-shadow: 0 2px 5px var(--color-primary-light);
 }
 

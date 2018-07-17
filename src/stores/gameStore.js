@@ -1,11 +1,12 @@
 import { decorate, observable, action, computed } from 'mobx';
 
-import { createBoard } from '../routes/game/board/board';
+import { createBoard, clearBoard } from '../routes/game/board/board';
 import {
   MAIN_POINT,
   SUB_POINT,
   EARTHQUAKES_COUNT
 } from '../constants/boardConstants';
+import GameoverMenu from '../routes/game/components/gameoverMenu/GameoverMenu';
 
 class Word {
   text = '';
@@ -31,10 +32,30 @@ class GameStore {
     new Word({ text: 'کیا', isMain: true, count: 0 })
   ];
 
+  resetValues() {
+    this.time = 0;
+    this.earthquakesLeft = EARTHQUAKES_COUNT;
+    this.words = [
+      new Word({ text: 'راه', count: 0 }),
+      new Word({ text: 'خوب', count: 0 }),
+      new Word({ text: 'کیا', isMain: true, count: 0 })
+    ];
+    this.nextLetter = {};
+    this.score = 0;
+    this.timer = null;
+  }
+
   initialize() {
+    this.resetValues();
     const words = this.words.map(w => w.text);
     createBoard(words);
     this.timer = setInterval(this.increaseTime, 1000);
+  }
+
+  retry() {
+    clearBoard();
+    GameoverMenu.close();
+    this.initialize();
   }
 
   increaseTime() {
@@ -60,6 +81,7 @@ class GameStore {
 
   handleGameover() {
     clearInterval(this.timer);
+    GameoverMenu.open();
   }
 
   decreaseEarthquake() {
@@ -89,6 +111,8 @@ decorate(GameStore, {
   increaseTime: action.bound,
   handleGameover: action.bound,
   decreaseEarthquake: action.bound,
+  resetValues: action.bound,
+  retry: action.bound,
 
   formattedTime: computed
 });

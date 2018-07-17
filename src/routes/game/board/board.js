@@ -75,7 +75,7 @@ const specifyLettersColors = () => {
 };
 
 const generateBoardBackground = () => {
-  const greyBg = getRootVar('--color-gray-light');
+  const greyBg = getRootVar('--color-blue-light');
   const whiteBg = getRootVar('--color-white');
   for (let index = 0; index < COLUMNS_COUNT; index++) {
     const rectangle = new fabric.Rect({
@@ -387,6 +387,15 @@ const createBoard = words => {
   dropLetter();
 };
 
+const clearBoard = () => {
+  board.clear();
+  const gameBoardWrapper = document.getElementById('gameBoardWrapper');
+  const containers = gameBoardWrapper.querySelectorAll('.canvas-container');
+  containers.forEach(container => {
+    container.remove();
+  });
+};
+
 export {
   createBoard,
   board,
@@ -397,5 +406,6 @@ export {
   check,
   getLetterColor,
   dropLetter,
-  moveTopLettersDown
+  moveTopLettersDown,
+  clearBoard
 };

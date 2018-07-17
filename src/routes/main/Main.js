@@ -1,8 +1,14 @@
 import { h, Component } from 'preact';
+import { route } from 'preact-router';
+
 import styles from './Main.css';
 import { Button } from '../../components';
 
 class Main extends Component {
+  changeRoute(url) {
+    route(url);
+  }
+
   render() {
     return (
       <div class={styles.mainPage}>
@@ -11,7 +17,15 @@ class Main extends Component {
           <h1 class={styles.mainPage__topSection_title}>
             ورد<span>ر</span>یس
           </h1>
-          <Button type="big">بزن بریم</Button>
+          <Button
+            type="big"
+            color="primary"
+            onClick={() => {
+              this.changeRoute('/game');
+            }}
+          >
+            بزن بریم
+          </Button>
         </section>
         <nav class={styles.mainPage__botomNav}>
           <Button type="circle" icon="a-sound" />

@@ -7,6 +7,7 @@ import Words from './components/words';
 import GameNav from './components/gameNav';
 import Powerups from './components/Powerups';
 import PauseMenu from './components/pauseMenu';
+import GameoverMenu from './components/gameoverMenu/GameoverMenu';
 
 class Game extends Component {
   componentDidMount() {
@@ -26,6 +27,7 @@ class Game extends Component {
           <Powerups />
           <Board />
           <Words />
+          <GameoverMenu />
         </div>
       </div>
     );
