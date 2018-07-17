@@ -28,6 +28,7 @@ button:focus {
 html {
   font-size: 43.75%; /* 7px */
   height: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -45,9 +46,20 @@ body {
 
 /* Responsive */
 
-/* width > 400 */
 @media only screen and (min-width: 400px) {
   html {
     font-size: 50%; /* 8px */
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  html {
+    font-size: 56.25%; /* 9px */
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  html {
+    font-size: 62.5%; /* 10px */
   }
 }

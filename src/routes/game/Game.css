@@ -38,17 +38,16 @@
   text-shadow: 0 2px 5px var(--color-primary-light);
 }
 
-/* Pause */
+/* Pause Menu */
 
 .pauseMenu {
-  position: absolute;
-  left: -45%;
-  top: -45%;
-  width: 0;
-  height: 0;
-  z-index: 1;
+  position: fixed;
+  top: -5rem;
+  left: -5rem;
+  width: 12rem;
+  height: 12rem;
+  z-index: -1;
   border-radius: 50%;
-  transform-origin: bottom right;
 }
 
 @keyframes animate-FullScreen {
@@ -59,14 +58,14 @@
     background: var(--color-secondary);
   }
   100% {
-    height: 180vh;
-    width: 180vh;
+    transform: scale(75);
     background: var(--color-white);
   }
 }
 
 .pauseMenu.fullScreen {
-  animation: animate-FullScreen ease-in-out 1s forwards;
+  z-index: 100;
+  animation: animate-FullScreen ease-in-out 0.7s forwards;
 }
 
 /*
