@@ -136,7 +136,7 @@
   opacity: 0;
   transform: translateX(4rem);
   transition: 0.5s;
-  transition-delay: 0.9s;
+  transition-delay: 1.5s;
   width: 25rem;
 }
 
@@ -145,7 +145,7 @@
 }
 
 .gameoverMenu__button:last-child {
-  transition-delay: 1.5s;
+  transition-delay: 1.9s;
 }
 
 .gameoverMenu__buttonIcon {

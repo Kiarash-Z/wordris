@@ -109,7 +109,7 @@ class GameoverMenu extends Component {
             onClick={this.goBackHome}
           >
             <i class={`a-home ${styles.gameoverMenu__buttonIcon}`} />
-            برگردیم
+            خانه
           </Button>
         </div>
       </div>
