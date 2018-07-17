@@ -6,6 +6,7 @@ import Board from './components/board';
 import Words from './components/words';
 import GameNav from './components/gameNav';
 import Powerups from './components/Powerups';
+import PauseMenu from './components/pauseMenu';
 
 class Game extends Component {
   componentDidMount() {
@@ -15,7 +16,7 @@ class Game extends Component {
     const { gameStore } = this.props;
     return (
       <div class={styles.gamePage}>
-        <div class={styles.pauseMenu} id="pauseMenu" />
+        <PauseMenu />
         <GameNav />
         <div class={styles.gameMainWrapper}>
           <div class={styles.score}>

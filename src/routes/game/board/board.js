@@ -7,12 +7,12 @@ import {
   FAST_FORWARD_DURATION,
   LETTER_DROP_DELAY,
   EASY_DIFFICULTY_VALUE
-} from '../../constants/boardConstants';
+} from '../../../constants/boardConstants';
 import { addControls } from './controls';
 import { createLetter, animateLetterDown } from './letters';
 
 // store
-import { gameStore } from '../../stores';
+import { gameStore } from '../../../stores';
 
 let board = null;
 let letterWidth = 0;

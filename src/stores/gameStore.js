@@ -1,6 +1,6 @@
 import { decorate, observable, action, computed } from 'mobx';
 
-import { createBoard } from '../api/board/board';
+import { createBoard } from '../routes/game/board/board';
 import {
   MAIN_POINT,
   SUB_POINT,

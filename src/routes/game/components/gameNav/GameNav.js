@@ -4,12 +4,11 @@ import { inject, observer } from 'mobx-preact';
 import { Button } from '../../../../components';
 
 import styles from './GameNav.css';
-import pauseStyles from '../../Game.css';
+import PauseMenu from '../pauseMenu';
 
 class GameNav extends Component {
   handlePauseClick = () => {
-    const pauseMenu = document.getElementById('pauseMenu');
-    pauseMenu.classList.add(pauseStyles.fullScreen);
+    PauseMenu.open();
   };
   render() {
     const { gameStore } = this.props;

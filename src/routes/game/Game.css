@@ -38,36 +38,6 @@
   text-shadow: 0 2px 5px var(--color-primary-light);
 }
 
-/* Pause Menu */
-
-.pauseMenu {
-  position: fixed;
-  top: -5rem;
-  left: -5rem;
-  width: 12rem;
-  height: 12rem;
-  z-index: -1;
-  border-radius: 50%;
-}
-
-@keyframes animate-FullScreen {
-  0% {
-    background: var(--color-secondary);
-  }
-  10% {
-    background: var(--color-secondary);
-  }
-  100% {
-    transform: scale(75);
-    background: var(--color-white);
-  }
-}
-
-.pauseMenu.fullScreen {
-  z-index: 100;
-  animation: animate-FullScreen ease-in-out 0.7s forwards;
-}
-
 /*
     Powerups
 */

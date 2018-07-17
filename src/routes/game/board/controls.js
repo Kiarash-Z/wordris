@@ -5,7 +5,7 @@ import {
   COLUMNS_COUNT,
   PADDING,
   COLUMN_CHANGE_DURATION
-} from '../../constants/boardConstants';
+} from '../../../constants/boardConstants';
 import { board, getFallingLetter, columnRowWidth, check } from './board';
 import { animateLetterDown, getStopPosition } from './letters';
 import { earthquake } from './powerups';

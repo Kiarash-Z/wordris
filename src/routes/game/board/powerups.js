@@ -1,8 +1,11 @@
 import { fabric } from 'fabric';
 import { board, moveTopLettersDown, getFallingLetter } from './board';
-import { FAST_FORWARD_DURATION, PADDING } from '../../constants/boardConstants';
+import {
+  FAST_FORWARD_DURATION,
+  PADDING
+} from '../../../constants/boardConstants';
 import { animateLetterDown } from './letters';
-import { gameStore } from '../../stores';
+import { gameStore } from '../../../stores';
 
 const earthquakeAnimation = (letter, isLast, initialLeft) => {
   const fallingLetter = getFallingLetter();
