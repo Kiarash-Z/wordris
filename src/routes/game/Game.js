@@ -15,6 +15,7 @@ class Game extends Component {
     const { gameStore } = this.props;
     return (
       <div class={styles.gamePage}>
+        <div class={styles.pauseMenu} id="pauseMenu" />
         <GameNav />
         <div class={styles.gameMainWrapper}>
           <div class={styles.score}>

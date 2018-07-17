@@ -1,29 +1,26 @@
-import { h, Component } from 'preact';
+import { h } from 'preact';
 import styles from './Button.css';
 
-class Button extends Component {
-  render() {
-    const { text, type, icon } = this.props;
-    let button = null;
+const Button = ({ children, type, icon, ...restProps }) => {
+  let button = null;
 
-    switch (type) {
-      case 'big':
-        button = (
-          <a className={styles.button__big}>
-            <span>{text}</span>
-          </a>
-        );
-        break;
-      case 'circle':
-        button = (
-          <a className={styles.button__circle}>
-            <i className={icon} />
-          </a>
-        );
-        break;
-    }
-    return button;
+  switch (type) {
+    case 'big':
+      button = (
+        <button class={styles.button__big} {...restProps}>
+          {children}
+        </button>
+      );
+      break;
+    case 'circle':
+      button = (
+        <button class={styles.button__circle} {...restProps}>
+          <i class={icon} />
+        </button>
+      );
+      break;
   }
-}
+  return button;
+};
 
 export { Button };

@@ -156,10 +156,10 @@
 }
 .gameNav__corner.--left {
   margin-left: -5rem;
+  padding-bottom: 2.2rem;
 }
 
-.gameNav__corner::before {
-  content: '';
+.gameNav__cornerBackground {
   position: absolute;
   width: calc(100% + 0.8rem);
   height: calc(100% + 0.8rem);
@@ -169,10 +169,11 @@
   z-index: -1;
 }
 
-.gameNav__corner.--left::before {
+.gameNav__corner.--left .gameNav__cornerBackground {
   right: -0.7rem;
 }
-.gameNav__corner.--right::before {
+
+.gameNav__corner.--right .gameNav__cornerBackground {
   left: -0.7rem;
 }
 
@@ -181,6 +182,37 @@
 }
 .gameNav__pause {
   font-size: 2.5rem;
+  color: var(--color-white);
+  background: transparent;
+}
+
+.pauseMenu {
+  position: absolute;
+  left: -45%;
+  top: -45%;
+  width: 0;
+  height: 0;
+  z-index: 1;
+  border-radius: 50%;
+  transform-origin: bottom right;
+}
+
+@keyframes animate-FullScreen {
+  0% {
+    background: var(--color-secondary);
+  }
+  10% {
+    background: var(--color-secondary);
+  }
+  100% {
+    height: 180vh;
+    width: 180vh;
+    background: var(--color-white);
+  }
+}
+
+.pauseMenu.fullScreen {
+  animation: animate-FullScreen ease-in-out 1s forwards;
 }
 
 /*

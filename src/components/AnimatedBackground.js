@@ -53,11 +53,11 @@ class AnimatedBackground extends Component {
     const { lineOne, lineTwo } = this.svg;
 
     return (
-      <div className={styles.animatedBg__wrapper}>
-        <div className={styles.animatedBg__animateArea}>
+      <div class={styles.animatedBg__wrapper}>
+        <div class={styles.animatedBg__animateArea}>
           <svg
             id="lineOne"
-            className={styles.animatedBg__animateArea_lineOne}
+            class={styles.animatedBg__animateArea_lineOne}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 629.882 122.054"
             preserveAspectRatio="none"
@@ -76,7 +76,7 @@ class AnimatedBackground extends Component {
           </svg>
           <svg
             id="lineTwo"
-            className={styles.animatedBg__animateArea_lineTwo}
+            class={styles.animatedBg__animateArea_lineTwo}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 744.172 191.29"
             preserveAspectRatio="none"
@@ -94,7 +94,7 @@ class AnimatedBackground extends Component {
             </g>
           </svg>
         </div>
-        <div className={styles.animatedBg__content}>{children}</div>
+        <div class={styles.animatedBg__content}>{children}</div>
       </div>
     );
   }
