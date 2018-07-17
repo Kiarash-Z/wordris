@@ -60,7 +60,6 @@ class GameoverMenu extends Component {
   }
 
   goBackHome = () => {
-    GameoverMenu.close();
     route('/', true);
   };
 

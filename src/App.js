@@ -8,11 +8,15 @@ import { AnimatedBackground } from './components';
 import Game from './routes/game';
 import Main from './routes/main';
 
+import GameoverMenu from './routes/game/components/gameoverMenu/GameoverMenu';
+
 // stores
 import * as stores from './stores';
 
 class App extends Component {
   handleRoute = e => {
+    // Preact bug - reset DOM in GameoverMenu
+    if (e.previous === '/game') GameoverMenu.close();
     this.currentUrl = e.url;
   };
 
