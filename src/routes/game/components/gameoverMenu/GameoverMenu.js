@@ -4,6 +4,7 @@ import { route } from 'preact-router';
 
 import { Button } from '../../../../components';
 import styles from './GameoverMenu.css';
+import MenuScores from '../menuScores';
 
 class GameoverMenu extends Component {
   static open() {
@@ -71,18 +72,7 @@ class GameoverMenu extends Component {
 
         <div class={styles.gameoverMenu__menu}>
           <div class={styles.scoreContainer}>
-            <div class={styles.score}>
-              <i class={`a-star ${styles.score__icon}`} />
-              <span class={styles.score__text}>{gameStore.score}</span>
-            </div>
-            <div class={styles.highestScore}>
-              <i class={`a-crown ${styles.highestScore__icon}`} />
-              <div lass={styles.highestScore__subContainer}>
-                <span class={styles.highestScore__text}>
-                  {scoresStore.highestStar}
-                </span>
-              </div>
-            </div>
+            <MenuScores />
           </div>
 
           <h1 class={styles.gameoverMenu__title}>رسیدی به سقف!</h1>
