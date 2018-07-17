@@ -2,9 +2,9 @@ import { h, Component } from 'preact';
 import { inject, observer } from 'mobx-preact';
 
 import styles from './Game.css';
-import Board from './components/Board';
-import Words from './components/Words';
-import GameNav from './components/GameNav';
+import Board from './components/board';
+import Words from './components/words';
+import GameNav from './components/gameNav';
 import Powerups from './components/Powerups';
 
 class Game extends Component {

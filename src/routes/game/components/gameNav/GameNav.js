@@ -1,9 +1,9 @@
 import { h, Component } from 'preact';
 import { inject, observer } from 'mobx-preact';
 
-import { Button } from '../../../components';
+import { Button } from '../../../../components';
 
-import styles from '../Game.css';
+import styles from './GameNav.css';
 
 class GameNav extends Component {
   handlePauseClick = () => {

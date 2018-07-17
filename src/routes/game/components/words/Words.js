@@ -1,7 +1,7 @@
 import { h, Component } from 'preact';
 import { inject, observer } from 'mobx-preact';
 
-import styles from '../Game.css';
+import styles from './Words.css';
 
 class Words extends Component {
   renderWords = () => {

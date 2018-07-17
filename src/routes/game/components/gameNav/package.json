@@ -1,0 +1,6 @@
+{
+  "name": "GameNav",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./GameNav.js"
+}
