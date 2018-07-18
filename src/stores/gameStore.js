@@ -31,18 +31,18 @@ class GameStore {
   time = 0;
   earthquakesLeft = EARTHQUAKES_COUNT;
   words = [
-    new Word({ text: 'رام', count: 0 }),
+    new Word({ text: 'کیا', count: 0 }),
     new Word({ text: 'راه', count: 0 }),
-    new Word({ text: 'سیب', isMain: true, count: 0 })
+    new Word({ text: 'خوب', isMain: true, count: 0 })
   ];
 
   resetValues() {
     this.time = 0;
     this.earthquakesLeft = EARTHQUAKES_COUNT;
     this.words = [
-      new Word({ text: 'رام', count: 0 }),
+      new Word({ text: 'کیا', count: 0 }),
       new Word({ text: 'راه', count: 0 }),
-      new Word({ text: 'سیب', isMain: true, count: 0 })
+      new Word({ text: 'خوب', isMain: true, count: 0 })
     ];
     this.nextLetter = {};
     this.score = 0;

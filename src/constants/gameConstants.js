@@ -18,6 +18,19 @@ const SUB_POINT = 5;
 // powerups
 const EARTHQUAKES_COUNT = 3;
 
+// colors
+const COLORS = [
+  '#ff9ff3',
+  '#feca57',
+  '#ff6b6b',
+  '#48dbfb',
+  '#1dd1a1',
+  '#95afc0',
+  '#c56cf0',
+  '#badc58',
+  '#686de0'
+];
+
 export {
   COLUMNS_COUNT,
   FALLING_DURATION,
@@ -29,5 +42,6 @@ export {
   COLUMN_CHANGE_DURATION,
   MAIN_POINT,
   SUB_POINT,
-  EARTHQUAKES_COUNT
+  EARTHQUAKES_COUNT,
+  COLORS
 };

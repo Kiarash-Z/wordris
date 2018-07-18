@@ -6,7 +6,8 @@ import {
   FALLING_DURATION,
   FAST_FORWARD_DURATION,
   LETTER_DROP_DELAY,
-  EASY_DIFFICULTY_VALUE
+  EASY_DIFFICULTY_VALUE,
+  COLORS
 } from '../../../constants/gameConstants';
 import { addControls } from './controls';
 import { createLetter, animateLetterDown } from './letters';
@@ -21,19 +22,6 @@ let desiredWords = [];
 let coloredLetters = [];
 let nextLetter = '';
 
-const testColors = [
-  '#ff9ff3',
-  '#feca57',
-  '#ff6b6b',
-  '#48dbfb',
-  '#1dd1a1',
-  '#f76780',
-  '#f76710',
-  '#000',
-  '#010101',
-  '#5f27cd'
-];
-
 // utils
 const getFallingLetter = () => board.getObjects().find(o => o.mIsActive);
 const getToRemoveLetter = () =>
@@ -44,7 +32,7 @@ const getRootVar = prop =>
 
 const specifyLettersColors = () => {
   // shallow clone of colors
-  let derivedColors = testColors.slice(0);
+  let derivedColors = COLORS.slice(0);
   desiredWords.forEach(word => {
     // remove selected color from the list
     const filterDerivedColors = color => {
