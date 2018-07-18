@@ -11,6 +11,7 @@ import GameoverMenu from './components/gameoverMenu/GameoverMenu';
 
 class Game extends Component {
   componentDidMount() {
+    this.props.scoresStore.getScores();
     this.props.gameStore.initialize();
   }
   render() {
@@ -22,7 +23,7 @@ class Game extends Component {
         <div class={styles.gameMainWrapper}>
           <div class={styles.score}>
             <i class={`a-star ${styles.score__icon}`} />
-            <span class={styles.score__text}>{gameStore.score}</span>
+            <span class={styles.score__text}>{gameStore.stars}</span>
           </div>
           <Powerups />
           <Board />
@@ -34,4 +35,4 @@ class Game extends Component {
   }
 }
 
-export default inject('gameStore')(observer(Game));
+export default inject('gameStore', 'scoresStore')(observer(Game));

@@ -1,10 +1,15 @@
 import { h, Component } from 'preact';
 import { route } from 'preact-router';
+import { inject, observer } from 'mobx-preact';
 
 import styles from './Main.css';
 import { Button } from '../../components';
 
 class Main extends Component {
+  componentDidMount() {
+    this.props.scoresStore.getScores();
+  }
+
   changeRoute(url) {
     route(url);
   }
@@ -37,4 +42,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default inject('scoresStore')(observer(Main));
