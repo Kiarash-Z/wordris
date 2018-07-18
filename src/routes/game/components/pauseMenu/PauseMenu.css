@@ -100,3 +100,21 @@
 .pauseMenu__subActions > *:not(:last-child) {
   margin-left: 3rem;
 }
+
+.pauseMenu__subAction {
+  opacity: 0;
+  transition: 0.5s;
+  transition-delay: 0.5s;
+}
+
+.pauseMenu__subAction.--left {
+  transform: translateX(-4rem);
+}
+.pauseMenu__subAction.--right {
+  transform: translateX(4rem);
+}
+
+.pauseMenu__subAction.fadeInHorizontal {
+  opacity: 1;
+  transform: translateX(0);
+}

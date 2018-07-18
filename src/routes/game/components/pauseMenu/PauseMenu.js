@@ -9,34 +9,44 @@ import { Button } from '../../../../components';
 class PauseMenu extends Component {
   static open() {
     const pauseMenu = document.querySelector(`.${styles.pauseMenu}`);
-    pauseMenu.classList.add(styles.visible);
-
-    const background = pauseMenu.querySelector(
-      `.${styles.pauseMenu__background}`
-    );
-    background.classList.add(styles.fullScreen);
-
-    background.addEventListener('animationend', () => {
-      const contentContainer = pauseMenu.querySelector(
-        `.${styles.pauseMenu__contentContainer}`
-      );
-      contentContainer.classList.add(styles.fadeIn);
-    });
-  }
-
-  static close() {
-    const pauseMenu = document.querySelector(`.${styles.pauseMenu}`);
-    pauseMenu.classList.remove(styles.visible);
-
     const background = pauseMenu.querySelector(
       `.${styles.pauseMenu__background}`
     );
     const contentContainer = pauseMenu.querySelector(
       `.${styles.pauseMenu__contentContainer}`
     );
+    const subButtons = pauseMenu.querySelectorAll(
+      `.${styles.pauseMenu__subAction}`
+    );
 
+    pauseMenu.classList.add(styles.visible);
+    background.classList.add(styles.fullScreen);
+    background.addEventListener('animationend', () => {
+      contentContainer.classList.add(styles.fadeIn);
+      subButtons.forEach(btn => {
+        btn.classList.add(styles.fadeInHorizontal);
+      });
+    });
+  }
+
+  static close() {
+    const pauseMenu = document.querySelector(`.${styles.pauseMenu}`);
+    const background = pauseMenu.querySelector(
+      `.${styles.pauseMenu__background}`
+    );
+    const contentContainer = pauseMenu.querySelector(
+      `.${styles.pauseMenu__contentContainer}`
+    );
+    const subButtons = pauseMenu.querySelectorAll(
+      `.${styles.pauseMenu__subAction}`
+    );
+
+    pauseMenu.classList.remove(styles.visible);
     contentContainer.classList.remove(styles.fadeIn);
     background.classList.remove(styles.fullScreen);
+    subButtons.forEach(btn => {
+      btn.classList.remove(styles.fadeInHorizontal);
+    });
   }
 
   componentDidMount() {
@@ -76,11 +86,24 @@ class PauseMenu extends Component {
             <span class={styles.pauseMenu__time}>
               {gameStore.formattedTime}
             </span>
+          </div>
 
-            <div class={styles.pauseMenu__subActions}>
-              <Button type="icony" icon="a-sound" />
-              <Button type="icony" icon="a-home" onClick={this.goBackHome} />
-            </div>
+          <div class={styles.pauseMenu__subActions}>
+            <Button
+              type="icony"
+              icon="a-sound"
+              additionalClass={`${styles.pauseMenu__subAction} ${
+                styles['--right']
+              }`}
+            />
+            <Button
+              type="icony"
+              icon="a-home"
+              onClick={this.goBackHome}
+              additionalClass={`${styles.pauseMenu__subAction} ${
+                styles['--left']
+              }`}
+            />
           </div>
         </div>
       </div>
