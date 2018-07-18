@@ -29,7 +29,13 @@ class Main extends Component {
         </section>
         <nav class={styles.mainPage__botomNav}>
           <Button type="icony" icon="a-sound" />
-          <Button type="icony" icon="a-stats" />
+          <Button
+            type="icony"
+            icon="a-stats"
+            onClick={() => {
+              this.changeRoute('scores');
+            }}
+          />
           <Button type="icony" icon="a-share" />
         </nav>
       </div>

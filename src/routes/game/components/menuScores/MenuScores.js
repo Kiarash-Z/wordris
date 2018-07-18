@@ -7,13 +7,11 @@ const MenuScores = ({ scoresStore, gameStore }) => (
   <div>
     <div class={styles.score}>
       <i class={`a-star ${styles.score__icon}`} />
-      <span class={styles.score__text}>{gameStore.score}</span>
+      <span class={styles.score__text}>{gameStore.stars}</span>
     </div>
     <div class={styles.highestScore}>
       <i class={`a-crown ${styles.highestScore__icon}`} />
-      <div lass={styles.highestScore__subContainer}>
-        <span class={styles.highestScore__text}>{scoresStore.highestStar}</span>
-      </div>
+      <span class={styles.highestScore__text}>{scoresStore.highestStar}</span>
     </div>
   </div>
 );

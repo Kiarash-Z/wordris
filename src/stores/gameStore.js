@@ -11,6 +11,8 @@ import {
   EARTHQUAKES_COUNT
 } from '../constants/gameConstants';
 import GameoverMenu from '../routes/game/components/gameoverMenu/GameoverMenu';
+import { scoresStore } from './scoresStore';
+import { formatTime } from '../utils';
 
 class Word {
   text = '';
@@ -26,7 +28,7 @@ decorate(Word, { text: observable, count: observable, isMain: observable });
 
 class GameStore {
   nextLetter = {};
-  score = 0;
+  stars = 0;
   timer = null;
   time = 0;
   earthquakesLeft = EARTHQUAKES_COUNT;
@@ -45,7 +47,7 @@ class GameStore {
       new Word({ text: 'خوب', isMain: true, count: 0 })
     ];
     this.nextLetter = {};
-    this.score = 0;
+    this.stars = 0;
     this.timer = null;
   }
 
@@ -64,8 +66,8 @@ class GameStore {
     this.nextLetter = letter;
   }
 
-  addToScore(increment) {
-    this.score += increment;
+  addToStars(increment) {
+    this.stars += increment;
   }
 
   handleWordsMatch(matchedWords) {
@@ -73,7 +75,7 @@ class GameStore {
       const foundWord = this.words.find(word => word.text === matchedWord);
       const point = foundWord.isMain ? MAIN_POINT : SUB_POINT;
       foundWord.count++;
-      this.addToScore(point);
+      this.addToStars(point);
     });
   }
 
@@ -96,6 +98,7 @@ class GameStore {
 
   handleGameover() {
     clearInterval(this.timer);
+    scoresStore.saveNewScore({ stars: this.stars, duration: this.time });
     GameoverMenu.open();
   }
 
@@ -105,18 +108,13 @@ class GameStore {
   }
 
   get formattedTime() {
-    let minutes = Math.floor(this.time / 60);
-    let seconds = Math.floor(this.time - minutes * 60);
-
-    if (minutes < 10) minutes = `0${minutes}`;
-    if (seconds < 10) seconds = `0${seconds}`;
-    return `${minutes}:${seconds}`;
+    return formatTime(this.time);
   }
 }
 
 decorate(GameStore, {
   nextLetter: observable,
-  score: observable,
+  stars: observable,
   time: observable,
   earthquakesLeft: observable,
   words: observable,
@@ -124,7 +122,7 @@ decorate(GameStore, {
   initialize: action.bound,
   updateNextLetter: action.bound,
   handleWordsMatch: action.bound,
-  addToScore: action.bound,
+  addToStars: action.bound,
   increaseTime: action.bound,
   handleGameover: action.bound,
   decreaseEarthquake: action.bound,
