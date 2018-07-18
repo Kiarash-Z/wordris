@@ -10,14 +10,15 @@
 .word {
   font-weight: 500;
   position: relative;
+  display: flex;
 }
 
 .word__count {
   color: var(--color-primary);
   font-size: 2rem;
-  position: absolute;
-  top: -0.5rem;
-  right: -1.5rem;
+  display: block;
+  margin-left: 0.5rem;
+  margin-top: -0.5rem;
 }
 
 .word.--main {
