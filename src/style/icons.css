@@ -1,19 +1,15 @@
 @font-face {
-  font-family: 'icomoon';
-  src: url('../assets/fonts/icomoon/icomoon.eot?q6zp2p');
-  src: url('../assets/fonts/icomoon/icomoon.eot?q6zp2p#iefix')
-      format('embedded-opentype'),
-    url('../assets/fonts/icomoon/icomoon.ttf?q6zp2p') format('truetype'),
-    url('../assets/fonts/icomoon/icomoon.woff?q6zp2p') format('woff'),
-    url('../assets/fonts/icomoon/icomoon.svg?q6zp2p#icomoon') format('svg');
+  font-family: 'icons';
+  src: url('../assets/fonts/ttf/icons.ttf?1qm302') format('truetype'),
+    url('../assets/fonts/woff/icons.woff?1qm302') format('woff'),
+    url('../assets/fonts/svg/icons.svg?1qm302#icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-[class^='icon-'],
-[class*=' icon-'] {
+i {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
+  font-family: 'icons' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -26,21 +22,67 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-cancel-music:before {
+.a-crown:before {
   content: '\e900';
 }
-.icon-music-player-play:before {
+.a-earthquake .path1:before {
   content: '\e901';
+  color: rgb(117, 94, 81);
 }
-.icon-share:before {
+.a-earthquake .path2:before {
   content: '\e902';
+  margin-left: -1em;
+  color: rgb(117, 94, 81);
 }
-.icon-speaker:before {
+.a-earthquake .path3:before {
   content: '\e903';
+  margin-left: -1em;
+  color: rgb(145, 116, 100);
 }
-.icon-star:before {
+.a-earthquake .path4:before {
   content: '\e904';
+  margin-left: -1em;
+  color: rgb(191, 153, 132);
 }
-.icon-statistical-chart:before {
+.a-earthquake .path5:before {
   content: '\e905';
+  margin-left: -1em;
+  color: rgb(145, 116, 100);
+}
+.a-earthquake .path6:before {
+  content: '\e906';
+  margin-left: -1em;
+  color: rgb(0, 0, 0);
+}
+.a-earthquake .path7:before {
+  content: '\e907';
+  margin-left: -1em;
+  color: rgb(0, 0, 0);
+}
+.a-home:before {
+  content: '\e908';
+}
+.a-mute:before {
+  content: '\e909';
+}
+.a-pause:before {
+  content: '\e90a';
+}
+.a-play:before {
+  content: '\e90b';
+}
+.a-retry:before {
+  content: '\e90c';
+}
+.a-share:before {
+  content: '\e90d';
+}
+.a-sound:before {
+  content: '\e90e';
+}
+.a-star:before {
+  content: '\e90f';
+}
+.a-stats:before {
+  content: '\e910';
 }

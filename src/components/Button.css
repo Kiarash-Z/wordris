@@ -1,29 +1,43 @@
-.button__big {
-  padding: 12px 55px;
-  border-radius: 40px;
-  background: radial-gradient(var(--color-orange-light), var(--color-orange));
+.button__linear {
+  padding: 1.5rem 6rem;
+  border-radius: 4.5rem;
   display: flex;
   position: relative;
   justify-content: center;
   align-items: center;
   border: solid 7px rgba(255, 255, 255, 0.8);
-}
-.button__big > span {
   color: var(--color-white);
   font-weight: 500;
   font-size: 1.7rem;
 }
-.button__circle {
-  width: 50px;
-  height: 50px;
+
+.button__linear.--primary {
+  background: radial-gradient(var(--color-primary-light), var(--color-primary));
+}
+
+.button__linear.--secondary {
+  background: radial-gradient(
+    var(--color-secondary-light),
+    var(--color-secondary)
+  );
+}
+
+.button__linear.--gray {
+  background: radial-gradient(var(--color-gray-light), var(--color-gray));
+}
+
+.button__icony {
+  width: 5.5rem;
+  height: 5.5rem;
   border-radius: 50%;
-  background: var(--color-purple-light);
+  background: var(--color-secondary-light);
   display: flex;
   position: relative;
   justify-content: center;
   align-items: center;
 }
-.button__circle i {
-  color: var(--color-purple);
-  font-size: 1.1em;
+
+.button__icony i {
+  color: var(--color-secondary);
+  font-size: 1.4em;
 }

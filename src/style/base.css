@@ -26,21 +26,40 @@ button:focus {
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 43.75%; /* 7px */
+  height: 100%;
+  overflow-x: hidden;
 }
 
 body {
   font-family: IRANSans;
   font-weight: 400;
   direction: rtl;
-  min-height: 100vh;
-  width: 100%;
-  height: 100vh;
+  height: 100%;
+  color: var(--color-black);
   overflow-x: hidden;
-  display: flex;
 }
 
 #app {
-  display: flex;
-  flex: 1;
+  height: 100%;
+}
+
+/* Responsive */
+
+@media only screen and (min-width: 400px) {
+  html {
+    font-size: 50%; /* 8px */
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  html {
+    font-size: 56.25%; /* 9px */
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  html {
+    font-size: 62.5%; /* 10px */
+  }
 }

@@ -1,12 +1,21 @@
 import { fabric } from 'fabric';
-import { board, moveTopLettersDown, getFallingLetter } from './board';
-import { FAST_FORWARD_DURATION, PADDING } from '../../constants/boardConstants';
+import {
+  board,
+  moveTopLettersDown,
+  toggleGamePause,
+  getFallingLetter,
+  getToRemoveLetter
+} from './board';
+import {
+  FAST_FORWARD_DURATION,
+  PADDING
+} from '../../../constants/gameConstants';
 import { animateLetterDown } from './letters';
+import { gameStore } from '../../../stores';
 
 const earthquakeAnimation = (letter, isLast, initialLeft) => {
   const fallingLetter = getFallingLetter();
-  fallingLetter.mIsFallingStopped = true;
-
+  toggleGamePause(true);
   const animateHorizontally = leftRight => {
     const finalValue =
       leftRight === 'left' ? initialLeft + PADDING : initialLeft - PADDING;
@@ -30,21 +39,27 @@ const earthquakeAnimation = (letter, isLast, initialLeft) => {
         duration: FAST_FORWARD_DURATION,
         onChange: board.renderAll.bind(board),
         onComplete() {
+          const removeShaked = () => {
+            if (isLast) {
+              fallingLetter.mIsFallingStopped = false;
+              animateLetterDown();
+            }
+            board.remove(letter);
+          };
           const sameColumnLetters = board
             .getObjects()
             .filter(
               o =>
                 !o.mIsActive &&
                 o.mIsLetter &&
-                o.mGetColumn() === letter.mGetColumn()
+                o.mGetColumn() === letter.mGetColumn() &&
+                o.top > letter.top
             );
-          moveTopLettersDown(sameColumnLetters).then(() => {
-            if (isLast) {
-              fallingLetter.mIsFallingStopped = false;
-              animateLetterDown();
-            }
-            board.remove(letter);
-          });
+          if (sameColumnLetters.length) {
+            moveTopLettersDown(sameColumnLetters).then(() => {
+              removeShaked();
+            });
+          } else removeShaked();
         }
       });
     });
@@ -53,9 +68,16 @@ const earthquakeAnimation = (letter, isLast, initialLeft) => {
 const earthquake = () => {
   const letters = board.getObjects().filter(o => o.mIsLetter);
 
-  // if there is a letter currently shaking we don't apply the powerup
-  const currentlyQuaking = letters.find(letter => letter.mIsGonnaRemove);
-  if (currentlyQuaking) return;
+  // if there is a letter currently shaking or we have none left we don't apply the powerup
+  const currentlyQuaking = getToRemoveLetter();
+  if (
+    currentlyQuaking ||
+    !gameStore.earthquakesLeft ||
+    !letters.filter(l => !l.mIsActive).length
+  )
+    return;
+  gameStore.decreaseEarthquake();
+
   // removes the first row of the letters
   const lowestRow = letters
     .map(letter => letter.mGetRow())

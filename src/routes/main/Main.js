@@ -1,22 +1,36 @@
 import { h, Component } from 'preact';
+import { route } from 'preact-router';
+
 import styles from './Main.css';
 import { Button } from '../../components';
 
 class Main extends Component {
+  changeRoute(url) {
+    route(url);
+  }
+
   render() {
     return (
-      <div className={styles.mainPage}>
+      <div class={styles.mainPage}>
         <span style={{ height: 50 }} />
-        <section className={styles.mainPage__topSection}>
-          <h1 className={styles.mainPage__topSection_title}>
+        <section class={styles.mainPage__topSection}>
+          <h1 class={styles.mainPage__topSection_title}>
             ورد<span>ر</span>یس
           </h1>
-          <Button type="big" text={'بزن بریم'} />
+          <Button
+            type="linear"
+            color="primary"
+            onClick={() => {
+              this.changeRoute('/game');
+            }}
+          >
+            بزن بریم
+          </Button>
         </section>
-        <nav className={styles.mainPage__botomNav}>
-          <Button type="circle" icon={'speaker'} />
-          <Button type="circle" icon={'statistical-chart'} />
-          <Button type="circle" icon={'share'} />
+        <nav class={styles.mainPage__botomNav}>
+          <Button type="icony" icon="a-sound" />
+          <Button type="icony" icon="a-stats" />
+          <Button type="icony" icon="a-share" />
         </nav>
       </div>
     );

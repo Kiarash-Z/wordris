@@ -2,6 +2,7 @@
   flex: 1;
   display: flex;
   position: relative;
+  height: 100%;
 }
 .animatedBg__content {
   flex: 1;
@@ -25,5 +26,5 @@
 .animatedBg__animateArea_lineTwo {
   width: 100%;
   position: absolute;
-  top: 70%;
+  bottom: 30%;
 }

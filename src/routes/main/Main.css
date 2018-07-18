@@ -14,11 +14,10 @@
 .mainPage__topSection_title {
   color: var(--color-first);
   font-size: 2.2rem;
-  font-weight: bold;
   margin-bottom: 13px;
 }
 .mainPage__topSection_title span {
-  color: var(--color-orange);
+  color: var(--color-primary);
   margin: 0px 2px;
 }
 .mainPage__botomNav {

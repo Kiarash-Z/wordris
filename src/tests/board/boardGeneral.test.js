@@ -1,16 +1,14 @@
 import {
+  COLUMNS_COUNT,
+  LETTER_DROP_DELAY
+} from '../../constants/gameConstants';
+import {
   createBoard,
   getRootVar,
   board,
   getLetterColor,
   getFallingLetter
-} from '../../api/board/board';
-import {
-  COLUMNS_COUNT,
-  LETTER_DROP_DELAY,
-  ROWS_COUNT,
-  PADDING
-} from '../../constants/boardConstants';
+} from '../../routes/game/board/board';
 
 jest.useFakeTimers();
 
@@ -20,6 +18,7 @@ describe('Board General', () => {
       <div>
         <div id="gameBoardWrapper">
           <canvas id="gameboard"></canvas>
+          <div id="gameBoardTouchHandler"></div>
         </div>
       </div>
     `;

@@ -1,0 +1,135 @@
+.gameoverMenu {
+  display: none;
+  background: var(--color-white);
+}
+
+.gameoverMenu.visible {
+  display: block;
+}
+
+.gameoverMenu__menu {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6rem;
+  visibility: hidden;
+  z-index: 1;
+}
+
+.gameoverMenu__background {
+  position: fixed;
+  bottom: -5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+}
+
+@keyframes animate-FullScreen {
+  0% {
+    background: var(--color-secondary);
+  }
+  10% {
+    background: var(--color-secondary);
+  }
+  100% {
+    transform: scale(75);
+    background: var(--color-white);
+  }
+}
+
+.gameoverMenu__background.fullScreen {
+  animation: animate-FullScreen ease-in-out 0.7s forwards;
+}
+
+.gameoverMenu__background.fullScreen + .gameoverMenu__menu {
+  visibility: visible;
+}
+
+/*
+  Scores
+*/
+.scoreContainer {
+  opacity: 0;
+  transform: translateY(4rem) scale(0.8);
+  transition: 0.3s;
+  transition-delay: 0.8s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Title */
+
+.gameoverMenu__title {
+  font-size: 5.5rem;
+  text-align: center;
+  color: var(--color-gray);
+  font-weight: 500;
+  margin-top: 9rem;
+  opacity: 0;
+  transform: scale(20);
+  transition: 0.3s;
+}
+
+.gameoverMenu__title.scaleIn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.gameoverMenu__time {
+  margin: 4rem 0;
+  color: var(--color-gray);
+  font-size: 4rem;
+  transform: translateY(4rem);
+  opacity: 0;
+  transition: 0.3s;
+  transition-delay: 1.2s;
+}
+
+/*
+  Buttons
+*/
+
+.gameoverMenu__button {
+  opacity: 0;
+  transform: translateX(4rem);
+  transition: 0.5s;
+  transition-delay: 1.5s;
+  width: 25rem;
+}
+
+.gameoverMenu__button:not(:last-child) {
+  margin-bottom: 2rem;
+}
+
+.gameoverMenu__button:last-child {
+  transition-delay: 1.9s;
+}
+
+.gameoverMenu__buttonIcon {
+  margin-left: 1rem;
+}
+
+.gameoverMenu__button.fadeLeft {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fadeIn {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Responsive */
+@media only screen and (min-width: 768px) {
+  .gameoverMenu__button {
+    width: 28rem;
+  }
+}

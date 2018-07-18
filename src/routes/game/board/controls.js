@@ -5,7 +5,7 @@ import {
   COLUMNS_COUNT,
   PADDING,
   COLUMN_CHANGE_DURATION
-} from '../../constants/boardConstants';
+} from '../../../constants/gameConstants';
 import { board, getFallingLetter, columnRowWidth, check } from './board';
 import { animateLetterDown, getStopPosition } from './letters';
 import { earthquake } from './powerups';
@@ -49,6 +49,7 @@ const isAbleToMove = (letter, horizontalValue) => {
 
 const moveRight = () => {
   const letter = getFallingLetter();
+  if (!letter) return;
   const letterLeft = (letter.mGetColumn() - 1) * columnRowWidth + PADDING;
   const horizontalValue = letterLeft + columnRowWidth;
   if (
@@ -63,6 +64,7 @@ const moveRight = () => {
 
 const moveLeft = () => {
   const letter = getFallingLetter();
+  if (!letter) return;
   const letterLeft = (letter.mGetColumn() - 1) * columnRowWidth + PADDING;
   const horizontalValue = letterLeft - columnRowWidth;
   if (
@@ -97,6 +99,7 @@ const moveDown = (e, isDefaultActionPrevented) => {
 const addTouchControls = () => {
   const gameBoardWrapper = document.getElementById('gameBoardTouchHandler');
   const hammerBoard = new Hammer(gameBoardWrapper);
+  hammerBoard.get('swipe').set({ direction: Hammer.DIRECTION_VERTICAL });
 
   let lastPan = 0;
 
@@ -117,6 +120,7 @@ const addTouchControls = () => {
 
   hammerBoard.on('tap', moveDown);
   hammerBoard.on('panleft panright', handlePanHorizontal);
+  hammerBoard.on('swipe', earthquake);
   hammerBoard.on('panend', () => {
     // reset lastPan
     lastPan = 0;
