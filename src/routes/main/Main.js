@@ -1,15 +1,10 @@
 import { h, Component } from 'preact';
 import { route } from 'preact-router';
-import { inject, observer } from 'mobx-preact';
 
 import styles from './Main.css';
 import { Button } from '../../components';
 
 class Main extends Component {
-  componentDidMount() {
-    this.props.scoresStore.getScores();
-  }
-
   changeRoute(url) {
     route(url);
   }
@@ -34,7 +29,13 @@ class Main extends Component {
         </section>
         <nav class={styles.mainPage__botomNav}>
           <Button type="icony" icon="a-sound" />
-          <Button type="icony" icon="a-stats" />
+          <Button
+            type="icony"
+            icon="a-stats"
+            onClick={() => {
+              this.changeRoute('scores');
+            }}
+          />
           <Button type="icony" icon="a-share" />
         </nav>
       </div>
@@ -42,4 +43,4 @@ class Main extends Component {
   }
 }
 
-export default inject('scoresStore')(observer(Main));
+export default Main;

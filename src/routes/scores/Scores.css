@@ -1,0 +1,16 @@
+.scoresPage {
+  width: 100%;
+  padding: 2rem 3rem;
+}
+
+.scoresPage__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scoresPage__title {
+  font-size: 4rem;
+  color: var(--color-primary);
+  font-weight: 500;
+}
