@@ -9,7 +9,7 @@ import {
   MAIN_POINT,
   SUB_POINT,
   EARTHQUAKES_COUNT
-} from '../constants/boardConstants';
+} from '../constants/gameConstants';
 import GameoverMenu from '../routes/game/components/gameoverMenu/GameoverMenu';
 
 class Word {

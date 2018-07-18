@@ -9,7 +9,7 @@ import {
 import {
   FAST_FORWARD_DURATION,
   PADDING
-} from '../../../constants/boardConstants';
+} from '../../../constants/gameConstants';
 import { animateLetterDown } from './letters';
 import { gameStore } from '../../../stores';
 

@@ -7,7 +7,7 @@ import {
   FAST_FORWARD_DURATION,
   LETTER_DROP_DELAY,
   EASY_DIFFICULTY_VALUE
-} from '../../../constants/boardConstants';
+} from '../../../constants/gameConstants';
 import { addControls } from './controls';
 import { createLetter, animateLetterDown } from './letters';
 

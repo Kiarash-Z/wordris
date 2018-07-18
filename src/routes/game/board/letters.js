@@ -8,7 +8,7 @@ import {
   columnRowWidth,
   check
 } from './board';
-import { PADDING, FALLING_DURATION } from '../../../constants/boardConstants';
+import { PADDING, FALLING_DURATION } from '../../../constants/gameConstants';
 
 // Indicates where the falling letter should stop
 const getStopPosition = () => {

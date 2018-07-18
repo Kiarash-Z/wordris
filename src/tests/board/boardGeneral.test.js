@@ -1,7 +1,7 @@
 import {
   COLUMNS_COUNT,
   LETTER_DROP_DELAY
-} from '../../constants/boardConstants';
+} from '../../constants/gameConstants';
 import {
   createBoard,
   getRootVar,
