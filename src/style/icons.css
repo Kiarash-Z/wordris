@@ -59,22 +59,22 @@ i {
   margin-left: -1em;
   color: rgb(0, 0, 0);
 }
-.a-home:before {
+.a-help:before {
   content: '\e908';
 }
-.a-mute:before {
+.a-home:before {
   content: '\e909';
 }
-.a-pause:before {
+.a-mute:before {
   content: '\e90a';
 }
-.a-play:before {
+.a-pause:before {
   content: '\e90b';
 }
-.a-retry:before {
+.a-play:before {
   content: '\e90c';
 }
-.a-share:before {
+.a-retry:before {
   content: '\e90d';
 }
 .a-sound:before {
@@ -85,4 +85,16 @@ i {
 }
 .a-stats:before {
   content: '\e910';
+}
+.a-swipeLeft:before {
+  content: '\e911';
+}
+.a-swipeRight:before {
+  content: '\e912';
+}
+.a-swipeUp:before {
+  content: '\e913';
+}
+.a-tap:before {
+  content: '\e914';
 }

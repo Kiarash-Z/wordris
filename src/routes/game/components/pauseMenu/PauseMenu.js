@@ -51,7 +51,10 @@ class PauseMenu extends Component {
 
   componentDidMount() {
     window.addEventListener('keydown', ({ code }) => {
-      if (code === 'Escape') PauseMenu.open();
+      if (code === 'Escape') {
+        this.props.gameStore.pauseGame();
+        PauseMenu.open();
+      }
     });
   }
 

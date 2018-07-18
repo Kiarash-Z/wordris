@@ -3,6 +3,7 @@ import { route } from 'preact-router';
 
 import styles from './Main.css';
 import { Button } from '../../components';
+import ModalHelp from './components/modalHelp';
 
 class Main extends Component {
   changeRoute(url) {
@@ -36,8 +37,13 @@ class Main extends Component {
               this.changeRoute('scores');
             }}
           />
-          <Button type="icony" icon="a-share" />
+          <Button type="icony" icon="a-help" onClick={ModalHelp.open} />
         </nav>
+
+        {/* only mount modal and not showing it*/}
+        <div style={{ display: 'none' }}>
+          <ModalHelp />
+        </div>
       </div>
     );
   }
