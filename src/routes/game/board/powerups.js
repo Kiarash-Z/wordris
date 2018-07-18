@@ -39,21 +39,27 @@ const earthquakeAnimation = (letter, isLast, initialLeft) => {
         duration: FAST_FORWARD_DURATION,
         onChange: board.renderAll.bind(board),
         onComplete() {
+          const removeShaked = () => {
+            if (isLast) {
+              fallingLetter.mIsFallingStopped = false;
+              animateLetterDown();
+            }
+            board.remove(letter);
+          };
           const sameColumnLetters = board
             .getObjects()
             .filter(
               o =>
                 !o.mIsActive &&
                 o.mIsLetter &&
-                o.mGetColumn() === letter.mGetColumn()
+                o.mGetColumn() === letter.mGetColumn() &&
+                o.top > letter.top
             );
-          moveTopLettersDown(sameColumnLetters).then(() => {
-            if (isLast) {
-              fallingLetter.mIsFallingStopped = false;
-              animateLetterDown();
-            }
-            board.remove(letter);
-          });
+          if (sameColumnLetters.length) {
+            moveTopLettersDown(sameColumnLetters).then(() => {
+              removeShaked();
+            });
+          } else removeShaked();
         }
       });
     });

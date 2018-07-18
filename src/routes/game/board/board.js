@@ -27,13 +27,17 @@ const testColors = [
   '#ff6b6b',
   '#48dbfb',
   '#1dd1a1',
+  '#f76780',
+  '#f76710',
+  '#000',
+  '#010101',
   '#5f27cd'
 ];
 
+// utils
 const getFallingLetter = () => board.getObjects().find(o => o.mIsActive);
 const getToRemoveLetter = () =>
   board.getObjects().find(letter => letter.mIsGonnaRemove);
-
 const getRandomItem = arr => arr[Math.floor(Math.random() * arr.length)];
 const getRootVar = prop =>
   getComputedStyle(document.body).getPropertyValue(prop);
@@ -234,24 +238,59 @@ const getColumns = () => {
 };
 
 // move down letters which are above this removed letter
-const moveTopLettersDown = (sameColumnLetters, willDropLetter) => {
+const moveTopLettersDown = letters => {
+  const groupByColumn = arr =>
+    arr.reduce((prev, cur) => {
+      (prev[cur.mGetColumn()] = prev[cur.mGetColumn()] || []).push(cur);
+      return prev;
+    }, {});
   return new Promise(resolve => {
-    sameColumnLetters.forEach((letter, index) => {
-      letter.animate('top', letter.top + columnRowWidth, {
-        duration: FAST_FORWARD_DURATION,
-        onChange: board.renderAll.bind(board),
-        onComplete() {
-          if (index === sameColumnLetters.length - 1) {
-            resolve();
-            if (willDropLetter) dropLetter();
+    const columnsObject = groupByColumn(letters);
+    const columnKeys = Object.keys(columnsObject);
+
+    columnKeys.forEach((key, columnIndex) => {
+      const column = columnsObject[key];
+      const lowestTopLetter = column.reduce(
+        (prev, cur) => (prev.mGetRow() > cur.mGetRow() ? prev : cur)
+      );
+
+      let stopPosition = 0;
+      const lowerLetters = board
+        .getObjects()
+        .filter(
+          o =>
+            o.mIsLetter &&
+            !o.mIsActive &&
+            o.mGetColumn() === lowestTopLetter.mGetColumn() &&
+            o.mGetRow() > lowestTopLetter.mGetRow()
+        )
+        .map(l => l.top);
+      if (lowerLetters.length) {
+        stopPosition = lowerLetters.reduce(
+          (prev, cur) => (prev < cur ? prev : cur)
+        );
+      } else stopPosition = board.getHeight();
+      const distance = stopPosition - (lowestTopLetter.top + columnRowWidth);
+      column.forEach((letter, letterIndex) => {
+        letter.animate('top', letter.top + distance, {
+          duration: FAST_FORWARD_DURATION,
+          onChange: board.renderAll.bind(board),
+          onComplete() {
+            if (
+              letterIndex === column.length - 1 &&
+              columnIndex === columnKeys.length - 1
+            ) {
+              resolve();
+            }
           }
-        }
+        });
       });
     });
   });
 };
 
 const removeMatchedLetters = letters => {
+  const toMoveDownLetters = [];
   letters.forEach((letter, index) => {
     letter.mIsGonnaRemove = true;
     const animateRemove = () => {
@@ -278,12 +317,14 @@ const removeMatchedLetters = letters => {
               !o.mIsActive &&
               !o.mIsGonnaRemove
           );
+        toMoveDownLetters.push(...sameColumnLetters);
+
         if (index === letters.length - 1) {
-          if (sameColumnLetters.length)
-            moveTopLettersDown(sameColumnLetters, true);
-          else dropLetter();
-        } else if (sameColumnLetters.length) {
-          moveTopLettersDown(sameColumnLetters);
+          if (toMoveDownLetters.length) {
+            moveTopLettersDown(toMoveDownLetters).then(() => {
+              check();
+            });
+          } else dropLetter();
         }
       }
     };
@@ -292,9 +333,11 @@ const removeMatchedLetters = letters => {
 };
 
 const check = doneLetter => {
-  doneLetter.mIsFallingStopped = false;
-  doneLetter.mIsFastForwarding = false;
-  doneLetter.mIsActive = false;
+  if (doneLetter) {
+    doneLetter.mIsFallingStopped = false;
+    doneLetter.mIsFastForwarding = false;
+    doneLetter.mIsActive = false;
+  }
 
   const rows = getRows();
   const columns = getColumns();
@@ -320,11 +363,11 @@ const check = doneLetter => {
           const foundLetter = row.letters.find(
             letter => COLUMNS_COUNT + 1 - letter.mGetColumn() === index + 1
           );
-          foundLetter.mIsMatched = true;
+          foundLetter.mIsMatchedRow = true;
         }
       }
     });
-    matchedLetters.push(...row.letters.filter(letter => letter.mIsMatched));
+    matchedLetters.push(...row.letters.filter(letter => letter.mIsMatchedRow));
   });
 
   // check columns for a match
@@ -353,7 +396,7 @@ const check = doneLetter => {
             const foundLetter = column.letters.find(
               letter => ROWS_COUNT + 1 - letter.mGetRow() === index + 1
             );
-            foundLetter.mIsMatched = true;
+            foundLetter.mIsMatchedColumn = true;
           }
         }
       });
@@ -362,13 +405,15 @@ const check = doneLetter => {
     // for both top to bottom and bottom to top checking
     searchForWords(stickedLetters);
     searchForWords(stickedLetters, true);
-    matchedLetters.push(...column.letters.filter(letter => letter.mIsMatched));
+    matchedLetters.push(
+      ...column.letters.filter(letter => letter.mIsMatchedColumn)
+    );
   });
 
   // remove matched letters
   removeMatchedLetters(matchedLetters);
   if (matchedWords.length) gameStore.handleWordsMatch(matchedWords);
-  if (!matchedLetters.length) dropLetter();
+  else dropLetter();
 };
 
 const createBoard = words => {
