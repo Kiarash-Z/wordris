@@ -15,5 +15,6 @@
   --color-blue-light: #eef2ff;
 
   /* borders */
+  --border-primary: 1px solid rgba(0, 0, 0, 0.1);
   --border-tertiary: 2px solid rgb(237, 237, 237);
 }

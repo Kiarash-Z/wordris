@@ -12,6 +12,7 @@ import {
 } from '../constants/gameConstants';
 import GameoverMenu from '../routes/game/components/gameoverMenu/GameoverMenu';
 import { scoresStore } from './scoresStore';
+import { formatTime } from '../utils';
 
 class Word {
   text = '';
@@ -107,12 +108,7 @@ class GameStore {
   }
 
   get formattedTime() {
-    let minutes = Math.floor(this.time / 60);
-    let seconds = Math.floor(this.time - minutes * 60);
-
-    if (minutes < 10) minutes = `0${minutes}`;
-    if (seconds < 10) seconds = `0${seconds}`;
-    return `${minutes}:${seconds}`;
+    return formatTime(this.time);
   }
 }
 

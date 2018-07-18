@@ -1,4 +1,5 @@
 import { decorate, observable, action, computed } from 'mobx';
+import { formatTime } from '../utils';
 
 class ScoresStore {
   scores = [];
@@ -15,7 +16,8 @@ class ScoresStore {
       ...this.scores,
       {
         stars,
-        duration
+        duration,
+        id: new Date().getTime()
       }
     ];
 
@@ -25,6 +27,7 @@ class ScoresStore {
 
   get highestStar() {
     const stars = this.scores.map(score => score.stars);
+    if (!stars.length) return 0;
     const highestStar = Math.max(...stars);
     return highestStar;
   }
@@ -34,18 +37,13 @@ class ScoresStore {
   }
 
   get averageDuration() {
+    if (!this.scores.length) return '00:00';
     const sum = this.scores
       .map(s => s.duration)
       .reduce((prev, cur) => prev + cur, 0);
     const count = this.scores.length;
     const average = sum / count;
-
-    let minutes = Math.floor(average / 60);
-    let seconds = Math.floor(average - minutes * 60);
-
-    if (minutes < 10) minutes = `0${minutes}`;
-    if (seconds < 10) seconds = `0${seconds}`;
-    return `${minutes}:${seconds}`;
+    return formatTime(average);
   }
 }
 

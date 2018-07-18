@@ -2,6 +2,7 @@
 .score {
   align-self: center;
   color: var(--color-primary);
+  text-align: center;
 }
 
 .score__text {

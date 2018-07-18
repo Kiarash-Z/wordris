@@ -1,0 +1,35 @@
+.scoresList {
+  margin-top: 10rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scoresList__item {
+  font-size: 2rem;
+  border-bottom: var(--border-primary);
+  padding-bottom: 1rem;
+}
+
+.scoresList__item:not(:last-child) {
+  margin-bottom: 2.5rem;
+}
+
+.scoresList__itemNumber {
+  color: var(--color-primary);
+}
+
+.scoresList__itemDuration {
+  padding: 0 1rem;
+  color: var(--color-gray);
+}
+
+.scoresList__itemStars {
+  padding: 0 1.1rem;
+  color: var(--color-primary);
+}
+
+.scoresList__itemStars > * {
+  margin-right: 0.2rem;
+}
