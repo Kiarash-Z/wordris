@@ -53,7 +53,7 @@ const earthquakeAnimation = (letter, isLast, initialLeft) => {
                 !o.mIsActive &&
                 o.mIsLetter &&
                 o.mGetColumn() === letter.mGetColumn() &&
-                o.top > letter.top
+                o.top < letter.top
             );
           if (sameColumnLetters.length) {
             moveTopLettersDown(sameColumnLetters).then(() => {
