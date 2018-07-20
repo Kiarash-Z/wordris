@@ -1,4 +1,4 @@
-import Hammer from 'hammerjs';
+const Hammer = require('../../../hammerWrapper');
 
 import {
   FAST_FORWARD_DURATION,
