@@ -1,12 +1,11 @@
 import { h, Component } from 'preact';
 import { route } from 'preact-router';
+import { observer, inject } from 'mobx-preact';
 
 import styles from './Main.css';
 import { Button } from '../../components';
 import ModalHelp from './components/modalHelp';
 import ModalSearch from './components/modalSearch';
-
-import { gameStore } from '../../stores';
 
 class Main extends Component {
   handleMultiButtonClick = () => {
@@ -18,6 +17,7 @@ class Main extends Component {
   };
 
   render() {
+    const { gameStore } = this.props;
     return (
       <div class={styles.mainPage}>
         <h1 class={styles.mainPage__title}>
@@ -47,7 +47,11 @@ class Main extends Component {
           </Button>
         </section>
         <nav class={styles.mainPage__botomNav}>
-          <Button type="icony" icon="a-sound" />
+          <Button
+            type="icony"
+            icon={gameStore.isMusicPlaying ? 'a-sound' : 'a-mute'}
+            onClick={gameStore.toggleBackgroundMusic}
+          />
           <Button
             type="icony"
             icon="a-stats"
@@ -68,4 +72,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default inject('gameStore')(observer(Main));

@@ -94,7 +94,8 @@ class PauseMenu extends Component {
           <div class={styles.pauseMenu__subActions}>
             <Button
               type="icony"
-              icon="a-sound"
+              icon={gameStore.isMusicPlaying ? 'a-sound' : 'a-mute'}
+              onClick={gameStore.toggleBackgroundMusic}
               additionalClass={`${styles.pauseMenu__subAction} ${
                 styles['--right']
               }`}

@@ -15,6 +15,8 @@ import { createLetter, animateLetterDown } from './letters';
 // store
 import { gameStore } from '../../../stores';
 
+import { getRandomItem } from '../../../utils';
+
 let board = null;
 let letterWidth = 0;
 let columnRowWidth = 0;
@@ -26,7 +28,6 @@ let nextLetter = '';
 const getFallingLetter = () => board.getObjects().find(o => o.mIsActive);
 const getToRemoveLetter = () =>
   board.getObjects().find(letter => letter.mIsGonnaRemove);
-const getRandomItem = arr => arr[Math.floor(Math.random() * arr.length)];
 const getRootVar = prop =>
   getComputedStyle(document.body).getPropertyValue(prop);
 
@@ -145,7 +146,7 @@ const getIsUserLost = () => {
 };
 
 const dropLetter = () => {
-  if (getIsUserLost()) return;
+  if (getIsUserLost() || getFallingLetter()) return;
 
   const startDrop = () => {
     const group = createLetter(nextLetter, {
@@ -423,6 +424,7 @@ const createBoard = words => {
 };
 
 const clearBoard = () => {
+  if (!board) return;
   board.clear();
   const gameBoardWrapper = document.getElementById('gameBoardWrapper');
   const containers = gameBoardWrapper.querySelectorAll('.canvas-container');

@@ -1,9 +1,9 @@
 .modalHelp {
-  width: 100%;
-  max-width: 50rem;
-  padding-left: 4rem;
-  padding-right: 4rem;
-  border-radius: 10px;
+  width: 100% !important;
+  max-width: 50rem !important;
+  padding-left: 4rem !important;
+  padding-right: 4rem !important;
+  border-radius: 10px !important;
 }
 
 .modalHelp__subContainer {

@@ -1,4 +1,4 @@
-import Hammer from 'hammerjs';
+const Hammer = require('../../../hammerWrapper');
 
 import {
   FAST_FORWARD_DURATION,
@@ -120,7 +120,7 @@ const addTouchControls = () => {
 
   hammerBoard.on('tap', moveDown);
   hammerBoard.on('panleft panright', handlePanHorizontal);
-  hammerBoard.on('swipeup', earthquake);
+  hammerBoard.on('swipe', earthquake);
   hammerBoard.on('panend', () => {
     // reset lastPan
     lastPan = 0;

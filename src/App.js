@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import { Router } from 'preact-router';
+import { Router, route } from 'preact-router';
 import { Provider } from 'mobx-preact';
 import { AnimatedBackground } from './components';
 
@@ -18,11 +18,18 @@ import socket from './socket';
 
 class App extends Component {
   handleRoute = e => {
+    const singleplayerUrl = '/game';
+    const multiplayerUrl = '/game?isMultiplayer=true';
     // Preact bug - reset DOM in menus
-    if (e.previous === '/game') {
+    if (
+      (e.url === singleplayerUrl || e.url === multiplayerUrl) &&
+      !e.previous
+    ) {
+      route('/', true);
+    } else if (e.previous === singleplayerUrl) {
       GameoverMenu.close();
       PauseMenu.close();
-    } else if (e.previous === '/game?isMultiplayer=true') {
+    } else if (e.previous === multiplayerUrl) {
       GameoverMenu.close();
       socket.emit('details:set', {
         isGameovered: true,

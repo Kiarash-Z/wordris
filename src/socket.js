@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
 
-const socket = io('http://wordris-server.herokuapp.com');
+const socket = io('https://wordris-server.herokuapp.com');
 
 export default socket;
