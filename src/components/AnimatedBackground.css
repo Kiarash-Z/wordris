@@ -18,22 +18,25 @@
   right: 0;
   z-index: 1;
 }
-.animatedBg__animateArea_lineOne {
-  width: 100%;
+.animatedBg__forground {
   position: absolute;
-  top: 20%;
-}
-.animatedBg__animateArea_lineTwo {
   width: 100%;
-  position: absolute;
-  bottom: 30%;
-}
-.animatedBg__animateArea_bubbles {
-  width: 100%;
-  position: absolute;
   height: 100%;
   top: 0;
   right: 0;
+  z-index: 30;
 }
-.animatedBg__animateArea .animatedBg__bubbles {
+.animatedBg__changePage {
+  width: 100vw;
+  height: 100vw;
+  border-radius: 50%;
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  margin-right: -50vw;
+  margin-top: -50vw;
+  box-sizing: border-box;
+  background: radial-gradient(var(--color-primary-light), var(--color-primary));
+  z-index: 10;
+  transform: scale(0);
 }

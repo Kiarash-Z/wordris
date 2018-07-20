@@ -3,22 +3,8 @@ import anime from 'animejs';
 import styles from './AnimatedBackground.css';
 
 class AnimatedBackground extends Component {
-  svg = {
-    lineOne: {
-      offset: 700,
-      width: '0.9em',
-      color: 'rgba(101,45,212,0.3)'
-    },
-    lineTwo: {
-      offset: 1300,
-      width: '0.8em',
-      color: 'rgba(255, 162, 38,0.3)'
-    },
-    lineThree: {
-      offset: 2300,
-      width: '0.7em',
-      color: 'rgba(101,45,212,0.3)'
-    }
+  state = {
+    showForeground: false
   };
 
   bubbles = [
@@ -146,27 +132,234 @@ class AnimatedBackground extends Component {
         right: '30%',
         top: '7%'
       }
+    },
+    {
+      id: 14,
+      size: '2.8rem',
+      style: {
+        background: 'rgba(101,45,212,0.2)',
+        right: '50%',
+        top: '72%'
+      }
     }
   ];
 
   componentDidMount = () => {
+    this._playBubbleBg();
+    setTimeout(this._playChangePage, 2000);
+    setTimeout(this._playFireBubbles, 5000);
+  };
+
+  _playBubbleBg = () => {
+    const transitions = [
+      'linear',
+      'easeInCubic',
+      'easeOutQuad',
+      'easeOutSine',
+      'easeInOutBack',
+      'easeInOutQuint'
+    ];
     this.bubblesMotions = [];
     this.bubbles.map(item => {
       anime({
         targets: `.animatedBg__bubbles.animatedBg__bubbleItem${item.id}`,
-        translateX: Math.floor(Math.random() * 30 + 10),
-        translateY: Math.floor(Math.random() * 30 + 10),
-        duration: Math.floor(Math.random() * 10000 + 5000),
-        easing: 'linear',
+        translateX: Math.floor(Math.random() * 50 + -25),
+        translateY: Math.floor(Math.random() * 50 + -25),
+        duration: Math.floor(Math.random() * 5000 + 6000),
+        easing: transitions[Math.floor(Math.random() * 5 + 0)],
         direction: 'alternate',
         loop: true
       });
     });
   };
 
+  _playChangePage = () => {
+    this.setState(
+      () => {
+        return {
+          showForeground: true
+        };
+      },
+      () => {
+        this.changePageMotion();
+      }
+    );
+  };
+
+  changePageMotion = () => {
+    anime({
+      targets: '#animatedBg__changePage_first',
+      scale: [0, 1],
+      duration: 700,
+      offset: 0,
+      direction: 'alternate',
+      easing: 'easeInOutQuint'
+    });
+    anime({
+      targets: '#animatedBg__changePage_second',
+      scale: [0, 1.1],
+      duration: 700,
+      offset: 100,
+      direction: 'alternate',
+      easing: 'easeInOutQuint'
+    });
+
+    setTimeout(() => {
+      this.setState(() => {
+        return {
+          showForeground: false
+        };
+      });
+    }, 1300);
+  };
+
+  _playFireBubbles = () => {
+    this.setState(
+      () => {
+        return {
+          showForeground: true
+        };
+      },
+      () => {
+        this.fireMotion();
+      }
+    );
+  };
+
+  fireMotion() {
+    const canvasEl = document.querySelector('.fireworks');
+    const ctx = canvasEl.getContext('2d');
+    const numberOfParticules = 30;
+    let pointerX = 0;
+    let pointerY = 0;
+    let colors = [
+      'rgba(255, 162, 38,1)',
+      'rgba(101,45,212,1)',
+      'rgba(255, 162, 38,0.3)',
+      'rgba(101,45,212,0.3)'
+    ];
+
+    const setParticuleDirection = p => {
+      const angle = (anime.random(0, 360) * Math.PI) / 180;
+      const value = anime.random(50, 180);
+      const radius = [-1, 1][anime.random(0, 1)] * value;
+      return {
+        x: p.x + radius * Math.cos(angle),
+        y: p.y + radius * Math.sin(angle)
+      };
+    };
+
+    const createParticule = (x, y) => {
+      let p = {};
+      p.x = x;
+      p.y = y;
+      p.color = colors[anime.random(0, colors.length - 1)];
+      p.radius = anime.random(16, 32);
+      p.endPos = setParticuleDirection(p);
+      p.draw = () => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+      };
+      return p;
+    };
+
+    const createCircle = (x, y) => {
+      let p = {};
+      p.x = x;
+      p.y = y;
+      p.color = '#FFF';
+      p.radius = 0.1;
+      p.alpha = 0.5;
+      p.lineWidth = 6;
+      p.draw = () => {
+        ctx.globalAlpha = p.alpha;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI, true);
+        ctx.lineWidth = p.lineWidth;
+        ctx.strokeStyle = p.color;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      };
+      return p;
+    };
+
+    const setCanvasSize = () => {
+      canvasEl.width = window.innerWidth * 2;
+      canvasEl.height = window.innerHeight * 2;
+      canvasEl.style.width = window.innerWidth + 'px';
+      canvasEl.style.height = window.innerHeight + 'px';
+      canvasEl.getContext('2d').scale(2, 2);
+      //change pointer
+      pointerX = window.innerWidth / 2;
+      pointerY = window.innerHeight - window.innerHeight / 16;
+    };
+
+    const renderParticule = anim => {
+      for (let i = 0; i < anim.animatables.length; i++) {
+        anim.animatables[i].target.draw();
+      }
+    };
+
+    const animateParticules = (x, y) => {
+      const circle = createCircle(x, y);
+      let particules = [];
+      for (let i = 0; i < numberOfParticules; i++) {
+        particules.push(createParticule(x, y));
+      }
+      anime
+        .timeline()
+        .add({
+          targets: particules,
+          x: p => {
+            return p.endPos.x;
+          },
+          y: p => {
+            return p.endPos.y;
+          },
+          radius: 0.1,
+          duration: anime.random(1200, 1800),
+          easing: 'easeOutExpo',
+          update: renderParticule
+        })
+        .add({
+          targets: circle,
+          radius: anime.random(80, 160),
+          lineWidth: 0,
+          alpha: {
+            value: 0,
+            easing: 'linear',
+            duration: anime.random(600, 800)
+          },
+          duration: anime.random(1200, 1800),
+          easing: 'easeOutExpo',
+          update: renderParticule,
+          offset: 0
+        });
+    };
+
+    const render = anime({
+      duration: Infinity,
+      update: () => {
+        ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+      }
+    });
+
+    setCanvasSize();
+    render.play();
+    animateParticules(pointerX, pointerY);
+    setTimeout(() => {
+      this.setState(() => {
+        return {
+          showForeground: false
+        };
+      });
+    }, 600);
+  }
+
   render() {
     const { children } = this.props;
-    const { lineOne, lineTwo, lineThree } = this.svg;
 
     return (
       <div class={styles.animatedBg__wrapper}>
@@ -186,6 +379,28 @@ class AnimatedBackground extends Component {
           ))}
         </div>
         <div class={styles.animatedBg__content}>{children}</div>
+        {this.state.showForeground ? (
+          <div class={styles.animatedBg__forground}>
+            <canvas
+              className="fireworks"
+              style={{
+                width: '100%',
+                height: '100%'
+              }}
+            />
+            <div
+              className={styles.animatedBg__changePage}
+              id="animatedBg__changePage_second"
+              style={{
+                background: 'rgba(255, 162, 38,0.4)'
+              }}
+            />
+            <div
+              className={styles.animatedBg__changePage}
+              id="animatedBg__changePage_first"
+            />
+          </div>
+        ) : null}
       </div>
     );
   }
