@@ -1,6 +1,8 @@
 import { h, Component } from 'preact';
 import anime from 'animejs';
+import { reaction } from 'mobx';
 import styles from './AnimatedBackground.css';
+import { gameStore } from '../stores';
 
 class AnimatedBackground extends Component {
   state = {
@@ -13,8 +15,8 @@ class AnimatedBackground extends Component {
       size: '2rem',
       style: {
         background: 'rgba(101,45,212,0.2)',
-        right: '70%',
-        top: '60%'
+        left: '20%',
+        top: '65%'
       }
     },
     {
@@ -22,7 +24,7 @@ class AnimatedBackground extends Component {
       size: '2.5rem',
       style: {
         background: 'rgba(255, 162, 38,0.2)',
-        right: '32%',
+        right: '16%',
         top: '62%'
       }
     },
@@ -129,8 +131,8 @@ class AnimatedBackground extends Component {
       size: '1.8rem',
       style: {
         background: 'rgba(101,45,212,0.2)',
-        right: '30%',
-        top: '7%'
+        right: '20%',
+        top: '5%'
       }
     },
     {
@@ -146,8 +148,18 @@ class AnimatedBackground extends Component {
 
   componentDidMount = () => {
     this._playBubbleBg();
-    setTimeout(this._playChangePage, 2000);
-    setTimeout(this._playFireBubbles, 5000);
+    reaction(
+      () => gameStore.stars,
+      count => {
+        if (count) this._playFireBubbles();
+      }
+    );
+    reaction(
+      () => gameStore.gameStatus,
+      status => {
+        this._playChangePage();
+      }
+    );
   };
 
   _playBubbleBg = () => {

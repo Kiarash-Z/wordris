@@ -10,7 +10,7 @@
 
 .mainPage__title {
   color: var(--color-first);
-  font-size: 3.5rem;
+  font-size: 5.5rem;
   margin-bottom: 13px;
 }
 
@@ -27,11 +27,16 @@
 
 .mainPage__button {
   padding: 2rem 7rem;
-  font-size: 2rem;
+  font-size: 3rem;
+  border-radius: 7rem;
+}
+.mainPage__button_two {
+  padding: 1.8rem 6rem;
+  font-size: 2.2rem;
 }
 
 .mainPage__button:not(:last-child) {
-  margin-bottom: 4rem;
+  margin-bottom: 1.8rem;
 }
 
 .mainPage__buttonText {

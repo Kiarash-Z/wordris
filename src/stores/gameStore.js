@@ -42,6 +42,7 @@ class GameStore {
   isOpponentGameovered = false;
   isMusicPlaying = false;
   words = [];
+  gameStatus = false;
 
   resetValues() {
     clearBoard();
@@ -63,6 +64,10 @@ class GameStore {
     const words = this.words.map(w => w.text);
     createBoard(words);
     this.timer = setInterval(this.increaseTime, 1000);
+  }
+
+  changeGameStatus() {
+    this.gameStatus = !this.gameStatus;
   }
 
   increaseTime() {
@@ -181,6 +186,7 @@ decorate(GameStore, {
   opponentStars: observable,
   isOpponentGameovered: observable,
   isMusicPlaying: observable,
+  gameStatus: observable,
 
   initialize: action.bound,
   updateNextLetter: action.bound,
@@ -196,6 +202,7 @@ decorate(GameStore, {
   sendDetails: action.bound,
   updateOpponentStatus: action.bound,
   toggleBackgroundMusic: action.bound,
+  changeGameStatus: action.bound,
 
   formattedTime: computed,
   gameoverText: computed

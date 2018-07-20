@@ -16,8 +16,18 @@ class Main extends Component {
     route(url);
   };
 
+  handleSingle = () => {
+    const { gameStore } = this.props;
+    gameStore.changeGameStatus();
+    setTimeout(() => {
+      gameStore.isMultiplayer = false;
+      this.changeRoute('/game');
+    }, 600);
+  };
+
   render() {
     const { gameStore } = this.props;
+
     return (
       <div class={styles.mainPage}>
         <h1 class={styles.mainPage__title}>
@@ -27,10 +37,7 @@ class Main extends Component {
           <Button
             type="linear"
             color="primary"
-            onClick={() => {
-              gameStore.isMultiplayer = false;
-              this.changeRoute('/game');
-            }}
+            onClick={this.handleSingle}
             additionalClass={styles.mainPage__button}
           >
             <i class="a-singleplayer" />
@@ -40,7 +47,7 @@ class Main extends Component {
             type="linear"
             color="primary"
             onClick={this.handleMultiButtonClick}
-            additionalClass={styles.mainPage__button}
+            additionalClass={styles.mainPage__button_two}
           >
             <i class="a-multiplayer" />
             <span class={styles.mainPage__buttonText}>دو نفره</span>
