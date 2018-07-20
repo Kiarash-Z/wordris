@@ -41,7 +41,8 @@ and to run **Development Version** run this command:
 **Project info:**
 
 * For Better UX we made this project a Progressive Web App(PWA).
+* The Production version of this game's Google Lighthouse PWA score is 100 which is perfect.
 * This app wasn't large enough so we decided to use **Preact** instead of React Because **It's much lighter(3kb) and has the same API** as React.
-* We used a compact version of CSS 7-1 pattern to organize CSS files
-* Scores are saved in localStorage and they are avaliable after browser relunch
-* This game has an online multiplayer game mode which makes it more enjoyable to play
+* We used a compact version of CSS 7-1 pattern to organize CSS files.
+* Scores are saved in localStorage and they are avaliable after browser relunch.
+* This game has an online multiplayer game mode which makes it more enjoyable to play.
