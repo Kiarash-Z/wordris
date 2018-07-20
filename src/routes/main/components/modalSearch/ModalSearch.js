@@ -22,6 +22,7 @@ class ModalSearch extends Component {
     swal({
       html: modal,
       showConfirmButton: false,
+      heightAuto: false,
       customClass: styles.modalSearch,
       onOpen: () => {
         socket.emit('user:search');

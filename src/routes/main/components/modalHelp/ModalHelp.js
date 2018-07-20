@@ -18,6 +18,7 @@ class ModalHelp extends Component {
     swal({
       html: modal,
       showConfirmButton: false,
+      heightAuto: false,
       customClass: styles.modalHelp
     });
   }
