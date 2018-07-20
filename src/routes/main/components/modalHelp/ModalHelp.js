@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 import swal from 'sweetalert2';
 
 import styles from './ModalHelp.css';
+import { MAIN_POINT, SUB_POINT } from '../../../../constants/gameConstants';
 
 class ModalHelp extends Component {
   componentDidMount() {
@@ -39,9 +40,10 @@ class ModalHelp extends Component {
 
         <p class={styles.modalHelp__description}>
           <strong>قانون بازی: </strong>
-          کلمات رو در جهات <strong>راست به چپ</strong> یا{' '}
-          <strong>بالا به پایین</strong> یا <strong>پایین به بالا</strong> باید
-          درست کنی
+          کلمات رو باید در جهات <strong>راست به چپ</strong> یا{' '}
+          <strong>بالا به پایین</strong> یا <strong>پایین به بالا</strong> درست
+          کنی کلمه اصلی <strong>{MAIN_POINT}</strong> امتیاز و کلمات فرعی{' '}
+          <strong>{SUB_POINT}</strong> امتیاز دارن
         </p>
 
         <p class={styles.modalHelp__description}>

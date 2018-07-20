@@ -15,6 +15,9 @@ import GameoverMenu from '../routes/game/components/gameoverMenu/GameoverMenu';
 import { scoresStore } from './scoresStore';
 import { formatTime, getRandomItem } from '../utils';
 import socket from '../socket';
+import { backgroundMusic } from '../music';
+
+let isBackgroundPlayedYet = false;
 
 class Word {
   text = '';
@@ -37,6 +40,7 @@ class GameStore {
   earthquakesLeft = EARTHQUAKES_COUNT;
   isMultiplayer = false;
   isOpponentGameovered = false;
+  isMusicPlaying = false;
   words = [];
 
   resetValues() {
@@ -111,6 +115,17 @@ class GameStore {
     toggleGamePause(false);
   }
 
+  toggleBackgroundMusic() {
+    if (!isBackgroundPlayedYet) {
+      isBackgroundPlayedYet = true;
+      backgroundMusic.volume = 0.08;
+      backgroundMusic.play();
+    } else {
+      backgroundMusic.muted = !backgroundMusic.muted;
+    }
+    this.isMusicPlaying = !this.isMusicPlaying;
+  }
+
   // Gameover functions
   retry() {
     clearBoard();
@@ -164,6 +179,7 @@ decorate(GameStore, {
   isMultiplayer: observable,
   opponentStars: observable,
   isOpponentGameovered: observable,
+  isMusicPlaying: observable,
 
   initialize: action.bound,
   updateNextLetter: action.bound,
@@ -178,6 +194,7 @@ decorate(GameStore, {
   resumeGame: action.bound,
   sendDetails: action.bound,
   updateOpponentStatus: action.bound,
+  toggleBackgroundMusic: action.bound,
 
   formattedTime: computed,
   gameoverText: computed
