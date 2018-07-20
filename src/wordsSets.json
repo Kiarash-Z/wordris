@@ -1,0 +1,102 @@
+{
+  "sets": [
+    [
+      {
+        "text": "راه",
+        "isMain": false
+      },
+      {
+        "text": "خوب",
+        "isMain": true
+      },
+      {
+        "text": "شوک",
+        "isMain": false
+      }
+    ],
+    [
+      {
+        "text": "سنگ",
+        "isMain": false
+      },
+      {
+        "text": "کاخ",
+        "isMain": true
+      },
+      {
+        "text": "هوا",
+        "isMain": false
+      }
+    ],
+    [
+      {
+        "text": "زنگ",
+        "isMain": false
+      },
+      {
+        "text": "مار",
+        "isMain": true
+      },
+      {
+        "text": "شیر",
+        "isMain": false
+      }
+    ],
+    [
+      {
+        "text": "میش",
+        "isMain": false
+      },
+      {
+        "text": "کار",
+        "isMain": true
+      },
+      {
+        "text": "سرخ",
+        "isMain": false
+      }
+    ],
+    [
+      {
+        "text": "باد",
+        "isMain": false
+      },
+      {
+        "text": "شام",
+        "isMain": true
+      },
+      {
+        "text": "تیز",
+        "isMain": false
+      }
+    ],
+    [
+      {
+        "text": "وام",
+        "isMain": false
+      },
+      {
+        "text": "ادب",
+        "isMain": true
+      },
+      {
+        "text": "سرخ",
+        "isMain": false
+      }
+    ],
+    [
+      {
+        "text": "مرگ",
+        "isMain": false
+      },
+      {
+        "text": "ماه",
+        "isMain": true
+      },
+      {
+        "text": "رخت",
+        "isMain": false
+      }
+    ]
+  ]
+}

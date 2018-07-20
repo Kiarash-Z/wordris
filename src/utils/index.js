@@ -7,4 +7,6 @@ const formatTime = time => {
   return `${minutes}:${seconds}`;
 };
 
-export { formatTime };
+const getRandomItem = arr => arr[Math.floor(Math.random() * arr.length)];
+
+export { formatTime, getRandomItem };

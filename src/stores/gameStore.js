@@ -1,4 +1,5 @@
 import { decorate, observable, action, computed } from 'mobx';
+import * as wordsSets from '../wordsSets.json';
 
 import {
   createBoard,
@@ -12,7 +13,7 @@ import {
 } from '../constants/gameConstants';
 import GameoverMenu from '../routes/game/components/gameoverMenu/GameoverMenu';
 import { scoresStore } from './scoresStore';
-import { formatTime } from '../utils';
+import { formatTime, getRandomItem } from '../utils';
 import socket from '../socket';
 
 class Word {
@@ -36,23 +37,19 @@ class GameStore {
   earthquakesLeft = EARTHQUAKES_COUNT;
   isMultiplayer = false;
   isOpponentGameovered = false;
-  words = [
-    new Word({ text: 'کیا', count: 0 }),
-    new Word({ text: 'راه', count: 0 }),
-    new Word({ text: 'خوب', isMain: true, count: 0 })
-  ];
+  words = [];
 
   resetValues() {
-    this.time = 0;
+    clearBoard();
     this.earthquakesLeft = EARTHQUAKES_COUNT;
-    this.words = [
-      new Word({ text: 'کیا', count: 0 }),
-      new Word({ text: 'راه', count: 0 }),
-      new Word({ text: 'خوب', isMain: true, count: 0 })
-    ];
+    this.words = getRandomItem(wordsSets.sets).map(({ text, isMain }) => {
+      return new Word({ text, isMain, count: 0 });
+    });
     this.nextLetter = {};
     this.stars = 0;
+    if (this.timer) clearInterval(this.timer);
     this.timer = null;
+    this.time = 0;
     this.opponentStars = 0;
     this.isOpponentGameovered = false;
   }
@@ -94,12 +91,14 @@ class GameStore {
   }
 
   handleWordsMatch(matchedWords) {
+    let sum = 0;
     matchedWords.forEach(matchedWord => {
       const foundWord = this.words.find(word => word.text === matchedWord);
       const point = foundWord.isMain ? MAIN_POINT : SUB_POINT;
       foundWord.count++;
-      this.addToStars(point);
+      sum += point;
     });
+    this.addToStars(sum);
   }
 
   pauseGame() {
