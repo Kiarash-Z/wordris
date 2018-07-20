@@ -5,7 +5,7 @@
   position: relative;
   justify-content: center;
   align-items: center;
-  border: solid 7px rgba(255, 255, 255, 0.8);
+  border: solid 0.8rem rgba(255, 255, 255, 0.8);
   color: var(--color-white);
   font-weight: 500;
   font-size: 1.7rem;
