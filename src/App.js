@@ -15,6 +15,7 @@ import PauseMenu from './routes/game/components/pauseMenu/PauseMenu';
 
 // stores
 import * as stores from './stores';
+import socket from './socket';
 
 class App extends Component {
   handleRoute = e => {
@@ -22,6 +23,12 @@ class App extends Component {
     if (e.previous === '/game') {
       GameoverMenu.close();
       PauseMenu.close();
+    } else if (e.previous === '/game?isMultiplayer=true') {
+      GameoverMenu.close();
+      socket.emit('details:set', {
+        isGameovered: true,
+        stars: stores.gameStore.opponentStars
+      });
     }
     this.currentUrl = e.url;
   };
@@ -32,7 +39,7 @@ class App extends Component {
         <div id="app">
           <AnimatedBackground>
             <Router onChange={this.handleRoute}>
-              <Game path="/game" />
+              <Game path="/game/:params?" />
               <Scores path="scores" />
               <Main path="/" />
             </Router>

@@ -17,7 +17,7 @@ const HeaderDetails = ({ scoresStore }) => (
       <ItemDetail
         color="secondary"
         number={scoresStore.scoresCount}
-        description="تعداد بازی ها"
+        description="تعداد بازی‌ها"
       />
 
       <ItemDetail

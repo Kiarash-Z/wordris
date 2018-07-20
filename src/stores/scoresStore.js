@@ -11,12 +11,21 @@ class ScoresStore {
     else this.scores = localStorageScores;
   }
 
-  saveNewScore({ stars, duration }) {
+  saveNewScore({
+    stars,
+    duration,
+    isMultiplayer,
+    opponentStars,
+    isOpponentGameovered
+  }) {
     this.scores = [
       ...this.scores,
       {
         stars,
         duration,
+        isMultiplayer,
+        opponentStars,
+        isOpponentGameovered,
         id: new Date().getTime()
       }
     ];

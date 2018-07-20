@@ -54,7 +54,10 @@
     "preact-compat": "^3.17.0",
     "preact-router": "^2.5.7",
     "prettier": "^1.13.7",
-    "sweetalert": "^2.1.0"
+    "react-spinners": "^0.3.2",
+    "socket.io-client": "^2.1.1",
+    "sweetalert2": "^7.25.6",
+    "uuid": "^3.3.2"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [

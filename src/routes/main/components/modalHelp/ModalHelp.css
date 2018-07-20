@@ -1,6 +1,15 @@
+.modalHelp {
+  width: 100%;
+  max-width: 50rem;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  border-radius: 10px;
+}
+
 .modalHelp__subContainer {
   display: flex;
   align-items: center;
+  white-space: nowrap;
 }
 
 .modalHelp__title {

@@ -20,6 +20,18 @@
   color: var(--color-primary);
 }
 
+.scoresList__multiplayerStatus {
+  margin: 0 0.5rem;
+}
+
+.scoresList__multiplayerStatus.--win {
+  color: var(--color-green);
+}
+
+.scoresList__multiplayerStatus.--lose {
+  color: var(--color-red);
+}
+
 .scoresList__itemDuration {
   padding: 0 1rem;
   color: var(--color-gray);

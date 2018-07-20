@@ -76,6 +76,15 @@
   opacity: 0;
   transform: scale(20);
   transition: 0.3s;
+  white-space: nowrap;
+}
+
+.gameoverMenu__title.--win {
+  color: var(--color-green);
+}
+
+.gameoverMenu__title.--lose {
+  color: var(--color-red);
 }
 
 .gameoverMenu__title.scaleIn {
@@ -103,6 +112,8 @@
   transition: 0.5s;
   transition-delay: 1.5s;
   width: 25rem;
+  font-size: 2rem;
+  white-space: nowrap;
 }
 
 .gameoverMenu__button:not(:last-child) {

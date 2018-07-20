@@ -76,21 +76,35 @@ class GameoverMenu extends Component {
             <MenuScores />
           </div>
 
-          <h1 class={styles.gameoverMenu__title}>رسیدی به سقف!</h1>
+          {gameStore.isMultiplayer ? (
+            <h1
+              class={`${styles.gameoverMenu__title} ${
+                gameStore.isOpponentGameovered
+                  ? styles['--win']
+                  : styles['--lose']
+              }`}
+            >
+              {gameStore.gameoverText}
+            </h1>
+          ) : (
+            <h1 class={styles.gameoverMenu__title}>{gameStore.gameoverText}</h1>
+          )}
 
           <span class={styles.gameoverMenu__time}>
             {gameStore.formattedTime}
           </span>
 
-          <Button
-            type="linear"
-            color="primary"
-            additionalClass={styles.gameoverMenu__button}
-            onClick={gameStore.retry}
-          >
-            <i class={`a-retry ${styles.gameoverMenu__buttonIcon}`} />
-            یه دست دیگه
-          </Button>
+          {gameStore.isMultiplayer ? null : (
+            <Button
+              type="linear"
+              color="primary"
+              additionalClass={styles.gameoverMenu__button}
+              onClick={gameStore.retry}
+            >
+              <i class={`a-retry ${styles.gameoverMenu__buttonIcon}`} />
+              یه دست دیگه
+            </Button>
+          )}
 
           <Button
             type="linear"
