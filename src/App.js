@@ -1,7 +1,6 @@
 import { h, Component } from 'preact';
 import { Router } from 'preact-router';
 import { Provider } from 'mobx-preact';
-import socketIOClient from 'socket.io-client';
 
 import { AnimatedBackground } from './components';
 
@@ -16,24 +15,20 @@ import PauseMenu from './routes/game/components/pauseMenu/PauseMenu';
 
 // stores
 import * as stores from './stores';
+import socket from './socket';
 
 class App extends Component {
-  componentDidMount() {
-    const socket = socketIOClient('http://127.0.0.1:4001');
-    socket.emit('user:search');
-    socket.on('user:matched', message => {
-      console.log(message);
-    });
-    setTimeout(() => {
-      socket.emit('details:set', { score: 15 });
-    }, 5000);
-  }
-
   handleRoute = e => {
     // Preact bug - reset DOM in menus
     if (e.previous === '/game') {
       GameoverMenu.close();
       PauseMenu.close();
+    } else if (e.previous === '/game?isMultiplayer=true') {
+      GameoverMenu.close();
+      socket.emit('details:set', {
+        isGameovered: true,
+        stars: stores.gameStore.opponentStars
+      });
     }
     this.currentUrl = e.url;
   };
@@ -44,7 +39,7 @@ class App extends Component {
         <div id="app">
           <AnimatedBackground>
             <Router onChange={this.handleRoute}>
-              <Game path="/game" />
+              <Game path="/game/:params?" />
               <Scores path="scores" />
               <Main path="/" />
             </Router>

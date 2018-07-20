@@ -1,5 +1,5 @@
 import { h, Component } from 'preact';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 
 import styles from './ModalHelp.css';
 
@@ -14,15 +14,16 @@ class ModalHelp extends Component {
     }
   }
   static open() {
-    const modal = document.getElementById('modalHelp');
+    const modal = document.getElementById('modalHelpContent');
     swal({
-      content: modal,
-      button: false
+      html: modal,
+      showConfirmButton: false,
+      customClass: styles.modalHelp
     });
   }
   render() {
     return (
-      <div id="modalHelp">
+      <div id="modalHelpContent">
         <h1 class={styles.modalHelp__title}>راهنما</h1>
         <h2 class={styles.modalHelp__subTitle}>وردریس = ورد + تتریس</h2>
         <p class={styles.modalHelp__description}>

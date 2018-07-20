@@ -4,28 +4,46 @@ import { route } from 'preact-router';
 import styles from './Main.css';
 import { Button } from '../../components';
 import ModalHelp from './components/modalHelp';
+import ModalSearch from './components/modalSearch';
+
+import { gameStore } from '../../stores';
 
 class Main extends Component {
-  changeRoute(url) {
+  handleMultiButtonClick = () => {
+    ModalSearch.open();
+  };
+
+  changeRoute = url => {
     route(url);
-  }
+  };
 
   render() {
     return (
       <div class={styles.mainPage}>
-        <span style={{ height: 50 }} />
-        <section class={styles.mainPage__topSection}>
-          <h1 class={styles.mainPage__topSection_title}>
-            ورد<span>ر</span>یس
-          </h1>
+        <h1 class={styles.mainPage__title}>
+          ورد<span>ر</span>یس
+        </h1>
+        <section class={styles.mainPage__buttonContainer}>
           <Button
             type="linear"
             color="primary"
             onClick={() => {
+              gameStore.isMultiplayer = false;
               this.changeRoute('/game');
             }}
+            additionalClass={styles.mainPage__button}
           >
-            بزن بریم
+            <i class="a-singleplayer" />
+            <span class={styles.mainPage__buttonText}>تک نفره</span>
+          </Button>
+          <Button
+            type="linear"
+            color="primary"
+            onClick={this.handleMultiButtonClick}
+            additionalClass={styles.mainPage__button}
+          >
+            <i class="a-multiplayer" />
+            <span class={styles.mainPage__buttonText}>دو نفره</span>
           </Button>
         </section>
         <nav class={styles.mainPage__botomNav}>
@@ -43,6 +61,7 @@ class Main extends Component {
         {/* only mount modal and not showing it*/}
         <div style={{ display: 'none' }}>
           <ModalHelp />
+          <ModalSearch />
         </div>
       </div>
     );

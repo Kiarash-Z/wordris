@@ -65,36 +65,42 @@ i {
 .a-home:before {
   content: '\e909';
 }
-.a-mute:before {
+.a-multiplayer:before {
   content: '\e90a';
 }
-.a-pause:before {
+.a-mute:before {
   content: '\e90b';
 }
-.a-play:before {
+.a-pause:before {
   content: '\e90c';
 }
-.a-retry:before {
+.a-play:before {
   content: '\e90d';
 }
-.a-sound:before {
+.a-retry:before {
   content: '\e90e';
 }
-.a-star:before {
+.a-singleplayer:before {
   content: '\e90f';
 }
-.a-stats:before {
+.a-sound:before {
   content: '\e910';
 }
-.a-swipeLeft:before {
+.a-star:before {
   content: '\e911';
 }
-.a-swipeRight:before {
+.a-stats:before {
   content: '\e912';
 }
-.a-swipeUp:before {
+.a-swipeLeft:before {
   content: '\e913';
 }
-.a-tap:before {
+.a-swipeRight:before {
   content: '\e914';
+}
+.a-swipeUp:before {
+  content: '\e915';
+}
+.a-tap:before {
+  content: '\e916';
 }

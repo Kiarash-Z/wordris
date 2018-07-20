@@ -12,39 +12,68 @@ app.use(index);
 const server = http.createServer(app);
 const io = socketIo(server);
 
-const rooms = [];
+let rooms = [];
 
 io.on("connection", socket => {
+  let socketRoom = null;
+  const deleteRoom = () => {
+    if (!socketRoom) return;
+    rooms = rooms.filter(r => r !== socketRoom);
+    socketRoom = null;
+  };
+
   socket.on('user:search', () => {
     const joinNewRoom = () => {
       const roomId = uuid();
       socket.join(roomId);
+      socketRoom = roomId;
       rooms.push(roomId);
-    }
+    };
     if (!rooms.length) joinNewRoom();
     else {
       let isRoomFound = false;
-      rooms.forEach((room, index) => {
+      rooms.forEach((room, i) => {
         // if user already joined a room we don't even search for the others
         if (isRoomFound) return;
         io.of('/').in(rooms[0]).clients((err, clients) => {
           if (clients.length === 1) {
-            socket.join(room)
-            isRoomFound = true;
-            io.in(room).emit('user:matched', room);
-            if (index === (rooms.length - 1) && !isRoomFound) joinNewRoom();
+              if (clients[0] !== socket.id) {
+                socket.join(room)
+                isRoomFound = true;
+                io.in(room).emit('user:matched');
+              }
+            if (i === (rooms.length - 1) && !isRoomFound) joinNewRoom();
           }
         });
       });
     }
   });
 
-  socket.on('details:set', ({ score }) => {
-    const room = Object.keys(socket.rooms)[0];
-    socket.to(room).emit('details:get', score);
+  socket.on('user:stopSearch', deleteRoom);
+
+  socket.on('details:set', ({ stars, isGameovered }) => {
+    const room = Object.keys(socket.rooms)[1];
+    socket.to(room).emit('details:get', { stars, isGameovered });
+    if (isGameovered) {
+      io.of('/').in(room).clients((err, clients) => {
+        clients.forEach(clientId => {
+          io.sockets.sockets[clientId].leave(room);
+        })
+      });
+      deleteRoom();
+    }
   });
 
-  socket.on("disconnect", () => console.log('Client disconnected'));
+  socket.on('disconnect', () => {
+    io.of('/').in(socketRoom).clients((err, clients) => {
+      if (clients.length === 2) {
+        clients.forEach(clientId => {
+          io.sockets.sockets[clientId].leave(socketRoom);
+        })
+      }
+      deleteRoom();
+    })
+  });
 });
 
 server.listen(port, () => console.log(`Listening on port ${port}`));

@@ -21,18 +21,22 @@ class GameNav extends Component {
           <div class={styles.gameNav__cornerBackground} />
           <span class={styles.gameNav__timer}>{gameStore.formattedTime}</span>
         </div>
-        <div class={`${styles.gameNav__corner} ${styles['--left']}`}>
-          <div
-            class={styles.gameNav__cornerBackground}
-            id="gameNavLeftCornerBackground"
-          />
-          <Button
-            type="icony"
-            icon="a-pause"
-            class={styles.gameNav__pause}
-            onClick={this.handlePauseClick}
-          />
-        </div>
+        {gameStore.isMultiplayer ? (
+          <div />
+        ) : (
+          <div class={`${styles.gameNav__corner} ${styles['--left']}`}>
+            <div
+              class={styles.gameNav__cornerBackground}
+              id="gameNavLeftCornerBackground"
+            />
+            <Button
+              type="icony"
+              icon="a-pause"
+              class={styles.gameNav__pause}
+              onClick={this.handlePauseClick}
+            />
+          </div>
+        )}
       </nav>
     );
   }

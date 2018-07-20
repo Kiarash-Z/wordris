@@ -13,6 +13,7 @@ import {
 import GameoverMenu from '../routes/game/components/gameoverMenu/GameoverMenu';
 import { scoresStore } from './scoresStore';
 import { formatTime } from '../utils';
+import socket from '../socket';
 
 class Word {
   text = '';
@@ -29,9 +30,12 @@ decorate(Word, { text: observable, count: observable, isMain: observable });
 class GameStore {
   nextLetter = {};
   stars = 0;
+  opponentStars = 0;
   timer = null;
   time = 0;
   earthquakesLeft = EARTHQUAKES_COUNT;
+  isMultiplayer = false;
+  isOpponentGameovered = false;
   words = [
     new Word({ text: 'کیا', count: 0 }),
     new Word({ text: 'راه', count: 0 }),
@@ -49,6 +53,8 @@ class GameStore {
     this.nextLetter = {};
     this.stars = 0;
     this.timer = null;
+    this.opponentStars = 0;
+    this.isOpponentGameovered = false;
   }
 
   initialize() {
@@ -68,6 +74,23 @@ class GameStore {
 
   addToStars(increment) {
     this.stars += increment;
+    if (this.isMultiplayer) this.sendDetails(false);
+  }
+
+  updateOpponentStatus({ stars, isGameovered }) {
+    if (isGameovered) {
+      this.pauseGame();
+      scoresStore.saveNewScore({
+        stars: this.stars,
+        duration: this.time,
+        isMultiplayer: true,
+        opponentStars: this.opponentStars,
+        isOpponentGameovered: isGameovered
+      });
+      GameoverMenu.open();
+    }
+    this.isOpponentGameovered = isGameovered;
+    this.opponentStars = stars;
   }
 
   handleWordsMatch(matchedWords) {
@@ -98,8 +121,22 @@ class GameStore {
 
   handleGameover() {
     clearInterval(this.timer);
-    scoresStore.saveNewScore({ stars: this.stars, duration: this.time });
+    scoresStore.saveNewScore({
+      stars: this.stars,
+      duration: this.time,
+      isMultiplayer: this.isMultiplayer,
+      opponentStars: this.opponentStars,
+      isOpponentGameovered: false
+    });
+    if (this.isMultiplayer) this.sendDetails(true);
     GameoverMenu.open();
+  }
+
+  sendDetails(isGameovered) {
+    socket.emit('details:set', {
+      isGameovered,
+      stars: this.stars
+    });
   }
 
   // Powerups
@@ -110,14 +147,24 @@ class GameStore {
   get formattedTime() {
     return formatTime(this.time);
   }
+
+  get gameoverText() {
+    if (!this.isMultiplayer) return 'رسیدی به سقف!';
+    if (this.isOpponentGameovered) return 'برنده شدی :)';
+    return 'بازنده شدی :(';
+  }
 }
 
 decorate(GameStore, {
   nextLetter: observable,
   stars: observable,
   time: observable,
+  timer: observable,
   earthquakesLeft: observable,
   words: observable,
+  isMultiplayer: observable,
+  opponentStars: observable,
+  isOpponentGameovered: observable,
 
   initialize: action.bound,
   updateNextLetter: action.bound,
@@ -130,8 +177,11 @@ decorate(GameStore, {
   retry: action.bound,
   pauseGame: action.bound,
   resumeGame: action.bound,
+  sendDetails: action.bound,
+  updateOpponentStatus: action.bound,
 
-  formattedTime: computed
+  formattedTime: computed,
+  gameoverText: computed
 });
 
 const gameStore = new GameStore();
