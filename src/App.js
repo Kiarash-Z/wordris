@@ -1,7 +1,6 @@
 import { h, Component } from 'preact';
 import { Router } from 'preact-router';
 import { Provider } from 'mobx-preact';
-
 import { AnimatedBackground } from './components';
 
 // pages

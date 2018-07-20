@@ -6,7 +6,7 @@
   --color-gray-light: #c7c7c7;
   --color-white: #fff;
 
-  --color-primary: #ffa226;
+  --color-primary: rgb(255, 162, 38);
   --color-primary-light: #ffbd40;
   --color-secondary: #7328d9;
   --color-secondary-light: rgba(101, 45, 212, 0.3);
