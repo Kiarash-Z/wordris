@@ -155,9 +155,9 @@ class AnimatedBackground extends Component {
       }
     );
     reaction(
-      () => gameStore.gameStatus,
-      status => {
-        this._playChangePage();
+      () => gameStore.isInGame,
+      inGame => {
+        if (inGame) this._playChangePage();
       }
     );
   };

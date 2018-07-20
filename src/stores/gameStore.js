@@ -42,7 +42,7 @@ class GameStore {
   isOpponentGameovered = false;
   isMusicPlaying = false;
   words = [];
-  gameStatus = false;
+  isInGame = false;
 
   resetValues() {
     clearBoard();
@@ -56,6 +56,7 @@ class GameStore {
     this.timer = null;
     this.time = 0;
     this.opponentStars = 0;
+    this.isInGame = false;
     this.isOpponentGameovered = false;
   }
 
@@ -67,7 +68,7 @@ class GameStore {
   }
 
   changeGameStatus() {
-    this.gameStatus = !this.gameStatus;
+    this.isInGame = true;
   }
 
   increaseTime() {
@@ -140,6 +141,7 @@ class GameStore {
   }
 
   handleGameover() {
+    this.isInGame = false;
     clearInterval(this.timer);
     scoresStore.saveNewScore({
       stars: this.stars,
@@ -186,7 +188,7 @@ decorate(GameStore, {
   opponentStars: observable,
   isOpponentGameovered: observable,
   isMusicPlaying: observable,
-  gameStatus: observable,
+  isInGame: observable,
 
   initialize: action.bound,
   updateNextLetter: action.bound,
