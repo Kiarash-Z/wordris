@@ -116,6 +116,7 @@ class GameStore {
   }
 
   toggleBackgroundMusic() {
+    // first play check
     if (!isBackgroundPlayedYet) {
       isBackgroundPlayedYet = true;
       backgroundMusic.volume = 0.08;
