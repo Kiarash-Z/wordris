@@ -7,7 +7,8 @@ import {
   getRootVar,
   board,
   getLetterColor,
-  getFallingLetter
+  getFallingLetter,
+  dropLetter
 } from '../../routes/game/board/board';
 
 jest.useFakeTimers();
@@ -16,6 +17,7 @@ describe('Board General', () => {
   beforeAll(() => {
     document.body.innerHTML = `
       <div>
+        <div id="nextLetter"></div>
         <div id="gameBoardWrapper">
           <canvas id="gameboard"></canvas>
           <div id="gameBoardTouchHandler"></div>
@@ -56,6 +58,7 @@ describe('Board General', () => {
 
   test('should return falling letter', () => {
     const afterDrop = jest.fn();
+    dropLetter();
 
     setTimeout(afterDrop, LETTER_DROP_DELAY);
     jest.runOnlyPendingTimers();
