@@ -126,6 +126,7 @@ class GameStore {
     if (!isBackgroundPlayedYet) {
       isBackgroundPlayedYet = true;
       backgroundMusic.volume = 0.08;
+      backgroundMusic.loop = true;
       backgroundMusic.play();
     } else {
       backgroundMusic.muted = !backgroundMusic.muted;

@@ -36,6 +36,11 @@ const getStopPosition = () => {
 };
 
 const createLetter = (letter, { left, top, color }) => {
+  // dynamic and responsive font size acording to next letter element
+  const nextLetterElement = document.getElementById('nextLetter');
+  const { fontSize: fontSizePx } = getComputedStyle(nextLetterElement);
+  // remove px unit from the end of the string
+  const fontSize = Number(fontSizePx.slice(0, fontSizePx.length - 2));
   const square = new fabric.Rect({
     left,
     top,
@@ -47,9 +52,9 @@ const createLetter = (letter, { left, top, color }) => {
   });
   const sampleLetter = letter;
   const text = new fabric.Text(sampleLetter, {
+    fontSize,
     fill: getRootVar('--color-white'),
-    fontFamily: 'IRANSans',
-    fontSize: 25
+    fontFamily: 'IRANSans'
   });
   text.left = square.left + square.width / 2 - text.width / 2;
   text.top = square.top + square.height / 2 - text.height / 2;
