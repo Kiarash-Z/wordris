@@ -7,7 +7,8 @@ import {
   FAST_FORWARD_DURATION,
   LETTER_DROP_DELAY,
   EASY_DIFFICULTY_VALUE,
-  COLORS
+  COLORS,
+  FIRST_LETTER_DROP_DELAY
 } from '../../../constants/gameConstants';
 import { addControls } from './controls';
 import { createLetter, animateLetterDown } from './letters';
@@ -145,29 +146,34 @@ const getIsUserLost = () => {
   return isLost;
 };
 
-const dropLetter = () => {
+const dropLetter = isFirstDrop => {
   if (getIsUserLost() || getFallingLetter()) return;
+  const normalDrop = () => {
+    const startDrop = () => {
+      const group = createLetter(nextLetter, {
+        left: Math.floor(COLUMNS_COUNT / 2) * columnRowWidth + PADDING,
+        top: 0,
+        color: getLetterColor(nextLetter)
+      });
+      group.mRemainingTime = FALLING_DURATION;
+      group.mIsActive = true;
+      animateLetterDown();
 
-  const startDrop = () => {
-    const group = createLetter(nextLetter, {
-      left: Math.floor(COLUMNS_COUNT / 2) * columnRowWidth + PADDING,
-      top: 0,
-      color: getLetterColor(nextLetter)
-    });
-    group.mRemainingTime = FALLING_DURATION;
-    group.mIsActive = true;
-    animateLetterDown();
+      // update nextLetter
+      nextLetter = getNextLetter();
+      gameStore.updateNextLetter({
+        text: nextLetter,
+        color: getLetterColor(nextLetter)
+      });
+    };
 
-    // update nextLetter
-    nextLetter = getNextLetter();
-    gameStore.updateNextLetter({
-      text: nextLetter,
-      color: getLetterColor(nextLetter)
-    });
+    // a short delay in order to drop letter
+    setTimeout(startDrop, LETTER_DROP_DELAY);
   };
-
-  // a short delay in order to drop letter
-  setTimeout(startDrop, LETTER_DROP_DELAY);
+  if (isFirstDrop) {
+    // a delay for user to take a look at the words
+    setTimeout(normalDrop, FIRST_LETTER_DROP_DELAY);
+  } else normalDrop();
 };
 
 const getRows = () => {
@@ -420,7 +426,7 @@ const createBoard = words => {
   generateBoardBackground();
   specifyLettersColors();
   addControls();
-  dropLetter();
+  dropLetter(true);
 };
 
 const clearBoard = () => {

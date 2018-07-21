@@ -49,3 +49,8 @@
     width: 45rem;
   }
 }
+@media (min-aspect-ratio: 4/7) {
+  .board {
+    width: 30rem;
+  }
+}
