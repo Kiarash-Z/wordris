@@ -147,8 +147,8 @@ const getIsUserLost = () => {
 };
 
 const dropLetter = isFirstDrop => {
-  if (getIsUserLost() || getFallingLetter()) return;
   const normalDrop = () => {
+    if (getIsUserLost() || getFallingLetter()) return;
     const startDrop = () => {
       const group = createLetter(nextLetter, {
         left: Math.floor(COLUMNS_COUNT / 2) * columnRowWidth + PADDING,

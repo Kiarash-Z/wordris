@@ -10,6 +10,7 @@ class Board extends Component {
       <div class={styles.board}>
         <div>
           <div
+            id="nextLetter"
             class={styles.board__nextLetter}
             style={{ background: gameStore.nextLetter.color }}
           >
