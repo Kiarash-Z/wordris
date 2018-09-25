@@ -1,0 +1,53 @@
+.mainPage {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 4rem;
+}
+
+.mainPage__title {
+  color: var(--color-first);
+  font-size: 5.5rem;
+  margin-bottom: 13px;
+}
+
+.mainPage__title span {
+  color: var(--color-primary);
+  margin: 0px 2px;
+}
+
+.mainPage__buttonContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mainPage__button {
+  padding: 2rem 7rem;
+  font-size: 3rem;
+  border-radius: 7rem;
+}
+.mainPage__button_two {
+  padding: 1.8rem 6rem;
+  font-size: 2.2rem;
+}
+
+.mainPage__button:not(:last-child) {
+  margin-bottom: 1.8rem;
+}
+
+.mainPage__buttonText {
+  margin-right: 0.8rem;
+}
+
+.mainPage__botomNav {
+  display: flex;
+  flex-direction: row-reverse;
+  height: 50px;
+  margin-bottom: 30px;
+  width: 190px;
+  justify-content: space-between;
+}

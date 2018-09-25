@@ -1,0 +1,56 @@
+/* Current Scores */
+.scoreWrapper {
+  display: flex;
+  align-items: center;
+  align-self: center;
+}
+
+.scoreSubWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.scoreDivider {
+  font-size: 4rem;
+  margin: 0 1.5rem;
+  color: var(--color-gray-light);
+}
+
+.score.--user {
+  color: var(--color-primary);
+  text-shadow: 0 2px 5px var(--color-primary-light);
+}
+
+.score.--opponent {
+  color: var(--color-gray);
+  font-size: 0.7rem;
+  text-shadow: 0 2px 5px var(--color-gray-light);
+  opacity: 0.8;
+}
+
+.score__text {
+  font-weight: bold;
+  font-size: 6.8em;
+  margin-left: 1rem;
+}
+
+.score__icon {
+  font-size: 5.8em;
+}
+/* The Highest Score */
+
+.highestScore {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--color-yellow);
+}
+
+.highestScore__text {
+  font-weight: bold;
+  font-size: 4.8rem;
+}
+
+.highestScore__icon {
+  font-size: 3.8rem;
+}

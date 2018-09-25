@@ -1,0 +1,42 @@
+.animatedBg__wrapper {
+  flex: 1;
+  display: flex;
+  position: relative;
+  height: 100%;
+}
+.animatedBg__content {
+  flex: 1;
+  display: flex;
+  position: relative;
+  z-index: 10;
+}
+.animatedBg__animateArea {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+.animatedBg__forground {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  right: 0;
+  z-index: 30;
+}
+.animatedBg__changePage {
+  width: 100vw;
+  height: 100vw;
+  border-radius: 50%;
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  margin-right: -50vw;
+  margin-top: -50vw;
+  box-sizing: border-box;
+  background: radial-gradient(var(--color-primary-light), var(--color-primary));
+  z-index: 10;
+  transform: scale(0);
+}

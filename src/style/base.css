@@ -1,0 +1,69 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+input,
+textarea {
+  font-family: IRANSans;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
+button {
+  border: none;
+  font-family: IRANSans;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus {
+  outline: none;
+}
+
+html {
+  font-size: 43.75%; /* 7px */
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: IRANSans;
+  font-weight: 400;
+  direction: rtl;
+  height: 100%;
+  color: var(--color-black);
+  overflow-x: hidden;
+}
+
+ul {
+  list-style-type: none;
+}
+
+#app {
+  height: 100%;
+}
+
+/* Responsive */
+
+@media only screen and (min-width: 400px) {
+  html {
+    font-size: 50%; /* 8px */
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  html {
+    font-size: 56.25%; /* 9px */
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  html {
+    font-size: 62.5%; /* 10px */
+  }
+}

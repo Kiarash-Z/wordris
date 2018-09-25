@@ -1,0 +1,6 @@
+{
+  "name": "ScoresList",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ScoresList.js"
+}

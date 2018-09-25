@@ -1,0 +1,43 @@
+.words {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.word {
+  font-weight: 500;
+  position: relative;
+  display: flex;
+}
+
+.word__count {
+  color: var(--color-primary);
+  font-size: 2rem;
+  display: block;
+  margin-left: 0.5rem;
+  margin-top: -0.5rem;
+}
+
+.word.--main {
+  margin-top: -2.5rem;
+}
+
+.word__text {
+  font-size: 2.8rem;
+  color: var(--color-black-light);
+}
+
+.word.--main .word__text {
+  font-size: 3.8rem;
+  color: var(--color-black);
+}
+
+/* Responsive */
+@media only screen and (min-width: 550px) {
+  .words {
+    width: 45rem;
+  }
+}

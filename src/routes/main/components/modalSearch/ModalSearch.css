@@ -1,0 +1,21 @@
+.modalSearch {
+  width: 100% !important;
+  max-width: 50rem !important;
+  padding-left: 4rem !important;
+  padding-right: 4rem !important;
+  border-radius: 10px !important;
+}
+
+.modalSearch__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 4rem;
+}
+
+.modalSearch__title {
+  font-weight: normal;
+  color: var(--color-gray);
+  font-size: 2.5rem;
+  margin-bottom: 5rem;
+}
